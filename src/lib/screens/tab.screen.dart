@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iholder_app/screens/registrations.screen.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'account.page.dart';
-import 'dashboard.page.dart';
-import 'home.page.dart';
+import 'account.screen.dart';
+import 'dashboard.screen.dart';
 
-class TabsPage extends StatefulWidget {
+class TabsScreen extends StatefulWidget {
   @override
   _TabsPageState createState() => _TabsPageState();
 }
 
-class _TabsPageState extends State<TabsPage>
+class _TabsPageState extends State<TabsScreen>
     with SingleTickerProviderStateMixin {
   TabController tabController;
 
@@ -32,16 +33,16 @@ class _TabsPageState extends State<TabsPage>
       body: TabBarView(
         controller: tabController,
         children: [
-          HomePage(),
-          DashboardPage(),
-          AccountPage(),
+          RegistrationScreen(),
+          DashboardScreen(),
+          AccountScreen(),
         ],
       ),
       bottomNavigationBar: new TabBar(
         controller: tabController,
         tabs: [
           Tab(
-            icon: new Icon(Icons.perm_data_setting),
+            icon: new Icon(MdiIcons.cashPlus),
           ),
           Tab(
             icon: new Icon(Icons.dashboard),
@@ -52,7 +53,7 @@ class _TabsPageState extends State<TabsPage>
         ],
         labelColor: Theme.of(context).primaryColor,
         unselectedLabelColor: Colors.black38,
-        indicatorSize: TabBarIndicatorSize.label,
+        indicatorSize: TabBarIndicatorSize.tab,
         indicatorPadding: EdgeInsets.all(5.0),
         indicatorColor: Theme.of(context).primaryColor,
       ),

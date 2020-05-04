@@ -1,34 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/usuario.bloc.dart';
-import 'package:iholder_app/pages/splash.page.dart';
-import 'package:iholder_app/themes/light.theme.dart';
-import 'package:provider/provider.dart';
+import 'package:iholder_app/screens/tab.screen.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<UsuarioBloc>.value(
-          value: UsuarioBloc(),
-        ),
-      ],
-      child: Main(),
-    );
-  }
-}
-
-class Main extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'IHolder',
+      theme: ThemeData(
+        primaryColor: Colors.indigo[600],
+        accentColor: Colors.red[300],
+        scaffoldBackgroundColor: Colors.blue[50],
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.indigo[800],
+          textTheme: ButtonTextTheme.accent,
+        ),
+      ),
       debugShowCheckedModeBanner: false,
-      theme: lightTheme(),
-      home: SplashPage(),
+      home: TabsScreen(),
     );
   }
 }

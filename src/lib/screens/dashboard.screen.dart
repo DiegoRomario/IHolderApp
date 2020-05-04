@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final bloc = Provider.of<AppBloc>(context);
     return Scaffold(
         body: ListView(
       children: <Widget>[
@@ -11,7 +10,7 @@ class HomePage extends StatelessWidget {
           height: 50,
         ),
         Text(
-          "IHolder",
+          "Dashboard",
           style: TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.bold,

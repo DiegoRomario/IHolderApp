@@ -1,10 +1,10 @@
-class AutenticacaoModel {
+class UsuarioLogin {
   String login;
   String password;
 
-  AutenticacaoModel({this.login, this.password});
+  UsuarioLogin({this.login, this.password});
 
-  AutenticacaoModel.fromJson(Map<String, dynamic> json) {
+  UsuarioLogin.fromJson(Map<String, dynamic> json) {
     login = json['login'];
     password = json['password'];
   }
