@@ -1,17 +1,16 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:iholder_app/models/usuario-login.dart';
 import 'package:iholder_app/models/usuario-view-model.dart';
 import 'package:iholder_app/repositories/usuario.respository.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserBloc extends ChangeNotifier {
+class UsuarioBloc extends ChangeNotifier {
   UsuarioViewModel usuario;
   SharedPreferences preferences;
 
-  UserBloc() {
+  UsuarioBloc() {
     usuario = new UsuarioViewModel();
     SharedPreferences.getInstance().then((onValue) {
       preferences = onValue;

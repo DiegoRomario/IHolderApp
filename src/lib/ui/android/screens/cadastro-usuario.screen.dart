@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AccountScreen extends StatelessWidget {
+class CadastroUsuarioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +10,7 @@ class AccountScreen extends StatelessWidget {
           height: 50,
         ),
         Text(
-          "Account",
+          "Cadastro Usuario",
           style: TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.bold,

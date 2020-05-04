@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +10,7 @@ class DashboardScreen extends StatelessWidget {
           height: 50,
         ),
         Text(
-          "Dashboard",
+          "Login",
           style: TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.bold,

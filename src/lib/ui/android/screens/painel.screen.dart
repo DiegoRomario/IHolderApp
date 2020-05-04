@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class PainelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +10,7 @@ class RegistrationScreen extends StatelessWidget {
           height: 50,
         ),
         Text(
-          "Registrations",
+          "Painel",
           style: TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.bold,

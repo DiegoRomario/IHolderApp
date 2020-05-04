@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iholder_app/screens/registrations.screen.dart';
+import 'package:iholder_app/ui/android/screens/painel.screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import 'account.screen.dart';
-import 'dashboard.screen.dart';
+import 'conta.screen.dart';
+import 'lancamentos.screen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -33,9 +32,9 @@ class _TabsPageState extends State<TabsScreen>
       body: TabBarView(
         controller: tabController,
         children: [
-          RegistrationScreen(),
-          DashboardScreen(),
-          AccountScreen(),
+          LancamentosScreen(),
+          PainelScreen(),
+          ContaScreen(),
         ],
       ),
       bottomNavigationBar: new TabBar(
@@ -55,7 +54,7 @@ class _TabsPageState extends State<TabsScreen>
         unselectedLabelColor: Colors.black38,
         indicatorSize: TabBarIndicatorSize.tab,
         indicatorPadding: EdgeInsets.all(5.0),
-        indicatorColor: Theme.of(context).primaryColor,
+        indicatorColor: Theme.of(context).accentColor,
       ),
     );
   }
