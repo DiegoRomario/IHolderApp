@@ -2,17 +2,15 @@ class UsuarioViewModel {
   String nome;
   String email;
   String token;
-  DateTime expiraEm;
-  String id;
+  String expiraEm;
 
-  UsuarioViewModel({this.nome, this.email, this.token, this.expiraEm, this.id});
+  UsuarioViewModel({this.nome, this.email, this.token, this.expiraEm});
 
   UsuarioViewModel.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
     email = json['email'];
     token = json['token'];
-    expiraEm = DateTime.parse(json['expira_em']);
-    id = json['id'];
+    expiraEm = json['expira_em'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,12 +19,6 @@ class UsuarioViewModel {
     data['email'] = this.email;
     data['token'] = this.token;
     data['expira_em'] = this.expiraEm;
-    data['id'] = this.id;
     return data;
-  }
-
-  @override
-  String toString() {
-    return 'DEMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO {login: $nome, password: $email}';
   }
 }

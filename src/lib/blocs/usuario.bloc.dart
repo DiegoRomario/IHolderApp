@@ -20,8 +20,8 @@ class UsuarioBloc extends ChangeNotifier {
   Future<UsuarioViewModel> login(UsuarioLogin login) async {
     try {
       var repository = new UsuarioRepository();
-      usuario = await repository.Login(login);
-      await preferences.setString('user', jsonDecode(usuario.toString()));
+      usuario = await repository.login(login);
+      await preferences.setString('user', jsonEncode(usuario));
       return usuario;
     } catch (ex) {
       usuario = null;

@@ -20,7 +20,7 @@ class UsuarioNaoAutenticadoCard extends StatelessWidget {
               ),
             );
           },
-          child: Text("Autentique-se"),
+          child: Text("Entrar"),
         ),
         FlatButton(
           onPressed: () {

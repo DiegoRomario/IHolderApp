@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/models/usuario-login.dart';
 import 'package:iholder_app/ui/android/screens/tab.screen.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/usuario.bloc.dart';
-import 'repositories/usuario.respository.dart';
 
 void main() {
   runApp(IoC());
-  final response = UsuarioRepository()
-      .Login(
-          UsuarioLogin(login: "diego.romario@outlook.com", password: "123456"))
-      .then((onValue) {
-    debugPrint(onValue.toString());
-  });
+  // final response = UsuarioRepository()
+  //     .Login(
+  //         UsuarioLogin(login: "diego.romario@outlook.com", password: "123456"))
+  //     .then((onValue) {
+  //   debugPrint(onValue.toString());
+  // });
 }
 
 class IoC extends StatelessWidget {
