@@ -15,4 +15,6 @@ class UsuarioLogin {
     data['password'] = this.password;
     return data;
   }
+
+
 }

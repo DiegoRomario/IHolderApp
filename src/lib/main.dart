@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/models/usuario-login.dart';
 import 'package:iholder_app/screens/tab.screen.dart';
+
+import 'repositories/usuario.respository.dart';
 
 void main() {
   runApp(MyApp());
+  final response = UsuarioRepository()
+      .Login(
+          UsuarioLogin(login: "diego.romario@outlook.com", password: "123456"))
+      .then((onValue) {
+    debugPrint(onValue.toString());
+  });
 }
 
 class MyApp extends StatelessWidget {
