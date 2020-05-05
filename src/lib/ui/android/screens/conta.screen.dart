@@ -24,7 +24,7 @@ class ContaScreen extends StatelessWidget {
             )
           ],
         ),
-        body: bloc.usuario?.token == null
+        body: bloc.usuario == null
             ? UsuarioNaoAutenticadoCard()
             : UsuarioAutenticadoCard());
   }

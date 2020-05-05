@@ -3,6 +3,7 @@ import 'package:iholder_app/blocs/usuario.bloc.dart';
 import 'package:iholder_app/models/usuario-login.dart';
 import 'package:iholder_app/models/usuario-view-model.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
+import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,7 @@ class _LoginPageState extends State<LoginScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var username = '';
   var password = '';
+  var _sending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +75,13 @@ class _LoginPageState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              Visibility(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: Loader(),
+                ),
+                visible: _sending,
+              ),
             ],
           ),
         ),
@@ -83,12 +92,22 @@ class _LoginPageState extends State<LoginScreen> {
   authenticate(BuildContext context) async {
     var bloc = Provider.of<UsuarioBloc>(context, listen: false);
 
-    UsuarioViewModel user = await bloc.login(
+    setState(() {
+      _sending = true;
+    });
+
+    UsuarioViewModel user = await bloc
+        .login(
       new UsuarioLogin(
         login: username,
         password: password,
       ),
-    );
+    )
+        .whenComplete(() {
+      setState(() {
+        _sending = false;
+      });
+    });
 
     if (user != null) {
       Navigator.pop(context);
