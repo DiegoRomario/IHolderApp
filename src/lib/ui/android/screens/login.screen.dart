@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/usuario.bloc.dart';
 import 'package:iholder_app/models/usuario-login.dart';
 import 'package:iholder_app/models/usuario-view-model.dart';
+import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,53 +28,34 @@ class _LoginPageState extends State<LoginScreen> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: "Usuário",
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                ),
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Theme.of(context).primaryColor,
-                ),
-                validator: (value) {
+              InputField(
+                ptype: TextInputType.emailAddress,
+                phint: "usuario@exemplo.com",
+                plabel: "E-mail",
+                picon: Icons.email,
+                pOnSaved: (val) {
+                  username = val;
+                },
+                pValidador: (value) {
                   if (value.isEmpty) {
                     return 'Usuário Inválido';
                   }
                   return null;
                 },
-                onSaved: (val) {
-                  username = val;
-                },
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: "Senha",
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                ),
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Theme.of(context).primaryColor,
-                ),
-                validator: (value) {
+              InputField(
+                ptype: TextInputType.visiblePassword,
+                plabel: "Senha",
+                picon: MdiIcons.key,
+                pObscureText: true,
+                pOnSaved: (val) {
+                  password = val;
+                },
+                pValidador: (value) {
                   if (value.isEmpty) {
                     return 'Senha Inválida';
                   }
                   return null;
-                },
-                onSaved: (val) {
-                  password = val;
                 },
               ),
               Container(
@@ -84,7 +67,6 @@ class _LoginPageState extends State<LoginScreen> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
-
                         authenticate(context);
                       }
                     },
