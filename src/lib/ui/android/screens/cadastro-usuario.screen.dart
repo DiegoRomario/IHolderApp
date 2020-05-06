@@ -74,54 +74,13 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
                   usuario.senha = val;
                 },
               ),
-              InputField(
-                ptype: TextInputType.text,
-                plabel: "CPF",
-                picon: MdiIcons.cardText,
-                pValidador: (value) {
-                  if (value.length < 11) {
-                    return 'CPF Inválido';
-                  }
-                  return null;
-                },
-                pOnSaved: (val) {
-                  usuario.cpf = val;
-                  usuario.genero = 1;
-                },
-              ),
-              InputField(
-                ptype: TextInputType.text,
-                plabel: "Celular",
-                picon: MdiIcons.cellphone,
-                pValidador: (value) {
-                  if (value.length < 2) {
-                    return 'Celular Inválido';
-                  }
-                  return null;
-                },
-                pOnSaved: (val) {
-                  usuario.celular = val;
-                },
-              ),
-              InputFieldDate(
-                plabel: "Data nascimento",
-                pValidador: (value) {
-                  if (value.length < 10) {
-                    return 'Data Inválido';
-                  }
-                  return null;
-                },
-                pOnSaved: (val) {
-                  var ano = int.parse(val.substring(6, 10));
-                  var dia = int.parse(val.substring(0, 2));
-                  var mes = int.parse(val.substring(3, 5));
-                  usuario.data_nascimento =
-                      new DateTime.utc(ano, dia, mes).toString();
-                },
-              ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: GeneroPicker(),
+                child: GeneroPicker(
+                  onSelect: (val) {
+                    usuario.genero = val;
+                  },
+                ),
               ),
               Container(
                 height: 60,
@@ -158,7 +117,7 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
       final snackBar = SnackBar(
           content:
               Text('Bem-vindo! ${response.nome}! Autentique-se, por favor'));
-      Timer(Duration(seconds: 1), () {
+      Timer(Duration(seconds: 2), () {
         Navigator.pop(context);
       });
 
