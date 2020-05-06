@@ -4,7 +4,7 @@ class Usuario {
   String senha;
   String cpf;
   String celular;
-  DateTime data_nascimento;
+  String data_nascimento;
   int genero;
 
   Usuario(

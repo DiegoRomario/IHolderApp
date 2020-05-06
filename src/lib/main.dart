@@ -6,12 +6,6 @@ import 'blocs/usuario.bloc.dart';
 
 void main() {
   runApp(IoC());
-  // final response = UsuarioRepository()
-  //     .Login(
-  //         UsuarioLogin(login: "diego.romario@outlook.com", password: "123456"))
-  //     .then((onValue) {
-  //   debugPrint(onValue.toString());
-  // });
 }
 
 class IoC extends StatelessWidget {

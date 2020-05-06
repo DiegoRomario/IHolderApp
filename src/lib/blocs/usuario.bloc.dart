@@ -9,18 +9,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UsuarioBloc extends ChangeNotifier {
   UsuarioViewModel usuario;
-  SharedPreferences preferences;
 
   UsuarioBloc() {
     usuario = null;
-    SharedPreferences.getInstance().then((onValue) {
-      preferences = onValue;
-    });
     loadUser();
   }
 
   Future<UsuarioViewModel> login(UsuarioLogin login) async {
     try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
       var repository = new UsuarioRepository();
       usuario = await repository.login(login);
       await preferences.setString('user', jsonEncode(usuario));
@@ -43,12 +40,14 @@ class UsuarioBloc extends ChangeNotifier {
   }
 
   logout() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('user', null);
     usuario = null;
     notifyListeners();
   }
 
   Future loadUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     var usuarioString = preferences.getString('user');
     if (usuarioString != null) {
       var response = UsuarioViewModel.fromJson(jsonDecode(usuarioString));

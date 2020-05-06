@@ -32,7 +32,6 @@ class _LoginPageState extends State<LoginScreen> {
             children: <Widget>[
               InputField(
                 ptype: TextInputType.emailAddress,
-                phint: "usuario@exemplo.com",
                 plabel: "E-mail",
                 picon: Icons.email,
                 pOnSaved: (val) {
