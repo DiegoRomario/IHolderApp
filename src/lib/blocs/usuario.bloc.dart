@@ -24,7 +24,7 @@ class UsuarioBloc extends ChangeNotifier {
       return usuario;
     } catch (ex) {
       usuario = null;
-      return null;
+      throw ex;
     }
   }
 
@@ -33,9 +33,8 @@ class UsuarioBloc extends ChangeNotifier {
       var repository = new UsuarioRepository();
       return await repository.cadastrar(usuario);
     } catch (ex) {
-      print(ex);
       usuario = null;
-      return null;
+      throw ex;
     }
   }
 

@@ -6,7 +6,8 @@ class CustomValidators {
     if (value.isEmpty) {
       return false;
     }
-    return regex.hasMatch(value);
+    bool teste = regex.hasMatch(value);
+    return teste;
   }
 
   static bool cpf(String value) {

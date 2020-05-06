@@ -4,6 +4,7 @@ import 'package:iholder_app/models/usuario-login.dart';
 import 'package:iholder_app/models/usuario-view-model.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
+import 'package:iholder_app/validators/CustomValidators.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -38,8 +39,8 @@ class _LoginPageState extends State<LoginScreen> {
                   username = val;
                 },
                 pValidador: (value) {
-                  if (value.isEmpty) {
-                    return 'Usuário Inválido';
+                  if (!CustomValidators.email(value)) {
+                    return 'E-mail Inválido';
                   }
                   return null;
                 },
@@ -65,12 +66,14 @@ class _LoginPageState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: RaisedButton(
                     child: Text("Entrar"),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        authenticate(context);
-                      }
-                    },
+                    onPressed: _sending
+                        ? null
+                        : () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              authenticate(context);
+                            }
+                          },
                   ),
                 ),
               ),
@@ -89,6 +92,7 @@ class _LoginPageState extends State<LoginScreen> {
   }
 
   authenticate(BuildContext context) async {
+    String validationMessage;
     var bloc = Provider.of<UsuarioBloc>(context, listen: false);
 
     setState(() {
@@ -106,14 +110,19 @@ class _LoginPageState extends State<LoginScreen> {
       setState(() {
         _sending = false;
       });
+    }).catchError((onError) {
+      validationMessage = onError.message;
     });
 
     if (user != null) {
       Navigator.pop(context);
       return;
+    } else if (validationMessage == "") {
+      validationMessage = 'Usuário ou senha invalidos';
     }
 
-    final snackBar = SnackBar(content: Text('Usuário ou senha invalidos'));
+    final snackBar = SnackBar(content: Text(validationMessage));
     _scaffoldKey.currentState.showSnackBar(snackBar);
+    validationMessage = "";
   }
 }

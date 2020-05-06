@@ -107,20 +107,19 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
   create(BuildContext context) async {
     var bloc = Provider.of<UsuarioBloc>(context, listen: false);
 
-    UsuarioViewModel response = await bloc.cadastrar(usuario);
-
-    if (response == null) {
-      final snackBar =
-          SnackBar(content: Text('Não foi possível realizar seu cadastro'));
+    UsuarioViewModel response =
+        await bloc.cadastrar(usuario).catchError((onError) {
+      final snackBar = SnackBar(content: Text(onError.message));
       _scaffoldKey.currentState.showSnackBar(snackBar);
-    } else {
+    });
+
+    if (response != null) {
       final snackBar = SnackBar(
           content:
               Text('Bem-vindo! ${response.nome}! Autentique-se, por favor'));
       Timer(Duration(seconds: 2), () {
         Navigator.pop(context);
       });
-
       _scaffoldKey.currentState.showSnackBar(snackBar);
     }
   }

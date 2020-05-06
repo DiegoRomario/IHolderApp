@@ -8,9 +8,12 @@ class GeneroPicker extends StatefulWidget {
 }
 
 class GeneroPickerWidget extends State<GeneroPicker> {
-  int id = 1;
-
+  int id = 0;
   Widget build(BuildContext context) {
+    if (id == 0) {
+      widget.onSelect(1);
+      id = 1;
+    }
     return Column(
       children: <Widget>[
         Row(
