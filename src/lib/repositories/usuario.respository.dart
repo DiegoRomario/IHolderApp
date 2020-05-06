@@ -18,6 +18,9 @@ class UsuarioRepository {
     if (response.statusCode == 200) {
       final responser = jsonDecode(response.body);
       return UsuarioViewModel.fromJson(responser["data"]);
+    } else if (response.statusCode == 400) {
+      final responser = jsonDecode(response.body);
+      throw HttpException(responser["errors"][0]);
     }
 
     throw HttpException(ExceptionConfiguration.getMessage(response.statusCode));
