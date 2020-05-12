@@ -16,8 +16,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginPageState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  var username = '';
-  var password = '';
+  var email = '';
+  var senha = '';
   var _sending = false;
 
   @override
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginScreen> {
                 plabel: "E-mail",
                 picon: Icons.email,
                 pOnSaved: (val) {
-                  username = val;
+                  email = val;
                 },
                 pValidador: (value) {
                   if (!CustomValidators.email(value)) {
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginScreen> {
                 picon: MdiIcons.key,
                 pObscureText: true,
                 pOnSaved: (val) {
-                  password = val;
+                  senha = val;
                 },
                 pValidador: (value) {
                   if (value.isEmpty) {
@@ -102,8 +102,8 @@ class _LoginPageState extends State<LoginScreen> {
     UsuarioViewModel user = await bloc
         .login(
       new UsuarioLogin(
-        login: username,
-        password: password,
+        email: email,
+        senha: senha,
       ),
     )
         .whenComplete(() {

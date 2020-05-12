@@ -1,20 +1,18 @@
 class UsuarioLogin {
-  String login;
-  String password;
+  String email;
+  String senha;
 
-  UsuarioLogin({this.login, this.password});
+  UsuarioLogin({this.email, this.senha});
 
   UsuarioLogin.fromJson(Map<String, dynamic> json) {
-    login = json['login'];
-    password = json['password'];
+    email = json['email'];
+    senha = json['senha'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['login'] = this.login;
-    data['password'] = this.password;
+    data['email'] = this.email;
+    data['senha'] = this.senha;
     return data;
   }
-
-
 }
