@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/blocs/distribuicao-por-tipo-investimento.bloc.dart';
+import 'package:iholder_app/ui/shared/widgets/distribuicao-por-tipo-investimento-list.widget.dart';
+import 'package:provider/provider.dart';
 
 class PainelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: ListView(
-      children: <Widget>[
-        SizedBox(
-          height: 50,
-        ),
-        Text(
-          "Painel",
-          style: TextStyle(
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    ));
+    final DistribuicaoPorTipoInvestimentoBloc bloc =
+        Provider.of<DistribuicaoPorTipoInvestimentoBloc>(context);
+    return Scaffold(body: DistribuicoesTable());
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iholder_app/ui/android/screens/tab.screen.dart';
 import 'package:provider/provider.dart';
 
+import 'blocs/distribuicao-por-tipo-investimento.bloc.dart';
 import 'blocs/usuario.bloc.dart';
 
 void main() {
@@ -15,6 +16,9 @@ class IoC extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<UsuarioBloc>.value(
           value: UsuarioBloc(),
+        ),
+        ChangeNotifierProvider<DistribuicaoPorTipoInvestimentoBloc>.value(
+          value: DistribuicaoPorTipoInvestimentoBloc(),
         )
       ],
       child: Main(),
