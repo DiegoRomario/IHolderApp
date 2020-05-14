@@ -3,7 +3,9 @@ import 'package:iholder_app/models/distribuicao-por-tipo-investimento-view-model
 import 'package:iholder_app/repositories/distribuicao-por-tipo-investimento.repository.dart';
 
 class DistribuicaoPorTipoInvestimentoBloc extends ChangeNotifier {
-  final categoryRepository = new DistribuicaoPorTipoInvestimentoRepository();
+  var mostraTabela = true;
+  final distribuicoesRepository =
+      new DistribuicaoPorTipoInvestimentoRepository();
 
   List<DistribuicaoPorTipoInvestimentoViewModel>
       distribuicoesPorTipoInvestimento;
@@ -12,8 +14,13 @@ class DistribuicaoPorTipoInvestimentoBloc extends ChangeNotifier {
     obterDistribuicaoPorTipoInvestimento();
   }
 
+  alteraFormatoVisualizacao() {
+    mostraTabela = !mostraTabela;
+    notifyListeners();
+  }
+
   obterDistribuicaoPorTipoInvestimento() {
-    categoryRepository.getAll().then((data) {
+    distribuicoesRepository.getAll().then((data) {
       this.distribuicoesPorTipoInvestimento = data;
       notifyListeners();
     });
