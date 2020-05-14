@@ -10,42 +10,38 @@ class DistribuicaoPorTipoInvestimentoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = Provider.of<DistribuicaoPorTipoInvestimentoBloc>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Distribuição por tipo investimento"),
-      ),
-      body: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              IconButton(
-                onPressed: () {
-                  bloc.alteraFormatoVisualizacao();
-                },
-                tooltip: 'Alterna visualização entre grid e tabela',
-                icon: Icon(
-                  bloc.mostraTabela
-                      ? MdiIcons.viewGrid
-                      : MdiIcons.formatListBulletedSquare,
-                  color: Colors.black,
-                ),
-              ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: new Icon(MdiIcons.formatListBulletedSquare)),
+              Tab(icon: new Icon(MdiIcons.viewGrid)),
             ],
           ),
-          DataLoader(
-            object: bloc.distribuicoesPorTipoInvestimento,
-            callback: () {
-              return bloc.mostraTabela == true
-                  ? DistribuicaoPorTipoInvestimentoTable(
-                      distribuicoes: bloc.distribuicoesPorTipoInvestimento,
-                    )
-                  : DistribuicaoPorTipoInvestimentoGrid(
-                      distribuicoes: bloc.distribuicoesPorTipoInvestimento,
-                    );
-            },
-          ),
-        ],
+          title: Text('Distribuição por tipo investimento'),
+        ),
+        body: TabBarView(
+          children: [
+            DataLoader(
+              object: bloc.distribuicoesPorTipoInvestimento,
+              callback: () {
+                return DistribuicaoPorTipoInvestimentoTable(
+                  distribuicoes: bloc.distribuicoesPorTipoInvestimento,
+                );
+              },
+            ),
+            DataLoader(
+              object: bloc.distribuicoesPorTipoInvestimento,
+              callback: () {
+                return DistribuicaoPorTipoInvestimentoGrid(
+                  distribuicoes: bloc.distribuicoesPorTipoInvestimento,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
