@@ -106,9 +106,7 @@ class _DistribuicaoPorTipoInvestimentoTableState
                         Text(
                           item.orientacao,
                           style: TextStyle(
-                              color: item.orientacao == "Buy"
-                                  ? Colors.green
-                                  : Colors.orangeAccent,
+                              color: corPorOrientacao(item.orientacao),
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -142,5 +140,18 @@ class _DistribuicaoPorTipoInvestimentoTableState
         ),
       ],
     );
+  }
+
+  ColorSwatch<int> corPorOrientacao(String orientacao) {
+    switch (orientacao) {
+      case "Buy":
+        return Colors.green;
+        break;
+      case "Hold":
+        return Colors.blueAccent;
+        break;
+      default:
+        return Colors.redAccent;
+    }
   }
 }

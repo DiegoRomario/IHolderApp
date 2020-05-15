@@ -25,22 +25,146 @@ class _DistribuicaoPorTipoInvestimentoGridState
         padding: const EdgeInsets.all(8),
         child: GridView.builder(
           itemCount: widget.distribuicoes.length,
-          gridDelegate:
-              new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, childAspectRatio: 1.2),
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              child: Padding(
-                padding: const EdgeInsets.all(0),
-                child: Card(
-                  elevation: 5,
+              child: Card(
+                elevation: 5,
+                child: SingleChildScrollView(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.monetization_on),
-                        title: Text(widget
-                            .distribuicoes[index].descricaoTipoInvestimento),
-                        subtitle: Text(widget.distribuicoes[index]
-                            .caracteristicasTipoInvestimento),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Container(
+                                  child: SingleChildScrollView(
+                                    child: ListTile(
+                                      title: Text(
+                                          widget.distribuicoes[index]
+                                              .descricaoTipoInvestimento,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500)),
+                                      leading: corPorOrientacao(widget
+                                          .distribuicoes[index].orientacao),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 8, right: 8),
+                                  child: Divider(color: Colors.black),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Objetivo",
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    Text(
+                                      widget.distribuicoes[index]
+                                              .percentualObjetivo
+                                              .toString() +
+                                          "%",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Atual",
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    Text(
+                                      widget.distribuicoes[index]
+                                              .percentualAtual
+                                              .toString() +
+                                          "%",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Diferença",
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    Text(
+                                      widget.distribuicoes[index]
+                                              .percentualDiferenca
+                                              .toString() +
+                                          "%",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Objetivo",
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    Text(
+                                      "R\$" +
+                                          widget.distribuicoes[index]
+                                              .percentualObjetivo
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Atual",
+                                      style: TextStyle(fontSize: 11),
+                                    ),
+                                    Text(
+                                      "R\$" +
+                                          widget.distribuicoes[index]
+                                              .percentualAtual
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -51,5 +175,18 @@ class _DistribuicaoPorTipoInvestimentoGridState
         ),
       ),
     );
+  }
+
+  Icon corPorOrientacao(String orientacao) {
+    switch (orientacao) {
+      case "Buy":
+        return Icon(MdiIcons.cashPlus, color: Colors.green);
+        break;
+      case "Hold":
+        return Icon(MdiIcons.timerSand, color: Colors.blueAccent);
+        break;
+      default:
+        return Icon(MdiIcons.cashMinus, color: Colors.redAccent);
+    }
   }
 }
