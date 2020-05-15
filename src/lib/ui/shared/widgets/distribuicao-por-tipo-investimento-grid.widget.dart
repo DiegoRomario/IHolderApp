@@ -39,7 +39,8 @@ class _DistribuicaoPorTipoInvestimentoGridState
                         leading: Icon(Icons.monetization_on),
                         title: Text(widget
                             .distribuicoes[index].descricaoTipoInvestimento),
-                        subtitle: Text("casa, carro, teste, abc 123"),
+                        subtitle: Text(widget.distribuicoes[index]
+                            .caracteristicasTipoInvestimento),
                       ),
                     ],
                   ),

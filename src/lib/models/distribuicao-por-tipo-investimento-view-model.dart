@@ -2,6 +2,7 @@ class DistribuicaoPorTipoInvestimentoViewModel {
   String id;
   String tipoInvestimentoId;
   String descricaoTipoInvestimento;
+  String caracteristicasTipoInvestimento;
   double percentualObjetivo;
   double percentualAtual;
   double percentualDiferenca;
@@ -43,6 +44,7 @@ class DistribuicaoPorTipoInvestimentoViewModel {
       {this.id,
       this.tipoInvestimentoId,
       this.descricaoTipoInvestimento,
+      this.caracteristicasTipoInvestimento,
       this.percentualObjetivo,
       this.percentualAtual,
       this.percentualDiferenca,
@@ -55,6 +57,7 @@ class DistribuicaoPorTipoInvestimentoViewModel {
     id = json['id'];
     tipoInvestimentoId = json['tipoInvestimentoId'];
     descricaoTipoInvestimento = json['descricaoTipoInvestimento'];
+    caracteristicasTipoInvestimento = json['caracteristicasTipoInvestimento'];
     percentualObjetivo = json['percentualObjetivo'];
     percentualAtual = json['percentualAtual'];
     percentualDiferenca = json['percentualDiferenca'];
@@ -69,6 +72,8 @@ class DistribuicaoPorTipoInvestimentoViewModel {
     data['id'] = this.id;
     data['tipoInvestimentoId'] = this.tipoInvestimentoId;
     data['descricaoTipoInvestimento'] = this.descricaoTipoInvestimento;
+    data['caracteristicasTipoInvestimento'] =
+        this.caracteristicasTipoInvestimento;
     data['percentualObjetivo'] = this.percentualObjetivo;
     data['percentualAtual'] = this.percentualAtual;
     data['percentualDiferenca'] = this.percentualDiferenca;
