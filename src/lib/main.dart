@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:iholder_app/ui/android/screens/tab.screen.dart';
 import 'package:provider/provider.dart';
-
-import 'blocs/distribuicao.bloc.dart';
+import 'blocs/distribuicao-por-ativo.bloc.dart';
+import 'blocs/distribuicao-por-produto.bloc.dart';
 import 'blocs/usuario.bloc.dart';
 
 void main() {
@@ -17,8 +18,14 @@ class IoC extends StatelessWidget {
         ChangeNotifierProvider<UsuarioBloc>.value(
           value: UsuarioBloc(),
         ),
-        ChangeNotifierProvider<DistribuicaoBloc>.value(
-          value: DistribuicaoBloc(),
+        ChangeNotifierProvider<DistribuicaoPorTipoBloc>.value(
+          value: DistribuicaoPorTipoBloc(),
+        ),
+        ChangeNotifierProvider<DistribuicaoPorAtivoBloc>.value(
+          value: DistribuicaoPorAtivoBloc(),
+        ),
+        ChangeNotifierProvider<DistribuicaoPorProdutoBloc>.value(
+          value: DistribuicaoPorProdutoBloc(),
         )
       ],
       child: Main(),

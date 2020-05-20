@@ -1,15 +1,18 @@
 import 'package:flutter/widgets.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:iholder_app/repositories/distribuicao.repository.dart';
+import 'Idistribuicao.bloc.dart';
 
-class DistribuicaoBloc extends ChangeNotifier {
+class DistribuicaoPorAtivoBloc extends ChangeNotifier
+    implements IDistribuicaoBloc {
   var mostraTabela = true;
-  final distribuicoesRepository = new DistribuicaoRepository();
+  final distribuicoesRepository =
+      new DistribuicaoRepository("DistribuicaoPorAtivo");
 
-  List<DistribuicaoViewModel> distribuicoesPorTipoInvestimento;
+  List<DistribuicaoViewModel> distribuicoes;
 
-  DistribuicaoBloc() {
-    obterDistribuicaoPorTipoInvestimento();
+  DistribuicaoPorAtivoBloc() {
+    obterDistribuicao();
   }
 
   alteraFormatoVisualizacao() {
@@ -17,9 +20,9 @@ class DistribuicaoBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  obterDistribuicaoPorTipoInvestimento() {
+  obterDistribuicao() {
     distribuicoesRepository.getAll().then((data) {
-      this.distribuicoesPorTipoInvestimento = data;
+      this.distribuicoes = data;
       notifyListeners();
     });
   }

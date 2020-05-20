@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/distribuicao.bloc.dart';
-import 'package:iholder_app/models/distribuicao-view-model.dart';
+import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
+import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
+import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:provider/provider.dart';
-
-import 'distribuicao-por-tipo-investimento.screen.widget.dart';
+import 'distribuicao.screen.dart';
 
 class PainelScreen extends StatefulWidget {
   @override
@@ -11,12 +11,8 @@ class PainelScreen extends StatefulWidget {
 }
 
 class _PainelScreenState extends State<PainelScreen> {
-  List<DistribuicaoViewModel> distribuicoes;
-
   @override
   Widget build(BuildContext context) {
-    final DistribuicaoBloc bloc = Provider.of<DistribuicaoBloc>(context);
-    distribuicoes = bloc.distribuicoesPorTipoInvestimento;
     return Scaffold(
       appBar: AppBar(
         title: Text("Dashboard"),
@@ -45,7 +41,9 @@ class OpcoesPaineis extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => DistribuicaoPorTipoInvestimentoScreen(),
+                    builder: (ctx) => DistribuicaoScreen(
+                        "Distribuição por tipo",
+                        Provider.of<DistribuicaoPorTipoBloc>(context)),
                   ),
                 );
               },
@@ -54,7 +52,7 @@ class OpcoesPaineis extends StatelessWidget {
                 width: 150,
                 height: 150,
                 child: Center(
-                  child: Text("Distribuição por tipo de investimento",
+                  child: Text("Distribuição por tipo",
                       style: TextStyle(color: Colors.white54),
                       textAlign: TextAlign.center),
                 ),
@@ -64,19 +62,51 @@ class OpcoesPaineis extends StatelessWidget {
           Material(
             color: Colors.indigo,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => DistribuicaoScreen(
+                        "Distribuição por ativo",
+                        Provider.of<DistribuicaoPorAtivoBloc>(context)),
+                  ),
+                );
+              },
               child: Container(
                 padding: EdgeInsets.all(8),
                 width: 150,
                 height: 150,
                 child: Center(
-                  child: Text("Distribuição por tipo de produto",
+                  child: Text("Distribuição por ativo",
                       style: TextStyle(color: Colors.white54),
                       textAlign: TextAlign.center),
                 ),
               ),
             ),
-          )
+          ),
+          Material(
+            color: Colors.indigo,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => DistribuicaoScreen(
+                        "Distribuição por produto",
+                        Provider.of<DistribuicaoPorProdutoBloc>(context)),
+                  ),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.all(8),
+                width: 150,
+                height: 150,
+                child: Center(
+                  child: Text("Distribuição por produto",
+                      style: TextStyle(color: Colors.white54),
+                      textAlign: TextAlign.center),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
