@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/distribuicao-por-tipo-investimento.bloc.dart';
-import 'package:iholder_app/models/distribuicao-por-tipo-investimento-view-model.dart';
-import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
+import 'package:iholder_app/blocs/distribuicao.bloc.dart';
+import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:provider/provider.dart';
 
 import 'distribuicao-por-tipo-investimento.screen.widget.dart';
@@ -12,12 +11,11 @@ class PainelScreen extends StatefulWidget {
 }
 
 class _PainelScreenState extends State<PainelScreen> {
-  List<DistribuicaoPorTipoInvestimentoViewModel> distribuicoes;
+  List<DistribuicaoViewModel> distribuicoes;
 
   @override
   Widget build(BuildContext context) {
-    final DistribuicaoPorTipoInvestimentoBloc bloc =
-        Provider.of<DistribuicaoPorTipoInvestimentoBloc>(context);
+    final DistribuicaoBloc bloc = Provider.of<DistribuicaoBloc>(context);
     distribuicoes = bloc.distribuicoesPorTipoInvestimento;
     return Scaffold(
       appBar: AppBar(

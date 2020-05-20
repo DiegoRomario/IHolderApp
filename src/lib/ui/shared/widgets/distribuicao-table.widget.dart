@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/models/distribuicao-por-tipo-investimento-view-model.dart';
+import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class DistribuicaoPorTipoInvestimentoTable extends StatefulWidget {
-  final List<DistribuicaoPorTipoInvestimentoViewModel> distribuicoes;
+class DistribuicaoTable extends StatefulWidget {
+  final List<DistribuicaoViewModel> distribuicoes;
 
-  const DistribuicaoPorTipoInvestimentoTable({@required this.distribuicoes});
+  const DistribuicaoTable({@required this.distribuicoes});
   @override
-  _DistribuicaoPorTipoInvestimentoTableState createState() =>
-      _DistribuicaoPorTipoInvestimentoTableState();
+  _DistribuicaoTableState createState() => _DistribuicaoTableState();
 }
 
-class _DistribuicaoPorTipoInvestimentoTableState
-    extends State<DistribuicaoPorTipoInvestimentoTable> {
-  List<DistribuicaoPorTipoInvestimentoViewModel> distribuicoesSelecionadas;
+class _DistribuicaoTableState extends State<DistribuicaoTable> {
+  List<DistribuicaoViewModel> distribuicoesSelecionadas;
   bool sort;
 
   @override
@@ -56,7 +54,7 @@ class _DistribuicaoPorTipoInvestimentoTableState
               ),
               DataColumn(
                 label: Text(
-                  'Tipo',
+                  'Descrição',
                   style:
                       TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
                 ),
@@ -111,7 +109,7 @@ class _DistribuicaoPorTipoInvestimentoTableState
                         ),
                       ),
                       DataCell(
-                        Text(item.descricaoTipoInvestimento),
+                        Text(item.descricao),
                       ),
                       DataCell(
                         Text(item.percentualObjetivo.toString()),

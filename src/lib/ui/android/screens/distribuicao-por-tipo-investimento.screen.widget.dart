@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/distribuicao-por-tipo-investimento.bloc.dart';
+import 'package:iholder_app/blocs/distribuicao.bloc.dart';
 import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
-import 'package:iholder_app/ui/shared/widgets/distribuicao-por-tipo-investimento-grid.widget.dart';
-import 'package:iholder_app/ui/shared/widgets/distribuicao-por-tipo-investimento-table.widget.dart';
+import 'package:iholder_app/ui/shared/widgets/distribuicao-grid.widget.dart';
+import 'package:iholder_app/ui/shared/widgets/distribuicao-table.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class DistribuicaoPorTipoInvestimentoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var bloc = Provider.of<DistribuicaoPorTipoInvestimentoBloc>(context);
+    var bloc = Provider.of<DistribuicaoBloc>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -27,7 +27,7 @@ class DistribuicaoPorTipoInvestimentoScreen extends StatelessWidget {
             DataLoader(
               object: bloc.distribuicoesPorTipoInvestimento,
               callback: () {
-                return DistribuicaoPorTipoInvestimentoTable(
+                return DistribuicaoTable(
                   distribuicoes: bloc.distribuicoesPorTipoInvestimento,
                 );
               },
@@ -35,7 +35,7 @@ class DistribuicaoPorTipoInvestimentoScreen extends StatelessWidget {
             DataLoader(
               object: bloc.distribuicoesPorTipoInvestimento,
               callback: () {
-                return DistribuicaoPorTipoInvestimentoGrid(
+                return DistribuicaoGrid(
                   distribuicoes: bloc.distribuicoesPorTipoInvestimento,
                 );
               },

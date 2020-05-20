@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/models/distribuicao-por-tipo-investimento-view-model.dart';
+import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class DistribuicaoPorTipoInvestimentoGrid extends StatefulWidget {
-  final List<DistribuicaoPorTipoInvestimentoViewModel> distribuicoes;
+class DistribuicaoGrid extends StatefulWidget {
+  final List<DistribuicaoViewModel> distribuicoes;
 
-  const DistribuicaoPorTipoInvestimentoGrid({@required this.distribuicoes});
+  const DistribuicaoGrid({@required this.distribuicoes});
   @override
-  _DistribuicaoPorTipoInvestimentoGridState createState() =>
-      _DistribuicaoPorTipoInvestimentoGridState();
+  _DistribuicaoGridState createState() =>
+      _DistribuicaoGridState();
 }
 
-class _DistribuicaoPorTipoInvestimentoGridState
-    extends State<DistribuicaoPorTipoInvestimentoGrid> {
+class _DistribuicaoGridState
+    extends State<DistribuicaoGrid> {
   @override
   void initState() {
     super.initState();
@@ -46,8 +46,7 @@ class _DistribuicaoPorTipoInvestimentoGridState
                                   child: SingleChildScrollView(
                                     child: ListTile(
                                       title: Text(
-                                          widget.distribuicoes[index]
-                                              .descricaoTipoInvestimento,
+                                          widget.distribuicoes[index].descricao,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500)),
                                       leading: corPorOrientacao(widget

@@ -1,8 +1,8 @@
-class DistribuicaoPorTipoInvestimentoViewModel {
+class DistribuicaoViewModel {
   String id;
-  String tipoInvestimentoId;
-  String descricaoTipoInvestimento;
-  String caracteristicasTipoInvestimento;
+  String tipoDistribuicaoId;
+  String descricao;
+  String caracteristicas;
   double percentualObjetivo;
   double percentualAtual;
   double percentualDiferenca;
@@ -11,26 +11,26 @@ class DistribuicaoPorTipoInvestimentoViewModel {
   String usuarioId;
   String orientacao;
 
-  static List<DistribuicaoPorTipoInvestimentoViewModel> obter() {
-    return <DistribuicaoPorTipoInvestimentoViewModel>[
-      DistribuicaoPorTipoInvestimentoViewModel(
-          descricaoTipoInvestimento: "Caixa",
+  static List<DistribuicaoViewModel> obter() {
+    return <DistribuicaoViewModel>[
+      DistribuicaoViewModel(
+          descricao: "Caixa",
           percentualObjetivo: 50,
           percentualAtual: 40,
           percentualDiferenca: 10,
           valorAtual: 5000,
           valorDiferenca: 1000,
           orientacao: "Buy"),
-      DistribuicaoPorTipoInvestimentoViewModel(
-          descricaoTipoInvestimento: "Fixa",
+      DistribuicaoViewModel(
+          descricao: "Fixa",
           percentualObjetivo: 25,
           percentualAtual: 30,
           percentualDiferenca: -5,
           valorAtual: 3000,
           valorDiferenca: -5000,
           orientacao: "Hold"),
-      DistribuicaoPorTipoInvestimentoViewModel(
-          descricaoTipoInvestimento: "Variável",
+      DistribuicaoViewModel(
+          descricao: "Variável",
           percentualObjetivo: 25,
           percentualAtual: 20,
           percentualDiferenca: 5,
@@ -40,11 +40,11 @@ class DistribuicaoPorTipoInvestimentoViewModel {
     ];
   }
 
-  DistribuicaoPorTipoInvestimentoViewModel(
+  DistribuicaoViewModel(
       {this.id,
-      this.tipoInvestimentoId,
-      this.descricaoTipoInvestimento,
-      this.caracteristicasTipoInvestimento,
+      this.tipoDistribuicaoId,
+      this.descricao,
+      this.caracteristicas,
       this.percentualObjetivo,
       this.percentualAtual,
       this.percentualDiferenca,
@@ -53,11 +53,11 @@ class DistribuicaoPorTipoInvestimentoViewModel {
       this.usuarioId,
       this.orientacao});
 
-  DistribuicaoPorTipoInvestimentoViewModel.fromJson(Map<String, dynamic> json) {
+  DistribuicaoViewModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    tipoInvestimentoId = json['tipoInvestimentoId'];
-    descricaoTipoInvestimento = json['descricaoTipoInvestimento'];
-    caracteristicasTipoInvestimento = json['caracteristicasTipoInvestimento'];
+    tipoDistribuicaoId = json['tipoDistribuicaoId'];
+    descricao = json['descricao'];
+    caracteristicas = json['caracteristicas'];
     percentualObjetivo = json['percentualObjetivo'];
     percentualAtual = json['percentualAtual'];
     percentualDiferenca = json['percentualDiferenca'];
@@ -70,10 +70,9 @@ class DistribuicaoPorTipoInvestimentoViewModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['tipoInvestimentoId'] = this.tipoInvestimentoId;
-    data['descricaoTipoInvestimento'] = this.descricaoTipoInvestimento;
-    data['caracteristicasTipoInvestimento'] =
-        this.caracteristicasTipoInvestimento;
+    data['tipoDistribuicaoId'] = this.tipoDistribuicaoId;
+    data['descricao'] = this.descricao;
+    data['caracteristicas'] = this.caracteristicas;
     data['percentualObjetivo'] = this.percentualObjetivo;
     data['percentualAtual'] = this.percentualAtual;
     data['percentualDiferenca'] = this.percentualDiferenca;
