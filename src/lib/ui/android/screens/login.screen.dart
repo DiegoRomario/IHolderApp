@@ -4,12 +4,9 @@ import 'package:iholder_app/models/usuario-login.dart';
 import 'package:iholder_app/models/usuario-view-model.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
-import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
 import 'package:iholder_app/validators/CustomValidators.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-
-import '../../../data.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

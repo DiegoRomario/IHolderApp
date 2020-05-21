@@ -1,17 +1,18 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/usuario.bloc.dart';
-import 'package:iholder_app/models/usuario-view-model.dart';
-import 'package:iholder_app/models/usuario.dart';
+import 'package:flutter/services.dart';
+import 'package:iholder_app/blocs/ativo.bloc.dart';
+import 'package:iholder_app/models/ativo.dart';
+import 'package:iholder_app/services/produto.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
+import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../../data.dart';
 
 class CadastroAtivoScreen extends StatefulWidget {
-  final f = new DateFormat('yyyy/MM/dd');
   @override
   _CadastroAtivoScreenState createState() => _CadastroAtivoScreenState();
 }
@@ -19,14 +20,17 @@ class CadastroAtivoScreen extends StatefulWidget {
 class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  var usuario = new Usuario();
+  var ativo = new Ativo();
   var produtoId = '';
-
+  var produtoService = ProdutoService();
+  var _sending = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Cadastro de Ativos"),
+      ),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Form(
@@ -35,17 +39,16 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
             children: <Widget>[
               TypeAheadField(
                 pGetSuggestions: (val) {
-                  return ProdutosService.getSuggestions(val);
+                  return produtoService.obterSugestao(val);
                 },
                 plabel: "Produto",
                 picon: MdiIcons.bulletinBoard,
                 phint: "Ação, CDB, FII etc",
                 pOnSaved: (val) {
-                  produtoId = ProdutosService.getByDescription(val);
-                  print(produtoId);
+                  ativo.produtoId = produtoService.obterPorDescricao(val);
                 },
                 pValidador: (value) {
-                  String produtoId = ProdutosService.getByDescription(value);
+                  String produtoId = produtoService.obterPorDescricao(value);
                   if (produtoId == null) {
                     return 'Produto inválido';
                   }
@@ -55,7 +58,8 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
               InputField(
                 ptype: TextInputType.text,
                 plabel: "Descrição",
-                picon: MdiIcons.scriptText,
+                pMaxLength: 30,
+                picon: MdiIcons.cardText,
                 pValidador: (value) {
                   if (value.isEmpty) {
                     return 'Descrição inválida';
@@ -63,7 +67,46 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                   return null;
                 },
                 pOnSaved: (val) {
-                  usuario.nome = val;
+                  ativo.descricao = val;
+                },
+              ),
+              InputField(
+                ptype: TextInputType.text,
+                plabel: "Ticket",
+                pMaxLength: 30,
+                picon: MdiIcons.alphabeticalVariant,
+                pValidador: (value) {
+                  if (value.isEmpty) {
+                    return 'Ticker inválido';
+                  }
+                  return null;
+                },
+                pOnSaved: (val) {
+                  ativo.ticker = val;
+                },
+              ),
+              InputField(
+                ptype: TextInputType.multiline,
+                plabel: "Características",
+                picon: MdiIcons.scriptText,
+                pOnSaved: (val) {
+                  ativo.caracteristicas = val;
+                },
+              ),
+              InputField(
+                ptype: TextInputType.number,
+                plabel: "Cotação",
+                picon: MdiIcons.cashUsd,
+                pFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                pValidador: (value) {
+                  double teste = double.parse(value);
+                  if (teste < 0) {
+                    return 'Valor inválido';
+                  }
+                  return null;
+                },
+                pOnSaved: (val) {
+                  ativo.cotacao = double.parse(val);
                 },
               ),
               Container(
@@ -72,14 +115,23 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                   padding: const EdgeInsets.only(top: 16.0),
                   child: RaisedButton(
                     child: Text("Cadastrar"),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        create(context);
-                      }
-                    },
+                    onPressed: _sending
+                        ? null
+                        : () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              create(context);
+                            }
+                          },
                   ),
                 ),
+              ),
+              Visibility(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: Loader(),
+                ),
+                visible: _sending,
               ),
             ],
           ),
@@ -89,22 +141,59 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
   }
 
   create(BuildContext context) async {
-    var bloc = Provider.of<UsuarioBloc>(context, listen: false);
-
-    UsuarioViewModel response =
-        await bloc.cadastrar(usuario).catchError((onError) {
-      final snackBar = SnackBar(content: Text(onError.message));
-      _scaffoldKey.currentState.showSnackBar(snackBar);
+    var bloc = Provider.of<AtivoBloc>(context, listen: false);
+    setState(() {
+      _sending = true;
     });
+    String response = await bloc.cadastrar(ativo).whenComplete(
+      () {
+        setState(
+          () {
+            _sending = false;
+          },
+        );
+      },
+    ).catchError(
+      (onError) {
+        final snackBar = SnackBar(content: Text(onError.message));
+        _scaffoldKey.currentState.showSnackBar(snackBar);
+      },
+    );
 
     if (response != null) {
       final snackBar = SnackBar(
-          content:
-              Text('Bem-vindo! ${response.nome}! Autentique-se, por favor'));
-      Timer(Duration(seconds: 2), () {
-        Navigator.pop(context);
-      });
+        content: Text(response),
+      );
+      Timer(
+        Duration(seconds: 2),
+        () {
+          Navigator.pop(context);
+        },
+      );
       _scaffoldKey.currentState.showSnackBar(snackBar);
     }
+  }
+}
+
+class CurrencyPtBrInputFormatter extends TextInputFormatter {
+  CurrencyPtBrInputFormatter({this.maxDigits});
+  final int maxDigits;
+
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    if (maxDigits != null && newValue.selection.baseOffset > maxDigits) {
+      return oldValue;
+    }
+
+    double value = double.parse(newValue.text);
+    final formatter = new NumberFormat("#,##0.00", "pt_BR");
+    String newText = formatter.format(value / 100);
+    return newValue.copyWith(
+        text: newText,
+        selection: new TextSelection.collapsed(offset: newText.length));
   }
 }

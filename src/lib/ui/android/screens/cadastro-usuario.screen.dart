@@ -115,11 +115,14 @@ class _CadastroUsuarioScreenState extends State<CadastroUsuarioScreen> {
 
     if (response != null) {
       final snackBar = SnackBar(
-          content:
-              Text('Bem-vindo! ${response.nome}! Autentique-se, por favor'));
-      Timer(Duration(seconds: 2), () {
-        Navigator.pop(context);
-      });
+        content: Text('Bem-vindo! ${response.nome}! Autentique-se, por favor'),
+      );
+      Timer(
+        Duration(seconds: 2),
+        () {
+          Navigator.pop(context);
+        },
+      );
       _scaffoldKey.currentState.showSnackBar(snackBar);
     }
   }
