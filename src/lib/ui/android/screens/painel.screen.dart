@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
+import 'package:iholder_app/settings.dart';
+import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'package:provider/provider.dart';
 import 'distribuicao.screen.dart';
 
@@ -18,7 +20,7 @@ class _PainelScreenState extends State<PainelScreen> {
         title: Text("Dashboard"),
         centerTitle: true,
       ),
-      body: OpcoesPaineis(),
+      body: Settings.user != null ? OpcoesPaineis() : UsuarioNaoAutorizado(),
     );
   }
 }

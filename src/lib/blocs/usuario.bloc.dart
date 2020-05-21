@@ -11,7 +11,6 @@ class UsuarioBloc extends ChangeNotifier {
   UsuarioViewModel usuario;
 
   UsuarioBloc() {
-    usuario = null;
     loadUser();
   }
 
@@ -20,10 +19,12 @@ class UsuarioBloc extends ChangeNotifier {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       var repository = new UsuarioRepository();
       usuario = await repository.login(login);
+      await preferences.remove('user');
       await preferences.setString('user', jsonEncode(usuario));
+      Settings.user = usuario;
       return usuario;
     } catch (ex) {
-      usuario = null;
+      limpaUsuario();
       throw ex;
     }
   }
@@ -33,7 +34,7 @@ class UsuarioBloc extends ChangeNotifier {
       var repository = new UsuarioRepository();
       return await repository.cadastrar(usuario);
     } catch (ex) {
-      usuario = null;
+      limpaUsuario();
       throw ex;
     }
   }
@@ -41,8 +42,13 @@ class UsuarioBloc extends ChangeNotifier {
   logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('user', null);
-    usuario = null;
+    limpaUsuario();
     notifyListeners();
+  }
+
+  void limpaUsuario() {
+    usuario = null;
+    Settings.user = null;
   }
 
   Future loadUser() async {
@@ -52,6 +58,8 @@ class UsuarioBloc extends ChangeNotifier {
       var response = UsuarioViewModel.fromJson(jsonDecode(usuarioString));
       Settings.user = response;
       usuario = response;
+    } else {
+      limpaUsuario();
     }
   }
 }

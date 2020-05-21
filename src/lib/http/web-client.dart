@@ -5,5 +5,5 @@ import 'logging-interceptor.dart';
 
 final Client webClient = HttpClientWithInterceptor.build(
   interceptors: [LoggingInterceptor()],
-  requestTimeout: Duration(seconds: 10),
+  requestTimeout: Duration(seconds: 30),
 );

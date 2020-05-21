@@ -1,15 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:iholder_app/http/http.exception.dart';
 import 'package:iholder_app/models/ativo.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/http/web-client.dart';
 
-class AtivoRepository {  
+class AtivoRepository {
   Future<String> cadastrar(Ativo ativo) async {
     final String ativoJson = jsonEncode(ativo.toJson());
     final response = await webClient.post("${Settings.apiUrl}Ativo/cadastrar",
         headers: {
-          'Content-type': 'application/json',
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer ${Settings.user.token}"
         },
         body: ativoJson);
 

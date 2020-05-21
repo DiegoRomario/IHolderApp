@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/settings.dart';
+import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'cadastro-ativo.screen.dart';
 
 class LancamentosScreen extends StatefulWidget {
@@ -14,7 +16,8 @@ class _LancamentosScreenState extends State<LancamentosScreen> {
         title: Text("Lançamentos"),
         centerTitle: true,
       ),
-      body: OpcoesLancamentos(),
+      body:
+          Settings.user != null ? OpcoesLancamentos() : UsuarioNaoAutorizado(),
     );
   }
 }

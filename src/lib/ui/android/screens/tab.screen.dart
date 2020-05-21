@@ -47,7 +47,7 @@ class _TabsPageState extends State<TabsScreen>
             icon: new Icon(Icons.dashboard),
           ),
           Tab(
-            icon: new Icon(Icons.perm_identity),
+            icon: new Icon(MdiIcons.account),
           ),
         ],
         labelColor: Theme.of(context).primaryColor,
