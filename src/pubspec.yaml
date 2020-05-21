@@ -32,6 +32,7 @@ dependencies:
   material_design_icons_flutter: 4.0.5145
   datetime_picker_formfield:
   charts_flutter:
+  flutter_typeahead:
 
 dev_dependencies:
   flutter_test:
