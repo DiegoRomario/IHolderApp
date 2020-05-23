@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'blocs/ativo.bloc.dart';
 import 'blocs/distribuicao-por-ativo.bloc.dart';
 import 'blocs/distribuicao-por-produto.bloc.dart';
+import 'blocs/tema.bloc.dart';
 import 'blocs/usuario.bloc.dart';
 
 void main() {
@@ -30,6 +31,9 @@ class IoC extends StatelessWidget {
         ),
         ChangeNotifierProvider<AtivoBloc>.value(
           value: AtivoBloc(),
+        ),
+        ChangeNotifierProvider<TemaBloc>.value(
+          value: TemaBloc(),
         )
       ],
       child: Main(),
@@ -40,16 +44,9 @@ class IoC extends StatelessWidget {
 class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var bloc = Provider.of<TemaBloc>(context);
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.indigo[600],
-        accentColor: Colors.red[300],
-        scaffoldBackgroundColor: Colors.blue[50],
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.indigo[800],
-          textTheme: ButtonTextTheme.accent,
-        ),
-      ),
+      theme: bloc.tema,
       debugShowCheckedModeBanner: false,
       home: TabsScreen(),
     );

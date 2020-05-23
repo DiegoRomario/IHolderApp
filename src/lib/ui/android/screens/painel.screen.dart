@@ -20,7 +20,7 @@ class _PainelScreenState extends State<PainelScreen> {
         title: Text("Dashboard"),
         centerTitle: true,
       ),
-      body: Settings.user != null ? OpcoesPaineis() : UsuarioNaoAutorizado(),
+      body: Settings.usuario != null ? OpcoesPaineis() : UsuarioNaoAutorizado(),
     );
   }
 }

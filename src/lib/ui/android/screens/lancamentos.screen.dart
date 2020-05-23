@@ -17,7 +17,7 @@ class _LancamentosScreenState extends State<LancamentosScreen> {
         centerTitle: true,
       ),
       body:
-          Settings.user != null ? OpcoesLancamentos() : UsuarioNaoAutorizado(),
+          Settings.usuario != null ? OpcoesLancamentos() : UsuarioNaoAutorizado(),
     );
   }
 }

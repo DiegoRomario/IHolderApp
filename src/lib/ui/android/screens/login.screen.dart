@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginScreen> {
       _sending = true;
     });
 
-    UsuarioViewModel user = await bloc
+    UsuarioViewModel usuario = await bloc
         .login(
       new UsuarioLogin(
         email: email,
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginScreen> {
       validationMessage = onError.message;
     });
 
-    if (user != null) {
+    if (usuario != null) {
       Navigator.pop(context);
       return;
     } else if (validationMessage == "") {

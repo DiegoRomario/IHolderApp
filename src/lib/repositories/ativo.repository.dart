@@ -11,7 +11,7 @@ class AtivoRepository {
     final response = await webClient.post("${Settings.apiUrl}Ativo/cadastrar",
         headers: {
           HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.authorizationHeader: "Bearer ${Settings.user.token}"
+          HttpHeaders.authorizationHeader: "Bearer ${Settings.usuario.token}"
         },
         body: ativoJson);
 

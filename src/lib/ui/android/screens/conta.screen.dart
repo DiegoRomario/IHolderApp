@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/usuario.bloc.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-autenticado.widget.card.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autenticado.widget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'configuracoes.screen.dart';
 
 class ContaScreen extends StatelessWidget {
   @override
@@ -16,11 +19,11 @@ class ContaScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UsuarioAutenticadoCard(),
+                    builder: (context) => ConfiguracoesScreen(),
                   ),
                 );
               },
-              child: Icon(Icons.settings),
+              child: Icon(MdiIcons.themeLightDark),
             )
           ],
         ),

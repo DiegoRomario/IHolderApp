@@ -11,7 +11,7 @@ class UsuarioBloc extends ChangeNotifier {
   UsuarioViewModel usuario;
 
   UsuarioBloc() {
-    loadUser();
+    carregarUsuario();
   }
 
   Future<UsuarioViewModel> login(UsuarioLogin login) async {
@@ -19,9 +19,9 @@ class UsuarioBloc extends ChangeNotifier {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       var repository = new UsuarioRepository();
       usuario = await repository.login(login);
-      await preferences.remove('user');
-      await preferences.setString('user', jsonEncode(usuario));
-      Settings.user = usuario;
+      await preferences.remove('usuario');
+      await preferences.setString('usuario', jsonEncode(usuario));
+      Settings.usuario = usuario;
       return usuario;
     } catch (ex) {
       limpaUsuario();
@@ -41,22 +41,22 @@ class UsuarioBloc extends ChangeNotifier {
 
   logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('user', null);
+    await preferences.setString('usuario', null);
     limpaUsuario();
     notifyListeners();
   }
 
   void limpaUsuario() {
     usuario = null;
-    Settings.user = null;
+    Settings.usuario = null;
   }
 
-  Future loadUser() async {
+  Future carregarUsuario() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var usuarioString = preferences.getString('user');
+    var usuarioString = preferences.getString('usuario');
     if (usuarioString != null) {
       var response = UsuarioViewModel.fromJson(jsonDecode(usuarioString));
-      Settings.user = response;
+      Settings.usuario = response;
       usuario = response;
     } else {
       limpaUsuario();
