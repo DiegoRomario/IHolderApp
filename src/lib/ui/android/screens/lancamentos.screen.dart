@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/settings.dart';
+import 'package:iholder_app/ui/android/screens/ativos.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
-import 'cadastro-ativo.screen.dart';
 
 class LancamentosScreen extends StatefulWidget {
   @override
@@ -16,8 +16,9 @@ class _LancamentosScreenState extends State<LancamentosScreen> {
         title: Text("Lançamentos"),
         centerTitle: true,
       ),
-      body:
-          Settings.usuario != null ? OpcoesLancamentos() : UsuarioNaoAutorizado(),
+      body: Settings.usuario != null
+          ? OpcoesLancamentos()
+          : UsuarioNaoAutorizado(),
     );
   }
 }
@@ -40,7 +41,7 @@ class OpcoesLancamentos extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => CadastroAtivoScreen(),
+                    builder: (ctx) => AtivosScreen(),
                   ),
                 );
               },
