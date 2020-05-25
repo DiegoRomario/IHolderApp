@@ -1,4 +1,5 @@
 class Ativo {
+  String id;
   String produtoId;
   String descricao;
   String caracteristicas;
@@ -15,6 +16,7 @@ class Ativo {
       this.usuarioId});
 
   Ativo.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     produtoId = json['produtoId'];
     descricao = json['descricao'];
     caracteristicas = json['caracteristicas'];
@@ -25,6 +27,7 @@ class Ativo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['produtoId'] = this.produtoId;
     data['descricao'] = this.descricao;
     data['caracteristicas'] = this.caracteristicas;

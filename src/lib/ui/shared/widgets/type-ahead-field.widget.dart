@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class TypeAheadField extends StatelessWidget {
-  final TextEditingController pcontroller = new TextEditingController();
+  final TextEditingController pcontroller;
   final String plabel;
   final String phint;
   final IconData picon;
@@ -11,7 +11,8 @@ class TypeAheadField extends StatelessWidget {
   final Function(String value) pGetSuggestions;
 
   TypeAheadField(
-      {this.plabel,
+      {this.pcontroller,
+      this.plabel,
       this.phint,
       this.picon,
       this.pValidador,

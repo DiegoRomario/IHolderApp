@@ -6,6 +6,7 @@ class AtivoViewModel {
   String caracteristicas;
   String ticker;
   double cotacao;
+  String situacao;
   String usuarioId;
 
   AtivoViewModel(
@@ -16,6 +17,7 @@ class AtivoViewModel {
       this.caracteristicas,
       this.ticker,
       this.cotacao,
+      this.situacao,
       this.usuarioId});
 
   AtivoViewModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class AtivoViewModel {
     caracteristicas = json['caracteristicas'];
     ticker = json['ticker'];
     cotacao = json['cotacao'];
+    situacao = json['situacao'];
     usuarioId = json['usuarioId'];
   }
 
@@ -38,7 +41,9 @@ class AtivoViewModel {
     data['caracteristicas'] = this.caracteristicas;
     data['ticker'] = this.ticker;
     data['cotacao'] = this.cotacao;
+    data['situacao'] = this.situacao;
     data['usuarioId'] = this.usuarioId;
     return data;
   }
+
 }

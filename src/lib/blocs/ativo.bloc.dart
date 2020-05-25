@@ -17,9 +17,11 @@ class AtivoBloc extends ChangeNotifier {
     });
   }
 
-  Future<String> cadastrar(Ativo ativo) async {
+  Future<String> salvar(Ativo ativo) async {
     try {
-      return await repository.cadastrar(ativo);
+      var response = await repository.salvar(ativo);
+      obterAtivos();
+      return response;
     } catch (ex) {
       throw ex;
     }

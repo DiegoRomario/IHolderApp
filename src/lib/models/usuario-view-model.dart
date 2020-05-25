@@ -10,7 +10,7 @@ class UsuarioViewModel {
     nome = json['nome'];
     email = json['email'];
     token = json['token'];
-    expiraEm = json['expira_em'];
+    expiraEm = json['expiraEm'];
   }
 
   Map<String, dynamic> toJson() {
@@ -18,7 +18,7 @@ class UsuarioViewModel {
     data['nome'] = this.nome;
     data['email'] = this.email;
     data['token'] = this.token;
-    data['expira_em'] = this.expiraEm;
+    data['expiraEm'] = this.expiraEm;
     return data;
   }
 }

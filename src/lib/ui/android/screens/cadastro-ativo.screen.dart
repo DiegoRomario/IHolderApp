@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iholder_app/blocs/ativo.bloc.dart';
+import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/models/ativo.dart';
 import 'package:iholder_app/services/produto.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
@@ -13,6 +14,23 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 class CadastroAtivoScreen extends StatefulWidget {
+  final AtivoViewModel ativoViewModel;
+  TextEditingController descricaoCtrl = new TextEditingController();
+  TextEditingController tickerCtrl = new TextEditingController();
+  TextEditingController caracteristicasCtrl = new TextEditingController();
+  TextEditingController cotacaoCtrl = new TextEditingController();
+  TextEditingController produtoCtrl = new TextEditingController();
+  Ativo ativo = new Ativo();
+  CadastroAtivoScreen({this.ativoViewModel}) {
+    if (ativoViewModel != null && descricaoCtrl.text != null) {
+      descricaoCtrl.text = ativoViewModel.descricao;
+      caracteristicasCtrl.text = ativoViewModel.caracteristicas;
+      tickerCtrl.text = ativoViewModel.ticker;
+      cotacaoCtrl.text = ativoViewModel.cotacao.toString();
+      produtoCtrl.text = ativoViewModel.produtoDescricao;
+      ativo.id = ativoViewModel.id;
+    }
+  }
   @override
   _CadastroAtivoScreenState createState() => _CadastroAtivoScreenState();
 }
@@ -20,8 +38,7 @@ class CadastroAtivoScreen extends StatefulWidget {
 class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  var ativo = new Ativo();
-  var produtoId = '';
+
   var produtoService = ProdutoService();
   var _sending = false;
   @override
@@ -38,6 +55,7 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
           child: ListView(
             children: <Widget>[
               TypeAheadField(
+                pcontroller: widget.produtoCtrl,
                 pGetSuggestions: (val) {
                   return produtoService.obterSugestao(val);
                 },
@@ -45,7 +63,8 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 picon: MdiIcons.bulletinBoard,
                 phint: "Ação, CDB, FII etc",
                 pOnSaved: (val) {
-                  ativo.produtoId = produtoService.obterPorDescricao(val);
+                  widget.ativo.produtoId =
+                      produtoService.obterPorDescricao(val);
                 },
                 pValidador: (value) {
                   String produtoId = produtoService.obterPorDescricao(value);
@@ -56,6 +75,7 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 },
               ),
               InputField(
+                pcontroller: widget.descricaoCtrl,
                 ptype: TextInputType.text,
                 plabel: "Descrição",
                 pMaxLength: 30,
@@ -67,10 +87,11 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                   return null;
                 },
                 pOnSaved: (val) {
-                  ativo.descricao = val;
+                  widget.ativo.descricao = val;
                 },
               ),
               InputField(
+                pcontroller: widget.tickerCtrl,
                 ptype: TextInputType.text,
                 plabel: "Ticket",
                 pMaxLength: 30,
@@ -82,18 +103,20 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                   return null;
                 },
                 pOnSaved: (val) {
-                  ativo.ticker = val;
+                  widget.ativo.ticker = val;
                 },
               ),
               InputField(
+                pcontroller: widget.caracteristicasCtrl,
                 ptype: TextInputType.multiline,
                 plabel: "Características",
                 picon: MdiIcons.scriptText,
                 pOnSaved: (val) {
-                  ativo.caracteristicas = val;
+                  widget.ativo.caracteristicas = val;
                 },
               ),
               InputField(
+                pcontroller: widget.cotacaoCtrl,
                 ptype: TextInputType.number,
                 plabel: "Cotação",
                 picon: MdiIcons.cashUsd,
@@ -106,7 +129,7 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                   return null;
                 },
                 pOnSaved: (val) {
-                  ativo.cotacao = double.parse(val);
+                  widget.ativo.cotacao = double.parse(val);
                 },
               ),
               Container(
@@ -114,7 +137,7 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: RaisedButton(
-                    child: Text("Cadastrar"),
+                    child: Text("Salvar"),
                     onPressed: _sending
                         ? null
                         : () {
@@ -145,7 +168,7 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
     setState(() {
       _sending = true;
     });
-    String response = await bloc.cadastrar(ativo).whenComplete(
+    String response = await bloc.salvar(widget.ativo).whenComplete(
       () {
         setState(
           () {

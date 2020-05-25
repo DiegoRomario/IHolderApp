@@ -4,7 +4,6 @@ import 'package:iholder_app/blocs/usuario.bloc.dart';
 import 'package:iholder_app/models/usuario-view-model.dart';
 import 'package:iholder_app/models/usuario.dart';
 import 'package:iholder_app/ui/shared/widgets/genero-picker.dart';
-import 'package:iholder_app/ui/shared/widgets/input-field.date.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
