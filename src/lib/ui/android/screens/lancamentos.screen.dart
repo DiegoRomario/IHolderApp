@@ -27,19 +27,83 @@ class _LancamentosScreenState extends State<LancamentosScreen> {
 class OpcoesLancamentos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (ctx) => AtivosScreen(),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Container(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                    child: GridView.count(
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      crossAxisCount: 2,
+                      childAspectRatio: .99,
+                      children: <Widget>[
+                        Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => AtivosScreen(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(MdiIcons.basket),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text('Ativos'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => AtivosScreen(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(MdiIcons.cashPlus),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text('Aportes'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          );
-        },
-        child: ListTile(
-          leading: Icon(MdiIcons.plusCircle),
-          title: Text('Ativos'),
-        ),
+          )
+        ],
       ),
     );
   }

@@ -41,7 +41,7 @@ class _TabsPageState extends State<TabsScreen>
         controller: tabController,
         tabs: [
           Tab(
-            icon: new Icon(MdiIcons.cashPlus),
+            icon: new Icon(MdiIcons.walletPlus),
           ),
           Tab(
             icon: new Icon(Icons.dashboard),
