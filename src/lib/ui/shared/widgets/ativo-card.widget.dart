@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
+import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AtivoCard extends StatefulWidget {
@@ -37,7 +38,7 @@ class _AtivoCardState extends State<AtivoCard> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
-                      child: Text('R\$ 15.00'),
+                      child: Text('R\$ ${Parser.toStringCurrency(widget.ativo.cotacao)}'),
                     ),
                   ],
                 ),
@@ -76,7 +77,7 @@ class _AtivoCardState extends State<AtivoCard> {
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(
-                              "30.22",
+                              "30,22",
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                           ],

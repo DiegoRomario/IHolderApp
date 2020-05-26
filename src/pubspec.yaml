@@ -33,6 +33,7 @@ dependencies:
   datetime_picker_formfield:
   charts_flutter:
   flutter_typeahead:
+  flutter_masked_text:
 
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,7 @@ import 'package:iholder_app/services/produto.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
+import 'package:iholder_app/validators/Formatters.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class CadastroAtivoScreen extends StatefulWidget {
       descricaoCtrl.text = ativoViewModel.descricao;
       caracteristicasCtrl.text = ativoViewModel.caracteristicas;
       tickerCtrl.text = ativoViewModel.ticker;
-      cotacaoCtrl.text = ativoViewModel.cotacao.toString();
+      cotacaoCtrl.text =  Parser.toStringCurrency(ativoViewModel.cotacao);
       produtoCtrl.text = ativoViewModel.produtoDescricao;
       ativo.id = ativoViewModel.id;
     }
@@ -120,16 +121,19 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 ptype: TextInputType.number,
                 plabel: "Cotação",
                 picon: MdiIcons.cashUsd,
-                pFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                pFormatters: [
+                  WhitelistingTextInputFormatter.digitsOnly,
+                  CurrencyPtBrInputFormatter()
+                ],
                 pValidador: (value) {
-                  double teste = double.parse(value);
-                  if (teste < 0) {
+                  var cotacao = Parser.toDoubleCurrency(value);
+                  if (cotacao < 0) {
                     return 'Valor inválido';
                   }
                   return null;
                 },
                 pOnSaved: (val) {
-                  widget.ativo.cotacao = double.parse(val);
+                  widget.ativo.cotacao = Parser.toDoubleCurrency(val);
                 },
               ),
               Container(
@@ -188,35 +192,12 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
         content: Text(response),
       );
       Timer(
-        Duration(seconds: 2),
+        Duration(milliseconds:  1500),
         () {
           Navigator.pop(context);
         },
       );
       _scaffoldKey.currentState.showSnackBar(snackBar);
     }
-  }
-}
-
-class CurrencyPtBrInputFormatter extends TextInputFormatter {
-  CurrencyPtBrInputFormatter({this.maxDigits});
-  final int maxDigits;
-
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.selection.baseOffset == 0) {
-      return newValue;
-    }
-
-    if (maxDigits != null && newValue.selection.baseOffset > maxDigits) {
-      return oldValue;
-    }
-
-    double value = double.parse(newValue.text);
-    final formatter = new NumberFormat("#,##0.00", "pt_BR");
-    String newText = formatter.format(value / 100);
-    return newValue.copyWith(
-        text: newText,
-        selection: new TextSelection.collapsed(offset: newText.length));
   }
 }
