@@ -29,9 +29,6 @@ class Parser {
   static double toDoubleCurrency(String number) {
     number = number.replaceAll(".", "");
     number = number.replaceAll(",", ".");
-    // if (number.indexOf(",") >= 0 && number.indexOf(".") < 0) {
-    //    number = number.replaceAll(",", ".");
-    // }
     var aux = double.tryParse(number) ?? 0;
     return aux;
   }

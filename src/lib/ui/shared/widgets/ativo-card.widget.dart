@@ -38,7 +38,8 @@ class _AtivoCardState extends State<AtivoCard> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
-                      child: Text('R\$ ${Parser.toStringCurrency(widget.ativo.cotacao)}'),
+                      child: Text(
+                          'R\$ ${Parser.toStringCurrency(widget.ativo.cotacao)}'),
                     ),
                   ],
                 ),
@@ -46,7 +47,9 @@ class _AtivoCardState extends State<AtivoCard> {
                 subtitle: Text(
                     "${widget.ativo.descricao} - ${widget.ativo.caracteristicas}"),
                 trailing: IconButton(
-                  icon: Icon(MdiIcons.chevronDown),
+                  icon: Icon(mostraDetalhes
+                      ? MdiIcons.chevronUp
+                      : MdiIcons.chevronDown),
                   onPressed: () {
                     setState(() {
                       mostraDetalhes = !mostraDetalhes;

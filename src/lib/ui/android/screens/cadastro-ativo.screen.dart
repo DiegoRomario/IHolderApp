@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iholder_app/blocs/ativo.bloc.dart';
@@ -10,18 +9,17 @@ import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
 import 'package:iholder_app/validators/Formatters.dart';
-import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CadastroAtivoScreen extends StatefulWidget {
   final AtivoViewModel ativoViewModel;
-  TextEditingController descricaoCtrl = new TextEditingController();
-  TextEditingController tickerCtrl = new TextEditingController();
-  TextEditingController caracteristicasCtrl = new TextEditingController();
-  TextEditingController cotacaoCtrl = new TextEditingController();
-  TextEditingController produtoCtrl = new TextEditingController();
-  Ativo ativo = new Ativo();
+  final TextEditingController descricaoCtrl = new TextEditingController();
+  final TextEditingController tickerCtrl = new TextEditingController();
+  final TextEditingController caracteristicasCtrl = new TextEditingController();
+  final TextEditingController cotacaoCtrl = new TextEditingController();
+  final TextEditingController produtoCtrl = new TextEditingController();
+  final Ativo ativo = new Ativo();
   CadastroAtivoScreen({this.ativoViewModel}) {
     if (ativoViewModel != null && descricaoCtrl.text != null) {
       descricaoCtrl.text = ativoViewModel.descricao;

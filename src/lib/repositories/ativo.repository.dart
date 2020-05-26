@@ -14,20 +14,12 @@ class AtivoRepository {
 
     if (ativo.id == null) {
       response = await webClient.post("${Settings.apiUrl}Ativo/cadastrar",
-          headers: {
-            HttpHeaders.contentTypeHeader: "application/json",
-            HttpHeaders.authorizationHeader: "Bearer ${Settings.usuario.token}"
-          },
-          body: ativoJson);
+          headers: defaultHeaders, body: ativoJson);
     } else {
-      response =
-          await webClient.put("${Settings.apiUrl}Ativo/alterar/${ativo.id}",
-              headers: {
-                HttpHeaders.contentTypeHeader: "application/json",
-                HttpHeaders.authorizationHeader:
-                    "Bearer ${Settings.usuario.token}"
-              },
-              body: ativoJson);
+      response = await webClient.put(
+          "${Settings.apiUrl}Ativo/alterar/${ativo.id}",
+          headers: defaultHeaders,
+          body: ativoJson);
     }
 
     if (response.statusCode == 200) {
