@@ -21,7 +21,7 @@ class DistribuicaoPorAtivoBloc extends ChangeNotifier
   }
 
   obterDistribuicao() {
-    distribuicoesRepository.getAll().then((data) {
+    distribuicoesRepository.obterTodos().then((data) {
       this.distribuicoes = data;
       notifyListeners();
     });

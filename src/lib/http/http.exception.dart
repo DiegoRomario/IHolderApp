@@ -1,18 +1,26 @@
+import 'dart:convert';
+
+import 'package:http_interceptor/models/response_data.dart';
+
 class HttpException implements Exception {
   final String message;
   HttpException(this.message);
 }
 
 class ExceptionConfiguration {
-  static String getMessage(int status) {
-    if (_statusCodeResponses.containsKey(status)) {
-      return _statusCodeResponses[status];
+  static String getMessage(ResponseData data) {
+    if (data.statusCode == 400) {
+      List errors = (jsonDecode(data.body)["errors"] as List);
+      String errorMessages = "";
+      errors.forEach((element) {
+        errorMessages = errorMessages + element.toString() + " / ";
+      });
+      return errorMessages;
     }
-    return "Erro desconhecido";
+    return _statusCodeResponses[data.statusCode];
   }
 
   static final Map<int, String> _statusCodeResponses = {
-    400: 'Requisição inválida',
     401: 'Falha de autenticação',
     409: 'Ocorreu um conflito no servidor',
     500: 'Erro interno no servidor'

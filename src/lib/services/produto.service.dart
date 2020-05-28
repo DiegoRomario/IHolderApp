@@ -7,7 +7,7 @@ class ProdutoService {
   List<ProdutoViewModel> produtos;
 
   ProdutoService () {
-    produtoRepository.getAll().then(
+    produtoRepository.obterTodos().then(
       (data) {
         this.produtos = data;
       },

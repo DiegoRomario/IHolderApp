@@ -32,7 +32,7 @@ class UsuarioBloc extends ChangeNotifier {
   Future<UsuarioViewModel> cadastrar(Usuario usuario) async {
     try {
       var repository = new UsuarioRepository();
-      return await repository.cadastrar(usuario);
+      return await repository.salvar(usuario);
     } catch (ex) {
       limpaUsuario();
       throw ex;

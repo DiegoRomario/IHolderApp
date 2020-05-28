@@ -11,7 +11,7 @@ class AtivoBloc extends ChangeNotifier {
   var repository = new AtivoRepository();
 
   obterAtivos() {
-    repository.obterAtivos().then((data) {
+    repository.obterTodos().then((data) {
       ativos = data;
       notifyListeners();
     });

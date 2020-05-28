@@ -5,13 +5,10 @@ import 'package:iholder_app/models/produto-view-model.dart';
 import '../settings.dart';
 
 class ProdutoRepository {
-  Future<List<ProdutoViewModel>> getAll() async {
-    var url = "${Settings.apiUrl}Produto";
-    Response response = await webClient.get(url);
+  Future<List<ProdutoViewModel>> obterTodos() async {
+    Response response = await webClient.get("${Settings.apiUrl}Produto");
 
-    final responser = jsonDecode(response.body);
-
-    return (responser["data"] as List)
+    return (jsonDecode(response.body)["data"] as List)
         .map((course) => ProdutoViewModel.fromJson(course))
         .toList();
   }
