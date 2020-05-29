@@ -4,6 +4,8 @@ import 'package:iholder_app/ui/android/screens/ativos.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'aportes.screen.dart';
+
 class LancamentosScreen extends StatefulWidget {
   @override
   _LancamentosScreenState createState() => _LancamentosScreenState();
@@ -77,7 +79,7 @@ class OpcoesLancamentos extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (ctx) => AtivosScreen(),
+                                  builder: (ctx) => AportesScreen(),
                                 ),
                               );
                             },

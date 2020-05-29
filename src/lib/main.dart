@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:iholder_app/ui/android/screens/tab.screen.dart';
 import 'package:provider/provider.dart';
+import 'blocs/aporte.bloc.dart';
 import 'blocs/ativo.bloc.dart';
 import 'blocs/distribuicao-por-ativo.bloc.dart';
 import 'blocs/distribuicao-por-produto.bloc.dart';
@@ -31,6 +32,9 @@ class IoC extends StatelessWidget {
         ),
         ChangeNotifierProvider<AtivoBloc>.value(
           value: AtivoBloc(),
+        ),
+        ChangeNotifierProvider<AporteBloc>.value(
+          value: AporteBloc(),
         ),
         ChangeNotifierProvider<TemaBloc>.value(
           value: TemaBloc(),
