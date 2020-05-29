@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iholder_app/blocs/aporte.bloc.dart';
@@ -12,21 +13,23 @@ import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class CadastroAporteScreen extends StatefulWidget {
+  final DateFormat dateFormatter = new DateFormat('dd/MM/yyyy');
   final AporteViewModel aporteViewModel;
   final TextEditingController precoMedioCtrl = new TextEditingController();
-  final TextEditingController dataAporte = new TextEditingController();
+  final TextEditingController dataAporteCtrl = new TextEditingController();
   final TextEditingController quantidadeCtrl = new TextEditingController();
   final TextEditingController ativoCtrl = new TextEditingController();
   final Aporte aporte = new Aporte();
+
   CadastroAporteScreen({this.aporteViewModel}) {
     if (aporteViewModel != null && quantidadeCtrl.text != null) {
       precoMedioCtrl.text = Parser.toStringCurrency(aporteViewModel.precoMedio);
       quantidadeCtrl.text = Parser.toStringCurrency(aporteViewModel.quantidade);
-      dataAporte.text = aporteViewModel.dataAporte.toString();
-      ativoCtrl.text = aporteViewModel.produtoDescricao;
+      dataAporteCtrl.text = dateFormatter.format(aporteViewModel.dataAporte);
+      ativoCtrl.text =
+          "${aporteViewModel.ativoTicker} - ${aporteViewModel.ativoDescricao}";
       aporte.id = aporteViewModel.id;
     }
   }
@@ -72,12 +75,22 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                   return null;
                 },
               ),
-              DateTimePickerFormField(
-                resetIcon: MdiIcons.calendarRefresh,
-                inputType: InputType.date,
+              DateTimeField(
+                resetIcon: Icon(MdiIcons.close),
+                initialValue: DateTime.now(),
+                onShowPicker: (context, currentValue) {
+                  return showDatePicker(
+                      context: context,
+                      firstDate: DateTime(1900),
+                      initialDate: currentValue ?? DateTime.now(),
+                      lastDate: DateTime(2100));
+                },
+                controller: widget.dataAporteCtrl,
+                // resetIcon: MdiIcons.calendarRefresh,
+                // inputType: InputType.date,
                 format: DateFormat("dd/MM/yyyy"),
-                initialDate: DateTime.now(),
-                editable: true,
+                // initialDate: DateTime.now(),
+                // editable: true,
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -86,9 +99,8 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                   hintText: "dd/mm/aaaa",
                   labelText: "Data Aporte",
                 ),
-                onChanged: (dt) {
-                  setState(() => widget.aporte.dataAporte = dt);
-                  print('Selected date: ${widget.aporte.dataAporte}');
+                onSaved: (dt) {
+                  widget.aporte.dataAporte = dt;
                 },
               ),
               InputField(

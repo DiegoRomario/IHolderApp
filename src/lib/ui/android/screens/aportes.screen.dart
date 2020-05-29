@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/aporte.bloc.dart';
 import 'package:iholder_app/models/aporte-view-model.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-aporte.screen.dart';
-import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/aporte-card-widget.dart';
 import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
 import 'package:provider/provider.dart';

@@ -29,8 +29,8 @@ dependencies:
   intl:
   shared_preferences:
   provider:
-  material_design_icons_flutter: 4.0.5145
-  datetime_picker_formfield: ^0.1.8
+  material_design_icons_flutter:
+  datetime_picker_formfield: 1.0.0
   charts_flutter:
   flutter_typeahead:
   flutter_masked_text:
