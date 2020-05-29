@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:iholder_app/models/Aporte-view-model.dart';
+import 'package:iholder_app/models/aporte-view-model.dart';
+import 'package:iholder_app/models/aporte.dart';
 import 'package:iholder_app/repositories/Aporte.repository.dart';
 
 class AporteBloc extends ChangeNotifier {
@@ -16,13 +17,13 @@ class AporteBloc extends ChangeNotifier {
     });
   }
 
-  // Future<String> salvar(Aporte Aporte) async {
-  //   try {
-  //     var response = await repository.salvar(Aporte);
-  //     obterAportes();
-  //     return response;
-  //   } catch (ex) {
-  //     throw ex;
-  //   }
-  // }
+  Future<String> salvar(Aporte aporte) async {
+    try {
+      var response = await repository.salvar(aporte);
+      obterAportes();
+      return response;
+    } catch (ex) {
+      throw ex;
+    }
+  }
 }

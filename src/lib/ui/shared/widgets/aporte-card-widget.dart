@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/models/Aporte-view-model.dart';
+import 'package:iholder_app/models/aporte-view-model.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-aporte.screen.dart';
 import 'package:iholder_app/validators/Formatters.dart';
 import 'package:intl/intl.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AporteCard extends StatefulWidget {
   final AporteViewModel aporte;
@@ -27,8 +26,8 @@ class _AporteCardState extends State<AporteCard> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (ctx) => CadastroAporteScreen(),
-              ),
+                  builder: (ctx) =>
+                      CadastroAporteScreen(aporteViewModel: widget.aporte)),
             );
           },
           child: Container(
@@ -47,7 +46,7 @@ class _AporteCardState extends State<AporteCard> {
                       Column(
                         children: <Widget>[
                           Text(
-                            "01/01/2015",
+                            widget.formatter.format(widget.aporte.dataAporte),
                           ),
                         ],
                       ),
@@ -69,7 +68,7 @@ class _AporteCardState extends State<AporteCard> {
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(
-                              "1500.20",
+                              Parser.toStringCurrency(widget.aporte.precoMedio),
                             ),
                           ],
                         ),
@@ -80,7 +79,7 @@ class _AporteCardState extends State<AporteCard> {
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(
-                              "150",
+                              widget.aporte.quantidade.toString(),
                             ),
                           ],
                         ),
@@ -91,7 +90,7 @@ class _AporteCardState extends State<AporteCard> {
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(
-                              "1500.55",
+                              Parser.toStringCurrency(widget.aporte.precoTotal),
                             ),
                           ],
                         ),
