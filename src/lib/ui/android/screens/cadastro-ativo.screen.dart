@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:iholder_app/blocs/ativo.bloc.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/models/ativo.dart';
+import 'package:iholder_app/services/ativo.service.dart';
 import 'package:iholder_app/services/produto.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
@@ -14,6 +15,8 @@ import 'package:provider/provider.dart';
 
 class CadastroAtivoScreen extends StatefulWidget {
   final AtivoViewModel ativoViewModel;
+
+  var ativoService = AtivoService();
   final TextEditingController descricaoCtrl = new TextEditingController();
   final TextEditingController tickerCtrl = new TextEditingController();
   final TextEditingController caracteristicasCtrl = new TextEditingController();
@@ -25,7 +28,7 @@ class CadastroAtivoScreen extends StatefulWidget {
       descricaoCtrl.text = ativoViewModel.descricao;
       caracteristicasCtrl.text = ativoViewModel.caracteristicas;
       tickerCtrl.text = ativoViewModel.ticker;
-      cotacaoCtrl.text =  Parser.toStringCurrency(ativoViewModel.cotacao);
+      cotacaoCtrl.text = Parser.toStringCurrency(ativoViewModel.cotacao);
       produtoCtrl.text = ativoViewModel.produtoDescricao;
       ativo.id = ativoViewModel.id;
     }
@@ -66,8 +69,9 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                       produtoService.obterPorDescricao(val);
                 },
                 pValidador: (value) {
-                  String produtoId = produtoService.obterPorDescricao(value);
-                  if (produtoId == null) {
+                  widget.ativo.produtoId =
+                      produtoService.obterPorDescricao(value);
+                  if (widget.ativo.produtoId == null) {
                     return 'Produto inválido';
                   }
                   return null;
@@ -119,6 +123,23 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 ptype: TextInputType.number,
                 plabel: "Cotação",
                 picon: MdiIcons.cashUsd,
+                pSuffixIcon: MdiIcons.cashMarker,
+                pOnSuffixIcon: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  widget.cotacaoCtrl.clear();
+                  var ticker = widget.tickerCtrl.text;
+                  if (ticker != "" && widget.ativo.produtoId != "") {
+                    widget.ativoService.consutarCotacao(ticker).then((value) =>
+                        widget.cotacaoCtrl.text =
+                            Parser.toStringCurrency(value));
+                  } else {
+                    final snackBar = SnackBar(
+                      content: Text('Ticker e/ou Produto não selecionados'),
+                    );
+
+                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                  }
+                },
                 pFormatters: [
                   WhitelistingTextInputFormatter.digitsOnly,
                   CurrencyPtBrInputFormatter()
@@ -190,7 +211,7 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
         content: Text(response),
       );
       Timer(
-        Duration(milliseconds:  1500),
+        Duration(milliseconds: 1500),
         () {
           Navigator.pop(context);
         },

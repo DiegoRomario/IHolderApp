@@ -28,4 +28,11 @@ class AtivoRepository {
         .map((data) => AtivoViewModel.fromJson(data))
         .toList();
   }
+
+  Future<double> consultarCotacao(String ticker) async {
+    Response response = await webClient
+        .get("${Settings.apiUrl}Ativo/consultar-cotacao?ticker=wege");
+    var responseJson = jsonDecode(response.body);
+    return responseJson["data"];
+  }
 }

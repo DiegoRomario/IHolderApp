@@ -17,6 +17,7 @@ class AtivoBloc extends ChangeNotifier {
     });
   }
 
+
   Future<String> salvar(Ativo ativo) async {
     try {
       var response = await repository.salvar(ativo);

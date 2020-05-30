@@ -9,9 +9,11 @@ class InputField extends StatelessWidget {
   final bool pObscureText;
   final IconData picon;
   final TextInputType ptype;
+  final IconData pSuffixIcon;
   final List<TextInputFormatter> pFormatters;
   final Function(String value) pValidador;
   final Function(String value) pOnSaved;
+  final Function() pOnSuffixIcon;
 
   const InputField(
       {this.pcontroller,
@@ -23,29 +25,46 @@ class InputField extends StatelessWidget {
       this.ptype,
       this.pFormatters,
       this.pValidador,
+      this.pSuffixIcon,
+      this.pOnSuffixIcon,
       this.pOnSaved});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(1.0),
-      child: TextFormField(
-        maxLength: pMaxLength,
-        obscureText: pObscureText,
-        keyboardType: ptype,
-        inputFormatters: pFormatters,
-        controller: pcontroller,
-        style: TextStyle(
-          fontSize: 20,
-        ),
-        decoration: InputDecoration(
-          icon: Icon(picon),
-          hintText: phint,
-          counterText: '',
-          labelText: plabel,
-        ),
-        validator: pValidador,
-        onSaved: pOnSaved,
+      child: Stack(
+        alignment: Alignment.centerRight,
+        children: <Widget>[
+          TextFormField(
+            maxLength: pMaxLength,
+            obscureText: pObscureText,
+            keyboardType: ptype,
+            inputFormatters: pFormatters,
+            controller: pcontroller,
+            style: TextStyle(
+              fontSize: 20,
+            ),
+            decoration: InputDecoration(
+              icon: Icon(picon),
+              hintText: phint,
+              counterText: '',
+              labelText: plabel,
+            ),
+            validator: pValidador,
+            onSaved: pOnSaved,
+          ),
+          Visibility(
+            visible: pSuffixIcon != null,
+            child: Container(
+              width: 65,
+              child: FlatButton(
+                onPressed: pOnSuffixIcon,
+                child: Icon(pSuffixIcon),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

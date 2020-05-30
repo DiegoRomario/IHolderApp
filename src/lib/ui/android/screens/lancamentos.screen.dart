@@ -98,6 +98,33 @@ class OpcoesLancamentos extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => AtivosScreen(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(MdiIcons.divisionBox),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text('Distribuições'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

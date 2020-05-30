@@ -2,11 +2,11 @@ import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/repositories/ativo.repository.dart';
 
 class AtivoService {
-  var produtoRepository = new AtivoRepository();
+  var repository = new AtivoRepository();
   List<AtivoViewModel> ativos;
 
   AtivoService() {
-    produtoRepository.obterTodos().then(
+    repository.obterTodos().then(
       (data) {
         this.ativos = data;
       },
@@ -19,6 +19,11 @@ class AtivoService {
         orElse: () => null);
     return ativo?.id;
   }
+
+  Future<double> consutarCotacao(String ticker) async {
+    return await repository.consultarCotacao(ticker);
+  }
+
 
   List<String> obterSugestao(String query) {
     List<AtivoViewModel> matches = List();
