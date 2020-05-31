@@ -13,7 +13,7 @@ class InputField extends StatelessWidget {
   final List<TextInputFormatter> pFormatters;
   final Function(String value) pValidador;
   final Function(String value) pOnSaved;
-  final Function() pOnSuffixIcon;
+  final Future<dynamic> Function() pOnSuffixIcon;
 
   const InputField(
       {this.pcontroller,

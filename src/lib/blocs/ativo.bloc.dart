@@ -7,7 +7,7 @@ class AtivoBloc extends ChangeNotifier {
   AtivoBloc() {
     obterAtivos();
   }
-  List<AtivoViewModel> ativos;
+  List<AtivoViewModel> ativos = new List();
   var repository = new AtivoRepository();
 
   obterAtivos() {
@@ -16,7 +16,6 @@ class AtivoBloc extends ChangeNotifier {
       notifyListeners();
     });
   }
-
 
   Future<String> salvar(Ativo ativo) async {
     try {

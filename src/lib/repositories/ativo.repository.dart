@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/models/ativo.dart';
+import 'package:iholder_app/models/cotacao-view-model.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/http/web-client.dart';
 
@@ -29,10 +30,10 @@ class AtivoRepository {
         .toList();
   }
 
-  Future<double> consultarCotacao(String ticker) async {
+  Future<CotacaoViewModel> consultarCotacao(String ticker) async {
     Response response = await webClient
         .get("${Settings.apiUrl}Ativo/consultar-cotacao?ticker=wege");
     var responseJson = jsonDecode(response.body);
-    return responseJson["data"];
+    return CotacaoViewModel.fromJson(responseJson["data"]);
   }
 }

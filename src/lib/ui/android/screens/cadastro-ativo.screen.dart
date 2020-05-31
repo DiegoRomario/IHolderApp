@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class CadastroAtivoScreen extends StatefulWidget {
   final AtivoViewModel ativoViewModel;
 
-  var ativoService = AtivoService();
+  final ativoService = AtivoService();
   final TextEditingController descricaoCtrl = new TextEditingController();
   final TextEditingController tickerCtrl = new TextEditingController();
   final TextEditingController caracteristicasCtrl = new TextEditingController();
@@ -123,23 +123,8 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 ptype: TextInputType.number,
                 plabel: "Cotação",
                 picon: MdiIcons.cashUsd,
-                pSuffixIcon: MdiIcons.cashMarker,
-                pOnSuffixIcon: () {
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                  widget.cotacaoCtrl.clear();
-                  var ticker = widget.tickerCtrl.text;
-                  if (ticker != "" && widget.ativo.produtoId != "") {
-                    widget.ativoService.consutarCotacao(ticker).then((value) =>
-                        widget.cotacaoCtrl.text =
-                            Parser.toStringCurrency(value));
-                  } else {
-                    final snackBar = SnackBar(
-                      content: Text('Ticker e/ou Produto não selecionados'),
-                    );
-
-                    _scaffoldKey.currentState.showSnackBar(snackBar);
-                  }
-                },
+                pSuffixIcon: _sending ? null : MdiIcons.cashMarker,
+                pOnSuffixIcon: () => consultarCotacao(context),
                 pFormatters: [
                   WhitelistingTextInputFormatter.digitsOnly,
                   CurrencyPtBrInputFormatter()
@@ -215,6 +200,42 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
         () {
           Navigator.pop(context);
         },
+      );
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+    }
+  }
+
+  Future<dynamic> consultarCotacao(BuildContext context) async {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    widget.cotacaoCtrl.clear();
+    var ticker = widget.tickerCtrl.text;
+    String mensagem;
+    if (ticker != "" && widget.ativo.produtoId != "") {
+      setState(() {
+        _sending = true;
+      });
+      await widget.ativoService
+          .consutarCotacao(ticker)
+          .then((value) =>
+              widget.cotacaoCtrl.text = Parser.toStringCurrency(value.preco))
+          .whenComplete(
+        () {
+          setState(
+            () {
+              _sending = false;
+            },
+          );
+        },
+      ).catchError((onError) {
+        mensagem = onError.message;
+      });
+    } else {
+      mensagem = "Ticker e/ou Produto não selecionados";
+    }
+
+    if (mensagem != null) {
+      final snackBar = SnackBar(
+        content: Text(mensagem),
       );
       _scaffoldKey.currentState.showSnackBar(snackBar);
     }

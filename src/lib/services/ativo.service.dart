@@ -1,4 +1,5 @@
 import 'package:iholder_app/models/ativo-view-model.dart';
+import 'package:iholder_app/models/cotacao-view-model.dart';
 import 'package:iholder_app/repositories/ativo.repository.dart';
 
 class AtivoService {
@@ -20,10 +21,13 @@ class AtivoService {
     return ativo?.id;
   }
 
-  Future<double> consutarCotacao(String ticker) async {
-    return await repository.consultarCotacao(ticker);
+  Future<CotacaoViewModel> consutarCotacao(String ticker) async {
+    try {
+      return await repository.consultarCotacao(ticker);
+    } catch (ex) {
+      throw ex;
+    }
   }
-
 
   List<String> obterSugestao(String query) {
     List<AtivoViewModel> matches = List();
