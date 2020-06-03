@@ -45,6 +45,6 @@ ThemeData claroTheme() {
     fontFamily: 'RobotoCondensed',
     // buttonColor: Color(0xFF00C569),
     //scaffoldBackgroundColor: Colors.blue[50],
-    // cardColor: Colors.white,
+    cardColor: Colors.grey[200],
   );
 }
