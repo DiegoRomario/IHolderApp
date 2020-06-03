@@ -13,9 +13,9 @@ class ExceptionConfiguration {
       List errors = (jsonDecode(data.body)["errors"] as List);
       String errorMessages = "";
       errors.forEach((element) {
-        errorMessages = errorMessages + element.toString() + " / ";
+        errorMessages = errorMessages + element.toString() + " /";
       });
-      return errorMessages;
+      return errorMessages.substring(0, errorMessages.length - 1);
     }
     return _statusCodeResponses[data.statusCode];
   }

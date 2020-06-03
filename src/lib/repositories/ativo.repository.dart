@@ -30,9 +30,10 @@ class AtivoRepository {
         .toList();
   }
 
-  Future<CotacaoViewModel> consultarCotacao(String ticker) async {
-    Response response = await webClient
-        .get("${Settings.apiUrl}Ativo/consultar-cotacao?ticker=wege");
+  Future<CotacaoViewModel> consultarCotacao(
+      String ticker, String produto) async {
+    Response response = await webClient.get(
+        "${Settings.apiUrl}Ativo/consultar-cotacao?ticker=$ticker&produtoDescricao=$produto");
     var responseJson = jsonDecode(response.body);
     return CotacaoViewModel.fromJson(responseJson["data"]);
   }

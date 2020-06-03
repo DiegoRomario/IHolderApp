@@ -21,9 +21,9 @@ class AtivoService {
     return ativo?.id;
   }
 
-  Future<CotacaoViewModel> consutarCotacao(String ticker) async {
+  Future<CotacaoViewModel> consutarCotacao(String ticker, String produtoDescricao) async {
     try {
-      return await repository.consultarCotacao(ticker);
+      return await repository.consultarCotacao(ticker, produtoDescricao);
     } catch (ex) {
       throw ex;
     }

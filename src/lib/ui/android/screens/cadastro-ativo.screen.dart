@@ -209,13 +209,14 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
     FocusScope.of(context).requestFocus(new FocusNode());
     widget.cotacaoCtrl.clear();
     var ticker = widget.tickerCtrl.text;
+    var produtoDescricao = widget.produtoCtrl.text;
     String mensagem;
-    if (ticker != "" && widget.ativo.produtoId != "") {
+    if (ticker != "" && produtoDescricao != "") {
       setState(() {
         _sending = true;
       });
       await widget.ativoService
-          .consutarCotacao(ticker)
+          .consutarCotacao(ticker, produtoDescricao)
           .then((value) =>
               widget.cotacaoCtrl.text = Parser.toStringCurrency(value.preco))
           .whenComplete(
