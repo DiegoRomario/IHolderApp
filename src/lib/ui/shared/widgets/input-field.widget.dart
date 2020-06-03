@@ -7,12 +7,14 @@ class InputField extends StatelessWidget {
   final String phint;
   final int pMaxLength;
   final bool pObscureText;
+  final bool pEnabled;
   final IconData picon;
   final TextInputType ptype;
   final IconData pSuffixIcon;
   final List<TextInputFormatter> pFormatters;
   final Function(String value) pValidador;
   final Function(String value) pOnSaved;
+  final Function(String value) pOnChange;
   final Future<dynamic> Function() pOnSuffixIcon;
 
   const InputField(
@@ -23,10 +25,12 @@ class InputField extends StatelessWidget {
       this.pObscureText = false,
       this.picon,
       this.ptype,
+      this.pEnabled = true,
       this.pFormatters,
       this.pValidador,
       this.pSuffixIcon,
       this.pOnSuffixIcon,
+      this.pOnChange,
       this.pOnSaved});
 
   @override
@@ -37,6 +41,7 @@ class InputField extends StatelessWidget {
         alignment: Alignment.centerRight,
         children: <Widget>[
           TextFormField(
+            enabled: pEnabled,
             maxLength: pMaxLength,
             obscureText: pObscureText,
             keyboardType: ptype,
@@ -53,6 +58,7 @@ class InputField extends StatelessWidget {
             ),
             validator: pValidador,
             onSaved: pOnSaved,
+            onChanged: pOnChange,
           ),
           Visibility(
             visible: pSuffixIcon != null,

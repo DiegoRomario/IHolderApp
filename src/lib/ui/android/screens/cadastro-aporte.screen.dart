@@ -18,10 +18,14 @@ class CadastroAporteScreen extends StatefulWidget {
   final DateFormat dateFormatter = new DateFormat('dd/MM/yyyy');
   final AporteViewModel aporteViewModel;
   final TextEditingController precoMedioCtrl = new TextEditingController();
+  final TextEditingController precoTotalCtrl = new TextEditingController();
   final TextEditingController dataAporteCtrl = new TextEditingController();
   final TextEditingController quantidadeCtrl = new TextEditingController();
   final TextEditingController ativoCtrl = new TextEditingController();
   final Aporte aporte = new Aporte();
+
+  double calcularValorTotal(double precoMedio, double quantidade) =>
+      precoMedio * quantidade;
 
   CadastroAporteScreen({this.aporteViewModel}) {
     if (aporteViewModel != null && quantidadeCtrl.text != null) {
@@ -31,8 +35,11 @@ class CadastroAporteScreen extends StatefulWidget {
       ativoCtrl.text =
           "${aporteViewModel.ativoTicker} - ${aporteViewModel.ativoDescricao}";
       aporte.id = aporteViewModel.id;
+      precoTotalCtrl.text = Parser.toStringCurrency(calcularValorTotal(
+          aporteViewModel.precoMedio, aporteViewModel.quantidade));
     }
   }
+
   @override
   _CadastroAporteScreenState createState() => _CadastroAporteScreenState();
 }
@@ -86,11 +93,7 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                       lastDate: DateTime(2100));
                 },
                 controller: widget.dataAporteCtrl,
-                // resetIcon: MdiIcons.calendarRefresh,
-                // inputType: InputType.date,
                 format: DateFormat("dd/MM/yyyy"),
-                // initialDate: DateTime.now(),
-                // editable: true,
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -122,26 +125,54 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                 pOnSaved: (val) {
                   widget.aporte.precoMedio = Parser.toDoubleCurrency(val);
                 },
+                pOnChange: (value) {
+                  widget.precoTotalCtrl.text = Parser.toStringCurrency(
+                      widget.calcularValorTotal(
+                          Parser.toDoubleCurrency(widget.quantidadeCtrl.text),
+                          Parser.toDoubleCurrency(value)));
+                },
               ),
               InputField(
-                pcontroller: widget.quantidadeCtrl,
+                  pcontroller: widget.quantidadeCtrl,
+                  ptype: TextInputType.number,
+                  plabel: "Quantidade",
+                  picon: MdiIcons.counter,
+                  pFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    CurrencyPtBrInputFormatter()
+                  ],
+                  pValidador: (value) {
+                    var quantidade = Parser.toDoubleCurrency(value);
+                    if (quantidade < 0) {
+                      return 'Quantidade inválida';
+                    }
+                    widget.precoTotalCtrl.text = Parser.toStringCurrency(
+                        widget.calcularValorTotal(
+                            quantidade,
+                            Parser.toDoubleCurrency(
+                                widget.precoMedioCtrl.text)));
+                    return null;
+                  },
+                  pOnSaved: (val) {
+                    widget.aporte.quantidade = Parser.toDoubleCurrency(val);
+                  },
+                  pOnChange: (value) {
+                    widget.precoTotalCtrl.text = Parser.toStringCurrency(
+                        widget.calcularValorTotal(
+                            Parser.toDoubleCurrency(value),
+                            Parser.toDoubleCurrency(
+                                widget.precoMedioCtrl.text)));
+                  }),
+              InputField(
+                pcontroller: widget.precoTotalCtrl,
                 ptype: TextInputType.number,
-                plabel: "Quantidade",
-                picon: MdiIcons.counter,
+                plabel: "R\$ Total",
+                picon: MdiIcons.cashUsd,
+                pEnabled: false,
                 pFormatters: [
                   WhitelistingTextInputFormatter.digitsOnly,
                   CurrencyPtBrInputFormatter()
                 ],
-                pValidador: (value) {
-                  var cotacao = Parser.toDoubleCurrency(value);
-                  if (cotacao < 0) {
-                    return 'Quantidade inválida';
-                  }
-                  return null;
-                },
-                pOnSaved: (val) {
-                  widget.aporte.quantidade = Parser.toDoubleCurrency(val);
-                },
               ),
               Container(
                 height: 60,
