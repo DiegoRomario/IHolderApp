@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
+import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
+import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/ui/android/screens/ativos.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'aportes.screen.dart';
+import 'cadastro-distribuicao.screen.dart';
 
 class LancamentosScreen extends StatefulWidget {
   @override
@@ -106,7 +111,10 @@ class OpcoesLancamentos extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (ctx) => AtivosScreen(),
+                                  builder: (ctx) => CadastroDistribuicaoScreen(
+                                      "Cadastro distribuição por ativos",
+                                      Provider.of<DistribuicaoPorAtivoBloc>(
+                                          context)),
                                 ),
                               );
                             },

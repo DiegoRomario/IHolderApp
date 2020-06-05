@@ -34,7 +34,7 @@ ThemeData claroTheme() {
     // chipTheme:
     // dialogTheme:
     // floatingActionButtonTheme:
-    // iconTheme:
+    iconTheme: IconThemeData(color: Colors.black),
     // inputDecorationTheme:
     // pageTransitionsTheme:
     // primaryIconTheme:
@@ -46,5 +46,6 @@ ThemeData claroTheme() {
     // buttonColor: Color(0xFF00C569),
     //scaffoldBackgroundColor: Colors.blue[50],
     cardColor: Colors.grey[200],
+    primaryColorLight: Colors.black
   );
 }
