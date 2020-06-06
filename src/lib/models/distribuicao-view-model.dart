@@ -10,35 +10,7 @@ class DistribuicaoViewModel {
   double valorDiferenca;
   String usuarioId;
   String orientacao;
-
-  static List<DistribuicaoViewModel> obter() {
-    return <DistribuicaoViewModel>[
-      DistribuicaoViewModel(
-          descricao: "Caixa",
-          percentualObjetivo: 50,
-          percentualAtual: 40,
-          percentualDiferenca: 10,
-          valorAtual: 5000,
-          valorDiferenca: 1000,
-          orientacao: "Buy"),
-      DistribuicaoViewModel(
-          descricao: "Fixa",
-          percentualObjetivo: 25,
-          percentualAtual: 30,
-          percentualDiferenca: -5,
-          valorAtual: 3000,
-          valorDiferenca: -5000,
-          orientacao: "Hold"),
-      DistribuicaoViewModel(
-          descricao: "Variável",
-          percentualObjetivo: 25,
-          percentualAtual: 20,
-          percentualDiferenca: 5,
-          valorAtual: 2000,
-          valorDiferenca: 5000,
-          orientacao: "Buy"),
-    ];
-  }
+  bool estaNaCarteira;
 
   DistribuicaoViewModel(
       {this.id,
@@ -51,7 +23,8 @@ class DistribuicaoViewModel {
       this.valorAtual,
       this.valorDiferenca,
       this.usuarioId,
-      this.orientacao});
+      this.orientacao,
+      this.estaNaCarteira});
 
   DistribuicaoViewModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +38,7 @@ class DistribuicaoViewModel {
     valorDiferenca = json['valorDiferenca'];
     usuarioId = json['usuarioId'];
     orientacao = json['orientacao'];
+    estaNaCarteira = json['estaNaCarteira'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +54,7 @@ class DistribuicaoViewModel {
     data['valorDiferenca'] = this.valorDiferenca;
     data['usuarioId'] = this.usuarioId;
     data['orientacao'] = this.orientacao;
+    data['estaNaCarteira'] = this.estaNaCarteira;
     return data;
   }
 }

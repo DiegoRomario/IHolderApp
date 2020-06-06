@@ -63,7 +63,13 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                       selected: distribuicoesSelecionadas.contains(item),
                       cells: [
                         DataCell(
-                          Text("Sim"),
+                          new Icon(
+                              item.estaNaCarteira
+                                  ? MdiIcons.check
+                                  : MdiIcons.close,
+                              color: item.estaNaCarteira
+                                  ? Colors.green
+                                  : Colors.red),
                         ),
                         DataCell(
                           Text(item.descricao),
