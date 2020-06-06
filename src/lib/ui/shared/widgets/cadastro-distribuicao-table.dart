@@ -6,6 +6,8 @@ import 'package:iholder_app/models/distribuicao.dart';
 import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'card-button.widget.dart';
+
 class CadastroDistribuicaoTable extends StatefulWidget {
   final IDistribuicaoBloc bloc;
   final GlobalKey<FormState> formKey;
@@ -138,45 +140,19 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      margin: EdgeInsets.all(8),
-                      child: Column(
-                        children: <Widget>[
-                          Icon(MdiIcons.divisionBox),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text('Entre ativos em carteira'),
-                        ],
-                      ),
-                    ),
-                  ),
+                CardButton(
+                  descricao: "Entre ativos em carteira",
+                  icon: MdiIcons.divisionBox,
+                  onClick: () {
+                    print("TESTE");
+                  },
                 ),
-                Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      margin: EdgeInsets.all(8),
-                      child: Column(
-                        children: <Widget>[
-                          Icon(MdiIcons.divisionBox),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text('Entre ativos cadastrados'),
-                        ],
-                      ),
-                    ),
-                  ),
+                CardButton(
+                  descricao: "Entre ativos cadastrados",
+                  icon: MdiIcons.divisionBox,
+                  onClick: () {
+                    print("TESTE");
+                  },
                 ),
               ],
             ),
