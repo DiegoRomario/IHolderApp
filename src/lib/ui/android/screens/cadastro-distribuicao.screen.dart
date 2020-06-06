@@ -11,17 +11,25 @@ class CadastroDistribuicaoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(tipoDistribuicao),
       ),
-      body: DataLoader(
-        object: bloc.distribuicoes,
-        callback: () {
-          return CadastroDistribuicaoTable(
-            distribuicoes: bloc.distribuicoes,
-          );
-        },
+      body: Form(
+        key: _formKey,
+        child: DataLoader(
+          object: bloc.distribuicoes,
+          callback: () {
+            return CadastroDistribuicaoTable(
+              bloc: bloc,
+              formKey: _formKey,
+              scaffoldKey: _scaffoldKey,
+            );
+          },
+        ),
       ),
     );
   }

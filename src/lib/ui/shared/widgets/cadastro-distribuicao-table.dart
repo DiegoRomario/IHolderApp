@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iholder_app/blocs/Idistribuicao.bloc.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
+import 'package:iholder_app/models/distribuicao.dart';
 import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CadastroDistribuicaoTable extends StatefulWidget {
-  final List<DistribuicaoViewModel> distribuicoes;
+  final IDistribuicaoBloc bloc;
+  final GlobalKey<FormState> formKey;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const CadastroDistribuicaoTable({@required this.distribuicoes});
+  CadastroDistribuicaoTable(
+      {@required this.bloc,
+      @required this.formKey,
+      @required this.scaffoldKey});
   @override
   _CadastroDistribuicaoTableState createState() =>
       _CadastroDistribuicaoTableState();
@@ -15,6 +22,7 @@ class CadastroDistribuicaoTable extends StatefulWidget {
 
 class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
   List<DistribuicaoViewModel> distribuicoesSelecionadas;
+  List<DistribuicaoViewModel> distribuicoes;
   bool sort;
 
   @override
@@ -22,7 +30,11 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
     sort = false;
     distribuicoesSelecionadas = [];
     super.initState();
+    distribuicoes = widget.bloc.distribuicoes;
   }
+
+  var _sending = false;
+  double percentualObjetivo = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +44,6 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-              //columnSpacing: MediaQuery.of(context).size.width / 4,
               sortAscending: sort,
               sortColumnIndex: 0,
               columns: [
@@ -57,19 +68,15 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                   label: Text(''),
                 ),
               ],
-              rows: widget.distribuicoes
+              rows: distribuicoes
                   .map(
                     (item) => DataRow(
                       selected: distribuicoesSelecionadas.contains(item),
                       cells: [
                         DataCell(
-                          new Icon(
-                              item.estaNaCarteira
-                                  ? MdiIcons.check
-                                  : MdiIcons.close,
-                              color: item.estaNaCarteira
-                                  ? Colors.green
-                                  : Colors.red),
+                          item.estaNaCarteira
+                              ? Icon(MdiIcons.check, color: Colors.green)
+                              : Icon(MdiIcons.close, color: Colors.redAccent),
                         ),
                         DataCell(
                           Text(item.descricao),
@@ -91,6 +98,10 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                                 }
                                 return null;
                               },
+                              onChanged: (value) {
+                                percentualObjetivo =
+                                    Parser.toDoubleCurrency(value);
+                              },
                             ),
                           ),
                         ),
@@ -98,7 +109,22 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                           IconButton(
                             icon: Icon(Icons.save,
                                 color: Theme.of(context).primaryColorLight),
-                            onPressed: () {},
+                            onPressed: _sending
+                                ? null
+                                : () {
+                                    if (widget.formKey.currentState
+                                        .validate()) {
+                                      widget.formKey.currentState.save();
+                                      salvar(
+                                          context,
+                                          new Distribuicao(
+                                              id: item.id,
+                                              tipoDistribuicaoId:
+                                                  item.tipoDistribuicaoId,
+                                              percentualObjetivo:
+                                                  percentualObjetivo));
+                                    }
+                                  },
                           ),
                         )
                       ],
@@ -158,5 +184,31 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
         ],
       ),
     );
+  }
+
+  salvar(BuildContext context, Distribuicao distribuicao) async {
+    setState(() {
+      _sending = true;
+    });
+    String response = await widget.bloc.salvar(distribuicao).whenComplete(
+      () {
+        setState(
+          () {
+            _sending = false;
+          },
+        );
+      },
+    ).catchError(
+      (onError) {
+        final snackBar = SnackBar(content: Text(onError.message));
+        widget.scaffoldKey.currentState.showSnackBar(snackBar);
+      },
+    );
+    if (response != null) {
+      final snackBar = SnackBar(
+        content: Text(response),
+      );
+      widget.scaffoldKey.currentState.showSnackBar(snackBar);
+    }
   }
 }

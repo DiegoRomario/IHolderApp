@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:iholder_app/http/web-client.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
+import 'package:iholder_app/models/distribuicao.dart';
 import '../settings.dart';
 
 class DistribuicaoRepository {
@@ -13,5 +14,15 @@ class DistribuicaoRepository {
     return (jsonDecode(response.body)["data"] as List)
         .map((course) => DistribuicaoViewModel.fromJson(course))
         .toList();
+  }
+
+  Future<String> salvar(Distribuicao distribuicao) async {
+    String json = jsonEncode(distribuicao.toJson());
+    Response response;
+
+    response = await webClient
+        .put(Settings.apiUrl + sufixoApi + "/${distribuicao.id}", body: json);
+
+    return jsonDecode(response.body)["data"];
   }
 }

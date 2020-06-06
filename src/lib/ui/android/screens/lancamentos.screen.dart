@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
-import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
-import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/ui/android/screens/ativos.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';

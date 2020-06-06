@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
+import 'package:iholder_app/models/distribuicao.dart';
 import 'package:iholder_app/repositories/distribuicao.repository.dart';
 import 'Idistribuicao.bloc.dart';
 
@@ -25,5 +26,10 @@ class DistribuicaoPorProdutoBloc extends ChangeNotifier
       this.distribuicoes = data;
       notifyListeners();
     });
+  }
+
+  @override
+  Future<String> salvar(Distribuicao ativo) {
+    throw UnimplementedError();
   }
 }
