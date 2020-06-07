@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:iholder_app/models/distribuicao-divisao.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:iholder_app/models/distribuicao.dart';
 import 'package:iholder_app/repositories/distribuicao.repository.dart';
@@ -30,6 +31,11 @@ class DistribuicaoPorProdutoBloc extends ChangeNotifier
 
   @override
   Future<String> salvar(Distribuicao ativo) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String> dividir(DistribuicaoDivisao divisao) {
     throw UnimplementedError();
   }
 }

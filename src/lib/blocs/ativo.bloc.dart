@@ -26,4 +26,5 @@ class AtivoBloc extends ChangeNotifier {
       throw ex;
     }
   }
+  
 }

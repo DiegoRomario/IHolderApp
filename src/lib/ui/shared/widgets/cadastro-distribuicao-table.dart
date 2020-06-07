@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iholder_app/blocs/Idistribuicao.bloc.dart';
+import 'package:iholder_app/models/distribuicao-divisao.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:iholder_app/models/distribuicao.dart';
 import 'package:iholder_app/validators/Formatters.dart';
@@ -85,25 +86,46 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                         ),
                         DataCell(
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: TextFormField(
-                              inputFormatters: [
-                                WhitelistingTextInputFormatter.digitsOnly,
-                                PercentInputFormatter(maxDigits: 5)
-                              ],
-                              initialValue: Parser.toStringCurrency(
-                                  item.percentualObjetivo),
-                              textAlign: TextAlign.center,
-                              validator: (value) {
-                                if (Parser.toDoubleCurrency(value) > 100) {
-                                  return '% Inválido';
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                percentualObjetivo =
-                                    Parser.toDoubleCurrency(value);
-                              },
+                            padding:
+                                const EdgeInsets.only(bottom: 8.0, top: 8.0),
+                            child: Container(
+                              width: 65,
+                              child: TextFormField(
+                                textAlignVertical: TextAlignVertical.center,
+                                inputFormatters: [
+                                  WhitelistingTextInputFormatter.digitsOnly,
+                                  PercentInputFormatter(maxDigits: 5)
+                                ],
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(13),
+                                    border: new OutlineInputBorder(),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    labelStyle: TextStyle(
+                                        fontSize: 13,
+                                        color: Theme.of(context)
+                                            .primaryColorLight),
+                                    labelText: (item.percentualObjetivo > 10
+                                            ? " "
+                                            : "  ") +
+                                        Parser.toStringCurrency(
+                                            item.percentualObjetivo)),
+                                textAlign: TextAlign.center,
+                                validator: (value) {
+                                  if (Parser.toDoubleCurrency(value) > 100) {
+                                    return '% Inválido';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  percentualObjetivo =
+                                      Parser.toDoubleCurrency(value);
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -144,14 +166,14 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                   descricao: "Entre ativos em carteira",
                   icon: MdiIcons.divisionBox,
                   onClick: () {
-                    print("TESTE");
+                    dividir(context, true);
                   },
                 ),
                 CardButton(
                   descricao: "Entre ativos cadastrados",
                   icon: MdiIcons.divisionBox,
                   onClick: () {
-                    print("TESTE");
+                    dividir(context, false);
                   },
                 ),
               ],
@@ -168,6 +190,36 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
     });
     String response = await widget.bloc.salvar(distribuicao).whenComplete(
       () {
+        setState(
+          () {
+            _sending = false;
+          },
+        );
+      },
+    ).catchError(
+      (onError) {
+        final snackBar = SnackBar(content: Text(onError.message));
+        widget.scaffoldKey.currentState.showSnackBar(snackBar);
+      },
+    );
+    if (response != null) {
+      final snackBar = SnackBar(
+        content: Text(response),
+      );
+      widget.scaffoldKey.currentState.showSnackBar(snackBar);
+    }
+  }
+
+  dividir(BuildContext context, bool somenteAtivosEmCarteira) async {
+    setState(() {
+      _sending = true;
+    });
+    String response = await widget.bloc
+        .dividir(new DistribuicaoDivisao(
+            somenteAtivosEmCarteira: somenteAtivosEmCarteira))
+        .whenComplete(
+      () {
+        distribuicoes = widget.bloc.distribuicoes;
         setState(
           () {
             _sending = false;

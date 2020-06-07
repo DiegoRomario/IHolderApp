@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:iholder_app/models/distribuicao-divisao.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:iholder_app/models/distribuicao.dart';
 import 'package:iholder_app/repositories/distribuicao.repository.dart';
@@ -21,8 +22,8 @@ class DistribuicaoPorAtivoBloc extends ChangeNotifier
     notifyListeners();
   }
 
-  obterDistribuicao() {
-    distribuicoesRepository.obterTodos().then((data) {
+  obterDistribuicao() async {
+    await distribuicoesRepository.obterTodos().then((data) {
       this.distribuicoes = data;
       notifyListeners();
     });
@@ -31,7 +32,17 @@ class DistribuicaoPorAtivoBloc extends ChangeNotifier
   Future<String> salvar(Distribuicao ativo) async {
     try {
       var response = await distribuicoesRepository.salvar(ativo);
-      obterDistribuicao();
+      await obterDistribuicao();
+      return response;
+    } catch (ex) {
+      throw ex;
+    }
+  }
+
+  Future<String> dividir(DistribuicaoDivisao divisao) async {
+    try {
+      var response = await distribuicoesRepository.dividir(divisao);
+      await obterDistribuicao();
       return response;
     } catch (ex) {
       throw ex;
