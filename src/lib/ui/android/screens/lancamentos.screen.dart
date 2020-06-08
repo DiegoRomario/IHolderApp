@@ -110,9 +110,8 @@ class OpcoesLancamentos extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => CadastroDistribuicaoScreen(
-                                      "Cadastro distribuição por ativos",
-                                      Provider.of<DistribuicaoPorAtivoBloc>(
-                                          context)),
+                                    "Cadastro de distribuições",
+                                  ),
                                 ),
                               );
                             },

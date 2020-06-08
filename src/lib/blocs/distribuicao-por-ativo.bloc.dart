@@ -15,6 +15,7 @@ class DistribuicaoPorAtivoBloc extends ChangeNotifier
 
   DistribuicaoPorAtivoBloc() {
     obterDistribuicao();
+    notifyListeners();
   }
 
   alteraFormatoVisualizacao() {
