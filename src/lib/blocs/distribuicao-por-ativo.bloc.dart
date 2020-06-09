@@ -6,7 +6,7 @@ import 'package:iholder_app/repositories/distribuicao.repository.dart';
 import 'Idistribuicao.bloc.dart';
 
 class DistribuicaoPorAtivoBloc extends ChangeNotifier
-    implements IDistribuicaoBloc {
+  implements IDistribuicaoBloc {
   var mostraTabela = true;
   final distribuicoesRepository =
       new DistribuicaoRepository("DistribuicaoPorAtivo");

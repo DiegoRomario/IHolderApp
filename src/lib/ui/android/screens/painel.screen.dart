@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
-import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
-import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 import 'distribuicao.screen.dart';
 
 class PainelScreen extends StatefulWidget {
@@ -60,9 +56,7 @@ class OpcoesPaineis extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => DistribuicaoScreen(
-                                      "Distribuição por ativos",
-                                      Provider.of<DistribuicaoPorAtivoBloc>(
-                                          context)),
+                                      "Distribuição por ativos"),
                                 ),
                               );
                             },
@@ -90,9 +84,7 @@ class OpcoesPaineis extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => DistribuicaoScreen(
-                                      "Distribuição por produtos",
-                                      Provider.of<DistribuicaoPorProdutoBloc>(
-                                          context)),
+                                      "Distribuição por produtos"),
                                 ),
                               );
                             },
@@ -120,9 +112,7 @@ class OpcoesPaineis extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => DistribuicaoScreen(
-                                      "Distribuição por tipos",
-                                      Provider.of<DistribuicaoPorTipoBloc>(
-                                          context)),
+                                      "Distribuição por tipos"),
                                 ),
                               );
                             },
