@@ -210,13 +210,13 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
     }
   }
 
-  dividir(BuildContext context, bool somenteAtivosEmCarteira) async {
+  dividir(BuildContext context, bool somenteItensEmCarteira) async {
     setState(() {
       _sending = true;
     });
     String response = await widget.bloc
         .dividir(new DistribuicaoDivisao(
-            somenteAtivosEmCarteira: somenteAtivosEmCarteira))
+            somenteItensEmCarteira: somenteItensEmCarteira))
         .whenComplete(
       () {
         distribuicoes = widget.bloc.distribuicoes;

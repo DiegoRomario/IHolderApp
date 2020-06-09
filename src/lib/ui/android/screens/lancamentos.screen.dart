@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/ui/android/screens/ativos.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 import 'aportes.screen.dart';
 import 'cadastro-distribuicao.screen.dart';

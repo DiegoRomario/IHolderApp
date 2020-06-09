@@ -15,6 +15,7 @@ class DistribuicaoPorTipoBloc extends ChangeNotifier
 
   DistribuicaoPorTipoBloc() {
     obterDistribuicao();
+    notifyListeners();
   }
 
   alteraFormatoVisualizacao() {
@@ -22,20 +23,30 @@ class DistribuicaoPorTipoBloc extends ChangeNotifier
     notifyListeners();
   }
 
-  obterDistribuicao() {
-    distribuicoesRepository.obterTodos().then((data) {
+  obterDistribuicao() async {
+    await distribuicoesRepository.obterTodos().then((data) {
       this.distribuicoes = data;
       notifyListeners();
     });
   }
 
-  @override
-  Future<String> salvar(Distribuicao ativo) {
-    throw UnimplementedError();
+  Future<String> salvar(Distribuicao tipoInvestimento) async {
+    try {
+      var response = await distribuicoesRepository.salvar(tipoInvestimento);
+      await obterDistribuicao();
+      return response;
+    } catch (ex) {
+      throw ex;
+    }
   }
 
-  @override
-  Future<String> dividir(DistribuicaoDivisao divisao) {
-    throw UnimplementedError();
+  Future<String> dividir(DistribuicaoDivisao divisao) async {
+    try {
+      var response = await distribuicoesRepository.dividir(divisao);
+      await obterDistribuicao();
+      return response;
+    } catch (ex) {
+      throw ex;
+    }
   }
 }
