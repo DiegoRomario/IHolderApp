@@ -3,6 +3,7 @@ import 'package:iholder_app/blocs/Idistribuicao.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
+import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/distribuicao-grid.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/distribuicao-table.widget.dart';
@@ -10,19 +11,27 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 class DistribuicaoScreen extends StatelessWidget {
-  final String tipoDistribuicao;
+  final ETipoDistribuicao tipoDistribuicao;
 
   DistribuicaoScreen(this.tipoDistribuicao);
 
   @override
   Widget build(BuildContext context) {
     IDistribuicaoBloc bloc;
-    if (tipoDistribuicao.contains("ativo")) {
-      bloc = Provider.of<DistribuicaoPorAtivoBloc>(context);
-    } else if (tipoDistribuicao.contains("produto")) {
-      bloc = Provider.of<DistribuicaoPorProdutoBloc>(context);
-    } else {
-      bloc = Provider.of<DistribuicaoPorTipoBloc>(context);
+    String descricaoTela;
+    switch (tipoDistribuicao) {
+      case ETipoDistribuicao.ativo:
+        bloc = Provider.of<DistribuicaoPorAtivoBloc>(context);
+        descricaoTela = "ativos";
+        break;
+      case ETipoDistribuicao.produto:
+        bloc = Provider.of<DistribuicaoPorProdutoBloc>(context);
+        descricaoTela = "produtos";
+        break;
+      case ETipoDistribuicao.tipo:
+        bloc = Provider.of<DistribuicaoPorTipoBloc>(context);
+        descricaoTela = "tipos";
+        break;
     }
     return DefaultTabController(
       length: 2,
@@ -42,7 +51,7 @@ class DistribuicaoScreen extends StatelessWidget {
               insets: EdgeInsets.zero,
             ),
           ),
-          title: Text(tipoDistribuicao),
+          title: Text("Distribuição por $descricaoTela"),
         ),
         body: TabBarView(
           children: [

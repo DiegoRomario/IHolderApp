@@ -3,6 +3,7 @@ import 'package:iholder_app/blocs/Idistribuicao.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
+import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/ui/shared/widgets/cadastro-distribuicao-table.dart';
 import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,6 @@ import 'package:provider/provider.dart';
 class CadastroDistribuicaoScreen extends StatefulWidget {
   final String tipoDistribuicao;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  // final IDistribuicaoBloc bloc;
 
   CadastroDistribuicaoScreen(this.tipoDistribuicao);
 
@@ -46,18 +46,26 @@ class _CadastroDistribuicaoScreenState
       },
       children: _data.map<ExpansionPanel>((Item item) {
         IDistribuicaoBloc bloc;
-        if (item.headerValue.contains("ativo")) {
-          bloc = Provider.of<DistribuicaoPorAtivoBloc>(context);
-        } else if (item.headerValue.contains("produto")) {
-          bloc = Provider.of<DistribuicaoPorProdutoBloc>(context);
-        } else {
-          bloc = Provider.of<DistribuicaoPorTipoBloc>(context);
+        String descricaoTela;
+        switch (item.tipoDistribuicao) {
+          case ETipoDistribuicao.ativo:
+            bloc = Provider.of<DistribuicaoPorAtivoBloc>(context);
+            descricaoTela = "ativos";
+            break;
+          case ETipoDistribuicao.produto:
+            bloc = Provider.of<DistribuicaoPorProdutoBloc>(context);
+            descricaoTela = "produtos";
+            break;
+          case ETipoDistribuicao.tipo:
+            bloc = Provider.of<DistribuicaoPorTipoBloc>(context);
+            descricaoTela = "tipos";
+            break;
         }
         var _formKey = GlobalKey<FormState>();
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
-              title: Text(item.headerValue),
+              title: Text("Por $descricaoTela"),
             );
           },
           body: Form(
@@ -85,29 +93,29 @@ class _CadastroDistribuicaoScreenState
 
 class Item {
   Item({
-    this.headerValue,
+    this.tipoDistribuicao,
     this.isExpanded = false,
   });
-  String headerValue;
+  ETipoDistribuicao tipoDistribuicao;
   bool isExpanded;
 }
 
 List<Item> generateItems() {
-  var teste = new List<Item>();
-  teste.add(
+  var tipos = new List<Item>();
+  tipos.add(
     Item(
-      headerValue: 'Por ativo',
+      tipoDistribuicao: ETipoDistribuicao.ativo,
     ),
   );
-  teste.add(
+  tipos.add(
     Item(
-      headerValue: 'Por produto',
+      tipoDistribuicao: ETipoDistribuicao.produto,
     ),
   );
-  teste.add(
+  tipos.add(
     Item(
-      headerValue: 'Por tipo de investimento',
+      tipoDistribuicao: ETipoDistribuicao.tipo,
     ),
   );
-  return teste;
+  return tipos;
 }

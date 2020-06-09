@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -56,7 +57,7 @@ class OpcoesPaineis extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => DistribuicaoScreen(
-                                      "Distribuição por ativos"),
+                                      ETipoDistribuicao.ativo),
                                 ),
                               );
                             },
@@ -84,7 +85,7 @@ class OpcoesPaineis extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => DistribuicaoScreen(
-                                      "Distribuição por produtos"),
+                                      ETipoDistribuicao.produto),
                                 ),
                               );
                             },
@@ -112,7 +113,7 @@ class OpcoesPaineis extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => DistribuicaoScreen(
-                                      "Distribuição por tipos"),
+                                      ETipoDistribuicao.tipo),
                                 ),
                               );
                             },
