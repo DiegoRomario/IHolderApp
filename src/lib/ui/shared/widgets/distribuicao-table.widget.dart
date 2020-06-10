@@ -54,45 +54,25 @@ class _DistribuicaoTableState extends State<DistribuicaoTable> {
                 },
               ),
               DataColumn(
-                label: Text(
-                  'Descrição',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
-                ),
+                label: TableHeader("Descrição"),
               ),
               DataColumn(
-                label: Text(
-                  '% Obj.',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
-                ),
+                label: TableHeader("% Obj."),
               ),
               DataColumn(
-                label: Text(
-                  '% Atual',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
-                ),
+                label: TableHeader('% Atual'),
               ),
               DataColumn(
-                label: Text(
-                  '% Dif.',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
-                ),
+                label: TableHeader('% Dif.'),
               ),
               DataColumn(
-                label: Text(
+                label: TableHeader(
                   'R\$ Atual',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
                 ),
               ),
               DataColumn(
-                label: Text(
+                label: TableHeader(
                   'R\$ Dif.',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
                 ),
               ),
             ],
@@ -154,5 +134,18 @@ class _DistribuicaoTableState extends State<DistribuicaoTable> {
       default:
         return Colors.redAccent;
     }
+  }
+}
+
+class TableHeader extends StatelessWidget {
+  final descricao;
+  TableHeader(this.descricao);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      descricao,
+      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12.00),
+    );
   }
 }
