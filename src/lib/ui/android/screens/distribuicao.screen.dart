@@ -10,16 +10,23 @@ import 'package:iholder_app/ui/shared/widgets/distribuicao-table.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class DistribuicaoScreen extends StatelessWidget {
+class DistribuicaoScreen extends StatefulWidget {
   final ETipoDistribuicao tipoDistribuicao;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   DistribuicaoScreen(this.tipoDistribuicao);
 
   @override
+  _DistribuicaoScreenState createState() => _DistribuicaoScreenState();
+}
+
+class _DistribuicaoScreenState extends State<DistribuicaoScreen> {
+  var _sending = false;
+  IDistribuicaoBloc bloc;
+  @override
   Widget build(BuildContext context) {
-    IDistribuicaoBloc bloc;
     String descricaoTela;
-    switch (tipoDistribuicao) {
+    switch (widget.tipoDistribuicao) {
       case ETipoDistribuicao.ativo:
         bloc = Provider.of<DistribuicaoPorAtivoBloc>(context);
         descricaoTela = "ativos";
@@ -36,6 +43,7 @@ class DistribuicaoScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        key: widget._scaffoldKey,
         appBar: AppBar(
           bottom: TabBar(
             tabs: [
@@ -73,13 +81,43 @@ class DistribuicaoScreen extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print("recalculando...");
-          },
-          child: Icon(MdiIcons.ballotRecount),
-        ),
+        floatingActionButton: _sending
+            ? CircularProgressIndicator()
+            : FloatingActionButton(
+                onPressed: _sending
+                    ? null
+                    : () {
+                        recalcular();
+                      },
+                child: Icon(MdiIcons.ballotRecount),
+              ),
       ),
     );
+  }
+
+  recalcular() async {
+    setState(() {
+      _sending = true;
+    });
+    String response = await bloc.recalcular().whenComplete(
+      () {
+        setState(
+          () {
+            _sending = false;
+          },
+        );
+      },
+    ).catchError(
+      (onError) {
+        final snackBar = SnackBar(content: Text(onError.message));
+        widget._scaffoldKey.currentState.showSnackBar(snackBar);
+      },
+    );
+    if (response != null) {
+      final snackBar = SnackBar(
+        content: Text(response),
+      );
+      widget._scaffoldKey.currentState.showSnackBar(snackBar);
+    }
   }
 }

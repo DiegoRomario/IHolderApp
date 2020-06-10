@@ -49,4 +49,14 @@ class DistribuicaoPorTipoBloc extends ChangeNotifier
       throw ex;
     }
   }
+
+  Future<String> recalcular() async {
+    try {
+      var response = await distribuicoesRepository.recalcular();
+      await obterDistribuicao();
+      return response;
+    } catch (ex) {
+      throw ex;
+    }
+  }
 }

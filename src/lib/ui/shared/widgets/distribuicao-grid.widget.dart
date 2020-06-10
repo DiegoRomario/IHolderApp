@@ -35,6 +35,7 @@ class _DistribuicaoGridState
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
+                      
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[

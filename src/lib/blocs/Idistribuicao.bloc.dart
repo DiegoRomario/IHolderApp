@@ -10,4 +10,5 @@ abstract class IDistribuicaoBloc {
   obterDistribuicao();
   Future<String> salvar(Distribuicao ativo);
   Future<String> dividir(DistribuicaoDivisao divisao);
+  Future<String> recalcular();
 }

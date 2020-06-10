@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Loader extends StatelessWidget {
+class   Loader extends StatelessWidget {
   final String message;
   const Loader({this.message = "Carregando"});
 

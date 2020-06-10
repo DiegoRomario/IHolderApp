@@ -36,4 +36,13 @@ class DistribuicaoRepository {
 
     return jsonDecode(response.body)["data"];
   }
+
+  Future<String> recalcular() async {
+    Response response;
+
+    response =
+        await webClient.post(Settings.apiUrl + sufixoApi + "/recalcular");
+
+    return jsonDecode(response.body)["data"];
+  }
 }
