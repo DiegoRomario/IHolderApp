@@ -63,7 +63,7 @@ class Parser {
   }
 
   static String toStringPercent(double number) {
-    NumberFormat oCcy = new NumberFormat("#,##0.0", "pt_BR");
+    NumberFormat oCcy = new NumberFormat("#,##0.00", "pt_BR");
     String formatted = oCcy.format(number);
     return formatted;
   }

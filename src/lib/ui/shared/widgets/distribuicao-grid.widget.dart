@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
+import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class DistribuicaoGrid extends StatefulWidget {
@@ -7,12 +8,10 @@ class DistribuicaoGrid extends StatefulWidget {
 
   const DistribuicaoGrid({@required this.distribuicoes});
   @override
-  _DistribuicaoGridState createState() =>
-      _DistribuicaoGridState();
+  _DistribuicaoGridState createState() => _DistribuicaoGridState();
 }
 
-class _DistribuicaoGridState
-    extends State<DistribuicaoGrid> {
+class _DistribuicaoGridState extends State<DistribuicaoGrid> {
   @override
   void initState() {
     super.initState();
@@ -35,7 +34,6 @@ class _DistribuicaoGridState
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
@@ -47,11 +45,19 @@ class _DistribuicaoGridState
                                   child: SingleChildScrollView(
                                     child: ListTile(
                                       title: Text(
-                                          widget.distribuicoes[index].descricao,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500)),
-                                      leading: corPorOrientacao(widget
-                                          .distribuicoes[index].orientacao),
+                                        widget.distribuicoes[index].descricao,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      leading: Container(
+                                        child: Tooltip(
+                                          message: widget
+                                              .distribuicoes[index].orientacao,
+                                          child: iconePorOrientacao(widget
+                                              .distribuicoes[index].orientacao),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -76,14 +82,13 @@ class _DistribuicaoGridState
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      "Objetivo",
+                                      "% Objetivo",
                                       style: TextStyle(fontSize: 11),
                                     ),
                                     Text(
-                                      widget.distribuicoes[index]
-                                              .percentualObjetivo
-                                              .toString() +
-                                          "%",
+                                      Parser.toStringPercent(widget
+                                          .distribuicoes[index]
+                                          .percentualObjetivo),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -92,14 +97,13 @@ class _DistribuicaoGridState
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      "Atual",
+                                      "% Atual",
                                       style: TextStyle(fontSize: 11),
                                     ),
                                     Text(
-                                      widget.distribuicoes[index]
-                                              .percentualAtual
-                                              .toString() +
-                                          "%",
+                                      Parser.toStringPercent(widget
+                                          .distribuicoes[index]
+                                          .percentualAtual),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -108,14 +112,13 @@ class _DistribuicaoGridState
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      "Diferença",
+                                      "% Diferença",
                                       style: TextStyle(fontSize: 11),
                                     ),
                                     Text(
-                                      widget.distribuicoes[index]
-                                              .percentualDiferenca
-                                              .toString() +
-                                          "%",
+                                      Parser.toStringPercent(widget
+                                          .distribuicoes[index]
+                                          .percentualDiferenca),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -132,14 +135,12 @@ class _DistribuicaoGridState
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      "Objetivo",
+                                      "R\$ Atual",
                                       style: TextStyle(fontSize: 11),
                                     ),
                                     Text(
-                                      "R\$" +
-                                          widget.distribuicoes[index]
-                                              .percentualObjetivo
-                                              .toString(),
+                                      Parser.toStringCurrency(widget
+                                          .distribuicoes[index].valorAtual),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -148,14 +149,12 @@ class _DistribuicaoGridState
                                 Column(
                                   children: <Widget>[
                                     Text(
-                                      "Atual",
+                                      "R\$ Diferença",
                                       style: TextStyle(fontSize: 11),
                                     ),
                                     Text(
-                                      "R\$" +
-                                          widget.distribuicoes[index]
-                                              .percentualAtual
-                                              .toString(),
+                                      Parser.toStringCurrency(widget
+                                          .distribuicoes[index].valorDiferenca),
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -177,7 +176,7 @@ class _DistribuicaoGridState
     );
   }
 
-  Icon corPorOrientacao(String orientacao) {
+  Icon iconePorOrientacao(String orientacao) {
     switch (orientacao) {
       case "Buy":
         return Icon(MdiIcons.cashPlus, color: Colors.green);

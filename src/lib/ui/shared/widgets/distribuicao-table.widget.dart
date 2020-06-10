@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
+import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class DistribuicaoTable extends StatefulWidget {
@@ -112,22 +113,24 @@ class _DistribuicaoTableState extends State<DistribuicaoTable> {
                         Text(item.descricao),
                       ),
                       DataCell(
-                        Text(item.percentualObjetivo.toString()),
+                        Text(Parser.toStringPercent(item.percentualObjetivo)),
                       ),
                       DataCell(
-                        Text(item.percentualAtual.toString()),
-                      ),
-                      DataCell(
-                        Text(item.percentualDiferenca.toString()),
+                        Text(Parser.toStringPercent(item.percentualAtual)),
                       ),
                       DataCell(
                         Text(
-                          item.valorAtual.toString(),
+                          Parser.toStringPercent(item.percentualDiferenca),
                         ),
                       ),
                       DataCell(
                         Text(
-                          item.valorDiferenca.toString(),
+                          Parser.toStringCurrency(item.valorAtual),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          Parser.toStringCurrency(item.valorDiferenca),
                         ),
                       )
                     ],

@@ -94,7 +94,7 @@ class OpcoesPaineis extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Icon(MdiIcons.chartDonut),
+                                  Icon(MdiIcons.chartPie),
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text('Produtos'),
@@ -122,7 +122,7 @@ class OpcoesPaineis extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Icon(MdiIcons.chartBar),
+                                  Icon(MdiIcons.chartPie),
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text('Tipos de Investimento'),
