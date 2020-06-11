@@ -46,9 +46,6 @@ class _DistribuicaoGridState extends State<DistribuicaoGrid> {
                                     child: ListTile(
                                       title: Text(
                                         widget.distribuicoes[index].descricao,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                        ),
                                       ),
                                       leading: Container(
                                         child: Tooltip(
@@ -79,51 +76,18 @@ class _DistribuicaoGridState extends State<DistribuicaoGrid> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "% Objetivo",
-                                      style: TextStyle(fontSize: 11),
-                                    ),
-                                    Text(
-                                      Parser.toStringPercent(widget
-                                          .distribuicoes[index]
-                                          .percentualObjetivo),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "% Atual",
-                                      style: TextStyle(fontSize: 11),
-                                    ),
-                                    Text(
-                                      Parser.toStringPercent(widget
-                                          .distribuicoes[index]
-                                          .percentualAtual),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "% Diferença",
-                                      style: TextStyle(fontSize: 11),
-                                    ),
-                                    Text(
-                                      Parser.toStringPercent(widget
-                                          .distribuicoes[index]
-                                          .percentualDiferenca),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
+                                DescricaoEPercentual(
+                                    "Objetivo",
+                                    widget.distribuicoes[index]
+                                        .percentualObjetivo),
+                                DescricaoEPercentual(
+                                    "Atual",
+                                    widget
+                                        .distribuicoes[index].percentualAtual),
+                                DescricaoEPercentual(
+                                    "Diferença",
+                                    widget.distribuicoes[index]
+                                        .percentualDiferenca),
                               ],
                             ),
                           ),
@@ -132,34 +96,10 @@ class _DistribuicaoGridState extends State<DistribuicaoGrid> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "R\$ Atual",
-                                      style: TextStyle(fontSize: 11),
-                                    ),
-                                    Text(
-                                      Parser.toStringCurrency(widget
-                                          .distribuicoes[index].valorAtual),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "R\$ Diferença",
-                                      style: TextStyle(fontSize: 11),
-                                    ),
-                                    Text(
-                                      Parser.toStringCurrency(widget
-                                          .distribuicoes[index].valorDiferenca),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
+                                DescricaoEValor("Atual",
+                                    widget.distribuicoes[index].valorAtual),
+                                DescricaoEValor("Diferença",
+                                    widget.distribuicoes[index].valorDiferenca),
                               ],
                             ),
                           ),
@@ -187,5 +127,55 @@ class _DistribuicaoGridState extends State<DistribuicaoGrid> {
       default:
         return Icon(MdiIcons.cashMinus, color: Colors.redAccent);
     }
+  }
+}
+
+class DescricaoEPercentual extends StatelessWidget {
+  final descricao;
+  final percentual;
+  DescricaoEPercentual(
+    this.descricao,
+    this.percentual,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          "% $descricao",
+          style: TextStyle(fontSize: 11),
+        ),
+        Text(
+          Parser.toStringPercent(percentual),
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
+  }
+}
+
+class DescricaoEValor extends StatelessWidget {
+  final String descricao;
+  final double valor;
+  DescricaoEValor(
+    this.descricao,
+    this.valor,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          "R\$ $descricao",
+          style: TextStyle(fontSize: 11),
+        ),
+        Text(
+          Parser.toStringCurrency(valor),
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
   }
 }
