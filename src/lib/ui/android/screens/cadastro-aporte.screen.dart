@@ -31,7 +31,7 @@ class CadastroAporteScreen extends StatefulWidget {
     if (aporteViewModel != null && quantidadeCtrl.text != null) {
       precoMedioCtrl.text = Parser.toStringCurrency(aporteViewModel.precoMedio);
       quantidadeCtrl.text = Parser.toStringCurrency(aporteViewModel.quantidade);
-      dataAporteCtrl.text = dateFormatter.format(aporteViewModel.dataAporte);
+      dataAporteCtrl.text = dateFormatter.format(aporteViewModel.dataPrimeiroAporte);
       ativoCtrl.text =
           "${aporteViewModel.ativoTicker} - ${aporteViewModel.ativoDescricao}";
       aporte.id = aporteViewModel.id;

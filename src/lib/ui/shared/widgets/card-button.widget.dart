@@ -19,11 +19,14 @@ class CardButton extends StatelessWidget {
           margin: EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
-              Icon(icon),
+              Icon(icon, color: Colors.black),
               SizedBox(
                 height: 8,
               ),
-              Text(descricao),
+              Text(
+                descricao,
+                style: TextStyle(color: Colors.black),
+              ),
             ],
           ),
         ),

@@ -43,12 +43,10 @@ class _AporteCardState extends State<AporteCard> {
                         child: Text(
                             "${widget.aporte.ativoTicker} (${widget.aporte.produtoDescricao})"),
                       ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            widget.formatter.format(widget.aporte.dataAporte),
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "R\$ ${Parser.toStringCurrency(widget.aporte.precoMedio)} "),
                       ),
                     ],
                   ),
@@ -58,39 +56,84 @@ class _AporteCardState extends State<AporteCard> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
                       children: <Widget>[
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              "R\$ Médio",
-                              style: TextStyle(fontSize: 11),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  "R\$ Médio",
+                                  style: TextStyle(fontSize: 11),
+                                ),
+                                Text(
+                                  Parser.toStringCurrency(
+                                      widget.aporte.precoMedio),
+                                ),
+                              ],
                             ),
-                            Text(
-                              Parser.toStringCurrency(widget.aporte.precoMedio),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  "Quantidade",
+                                  style: TextStyle(fontSize: 11),
+                                ),
+                                Text(
+                                  widget.aporte.quantidade.toString(),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  "R\$ Aplicado",
+                                  style: TextStyle(fontSize: 11),
+                                ),
+                                Text(
+                                  Parser.toStringCurrency(
+                                      widget.aporte.valorAplicado),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        Column(
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Text(
-                              "Quantidade",
-                              style: TextStyle(fontSize: 11),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  "R\$ Total",
+                                  style: TextStyle(fontSize: 11),
+                                ),
+                                Text(
+                                  widget.aporte.quantidade.toString(),
+                                ),
+                              ],
                             ),
-                            Text(
-                              widget.aporte.quantidade.toString(),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              "R\$ Total",
-                              style: TextStyle(fontSize: 11),
-                            ),
-                            Text(
-                              Parser.toStringCurrency(widget.aporte.precoTotal),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  "R\$ Saldo",
+                                  style: TextStyle(fontSize: 11),
+                                ),
+                                Text(
+                                  Parser.toStringCurrency(widget.aporte.saldo),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: widget.aporte.saldo > 0
+                                          ? Colors.green
+                                          : Colors.red),
+                                ),
+                              ],
                             ),
                           ],
                         ),

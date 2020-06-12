@@ -3,36 +3,39 @@ class AporteViewModel {
   String ativoId;
   String ativoTicker;
   String ativoDescricao;
-  String produtoId;
   String produtoDescricao;
   double precoMedio;
   double quantidade;
-  double precoTotal;
-  DateTime dataAporte;
+  double valorAplicado;
+  double valorAtual;
+  double saldo;
+  DateTime dataPrimeiroAporte;
 
   AporteViewModel(
       {this.id,
       this.ativoId,
       this.ativoTicker,
       this.ativoDescricao,
-      this.produtoId,
       this.produtoDescricao,
       this.precoMedio,
       this.quantidade,
-      this.precoTotal,
-      this.dataAporte});
+      this.valorAplicado,
+      this.valorAtual,
+      this.saldo,
+      this.dataPrimeiroAporte});
 
   AporteViewModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     ativoId = json['ativoId'];
     ativoTicker = json['ativoTicker'];
     ativoDescricao = json['ativoDescricao'];
-    produtoId = json['produtoId'];
     produtoDescricao = json['produtoDescricao'];
     precoMedio = json['precoMedio'];
     quantidade = json['quantidade'];
-    precoTotal = json['precoTotal'];
-    dataAporte = DateTime.parse(json['dataAporte'].toString());
+    valorAplicado = json['valorAplicado'];
+    valorAtual = json['valorAtual'];
+    saldo = json['saldo'];
+    dataPrimeiroAporte = DateTime.parse(json['dataPrimeiroAporte'].toString());
   }
 
   Map<String, dynamic> toJson() {
@@ -41,12 +44,13 @@ class AporteViewModel {
     data['ativoId'] = this.ativoId;
     data['ativoTicker'] = this.ativoTicker;
     data['ativoDescricao'] = this.ativoDescricao;
-    data['produtoId'] = this.produtoId;
     data['produtoDescricao'] = this.produtoDescricao;
     data['precoMedio'] = this.precoMedio;
     data['quantidade'] = this.quantidade;
-    data['precoTotal'] = this.precoTotal;
-    data['dataAporte'] = this.dataAporte;
+    data['valorAplicado'] = this.valorAplicado;
+    data['valorAtual'] = this.valorAtual;
+    data['saldo'] = this.saldo;
+    data['dataPrimeiroAporte'] = this.dataPrimeiroAporte;
     return data;
   }
 }
