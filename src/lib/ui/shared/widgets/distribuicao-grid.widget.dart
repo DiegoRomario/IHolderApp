@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/models/distribuicao-view-model.dart';
-import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import 'descricao-e-percentual.widget.dart';
+import 'descricao-e-valor.widget.dart';
 
 class DistribuicaoGrid extends StatefulWidget {
   final List<DistribuicaoViewModel> distribuicoes;
@@ -127,55 +129,5 @@ class _DistribuicaoGridState extends State<DistribuicaoGrid> {
       default:
         return Icon(MdiIcons.cashMinus, color: Colors.redAccent);
     }
-  }
-}
-
-class DescricaoEPercentual extends StatelessWidget {
-  final descricao;
-  final percentual;
-  DescricaoEPercentual(
-    this.descricao,
-    this.percentual,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          "% $descricao",
-          style: TextStyle(fontSize: 11),
-        ),
-        Text(
-          Parser.toStringPercent(percentual),
-          style: TextStyle(fontWeight: FontWeight.w500),
-        ),
-      ],
-    );
-  }
-}
-
-class DescricaoEValor extends StatelessWidget {
-  final String descricao;
-  final double valor;
-  DescricaoEValor(
-    this.descricao,
-    this.valor,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          "R\$ $descricao",
-          style: TextStyle(fontSize: 11),
-        ),
-        Text(
-          Parser.toStringCurrency(valor),
-          style: TextStyle(fontWeight: FontWeight.w500),
-        ),
-      ],
-    );
   }
 }

@@ -48,6 +48,10 @@ class CurrencyPtBrInputFormatter extends TextInputFormatter {
   }
 }
 
+
+  final DateFormat formatter = new DateFormat('dd/MM/yyyy');
+
+  
 class Parser {
   static double toDoubleCurrency(String number) {
     number = number.replaceAll(".", "");
