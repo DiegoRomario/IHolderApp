@@ -3,8 +3,7 @@ import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/ui/android/screens/ativos.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import 'aportes.screen.dart';
+import 'ativo-em-carteira.screen.dart';
 import 'cadastro-distribuicao.screen.dart';
 
 class LancamentosScreen extends StatefulWidget {
@@ -80,7 +79,7 @@ class OpcoesLancamentos extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (ctx) => AportesScreen(),
+                                  builder: (ctx) => AtivosEmCarteiraScreen(),
                                 ),
                               );
                             },
@@ -89,10 +88,10 @@ class OpcoesLancamentos extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Icon(MdiIcons.cashPlus),
+                                  Icon(MdiIcons.walletPlus),
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
-                                    child: Text('Aportes'),
+                                    child: Text('Carteira'),
                                   )
                                 ],
                               ),

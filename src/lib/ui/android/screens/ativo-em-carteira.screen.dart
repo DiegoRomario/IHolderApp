@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/blocs/aporte.bloc.dart';
-import 'package:iholder_app/models/aporte-view-model.dart';
-import 'package:iholder_app/ui/android/screens/cadastro-aporte.screen.dart';
-import 'package:iholder_app/ui/shared/widgets/aporte-card-widget.dart';
+import 'package:iholder_app/blocs/ativo-em-carteira.bloc.dart';
+import 'package:iholder_app/models/ativo-em-carteira-view-model.dart';
+import 'package:iholder_app/ui/android/screens/cadastro-ativo-em-carteira.screen.dart';
+import 'package:iholder_app/ui/shared/widgets/ativo-em-carteira-card-widget.dart';
 import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
 import 'package:provider/provider.dart';
 
-class AportesScreen extends StatelessWidget {
+class AtivosEmCarteiraScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var bloc = Provider.of<AporteBloc>(context, listen: true);
+    var bloc = Provider.of<AtivoEmCarteiraBloc>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Aportes"),
+        title: Text("Ativos em carteira"),
         centerTitle: true,
       ),
       body: DataLoader(
-        object: bloc.aportes,
+        object: bloc.ativosEmCarteira,
         callback: () {
-          return AportesListagem(
-            ativos: bloc.aportes,
+          return AtivosEmCarteiraListagem(
+            ativos: bloc.ativosEmCarteira,
           );
         },
       ),
@@ -28,7 +28,7 @@ class AportesScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CadastroAporteScreen(),
+              builder: (context) => CadastroAtivoEmCarteiraScreen(),
             ),
           );
         },
@@ -38,9 +38,9 @@ class AportesScreen extends StatelessWidget {
   }
 }
 
-class AportesListagem extends StatelessWidget {
-  final List<AporteViewModel> ativos;
-  AportesListagem({this.ativos});
+class AtivosEmCarteiraListagem extends StatelessWidget {
+  final List<AtivoEmCarteiraViewModel> ativos;
+  AtivosEmCarteiraListagem({this.ativos});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,7 +54,7 @@ class AportesListagem extends StatelessWidget {
               return Container(
                 child: Column(
                   children: <Widget>[
-                    AporteCard(
+                    AtivoEmCarteiraCard(
                       ativos[index],
                     ),
                   ],

@@ -1,18 +1,22 @@
-class Aporte {
+class AtivoEmCarteira {
   String id;
   String ativoId;
   double precoMedio;
   double quantidade;
-  DateTime dataAporte;
+  DateTime dataPrimeiroAporte;
 
-  Aporte({this.ativoId, this.precoMedio, this.quantidade, this.dataAporte});
+  AtivoEmCarteira(
+      {this.ativoId,
+      this.precoMedio,
+      this.quantidade,
+      this.dataPrimeiroAporte});
 
-  Aporte.fromJson(Map<String, dynamic> json) {
+  ativoEmCarteirafromJson(Map<String, dynamic> json) {
     id = json['id'];
     ativoId = json['ativoId'];
     precoMedio = json['precoMedio'];
     quantidade = json['quantidade'];
-    dataAporte = json['dataAporte'];
+    dataPrimeiroAporte = json['dataPrimeiroAporte'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +25,7 @@ class Aporte {
     data['ativoId'] = this.ativoId;
     data['precoMedio'] = this.precoMedio;
     data['quantidade'] = this.quantidade;
-    data['dataAporte'] = this.dataAporte.toString();
+    data['dataPrimeiroAporte'] = this.dataPrimeiroAporte.toString();
     return data;
   }
 }

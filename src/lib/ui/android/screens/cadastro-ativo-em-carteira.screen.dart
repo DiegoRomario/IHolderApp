@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:iholder_app/blocs/aporte.bloc.dart';
-import 'package:iholder_app/models/aporte-view-model.dart';
-import 'package:iholder_app/models/aporte.dart';
+import 'package:iholder_app/blocs/ativo-em-carteira.bloc.dart';
+import 'package:iholder_app/models/ativo-em-carteira-view-model.dart';
+import 'package:iholder_app/models/ativo-em-carteira.dart';
 import 'package:iholder_app/services/ativo.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
@@ -14,37 +14,44 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class CadastroAporteScreen extends StatefulWidget {
+class CadastroAtivoEmCarteiraScreen extends StatefulWidget {
   final DateFormat dateFormatter = new DateFormat('dd/MM/yyyy');
-  final AporteViewModel aporteViewModel;
+  final AtivoEmCarteiraViewModel ativoEmCarteiraViewModel;
   final TextEditingController precoMedioCtrl = new TextEditingController();
   final TextEditingController precoTotalCtrl = new TextEditingController();
-  final TextEditingController dataAporteCtrl = new TextEditingController();
+  final TextEditingController dataAtivoEmCarteiraCtrl =
+      new TextEditingController();
   final TextEditingController quantidadeCtrl = new TextEditingController();
   final TextEditingController ativoCtrl = new TextEditingController();
-  final Aporte aporte = new Aporte();
+  final AtivoEmCarteira ativoEmCarteira = new AtivoEmCarteira();
 
   double calcularValorTotal(double precoMedio, double quantidade) =>
       precoMedio * quantidade;
 
-  CadastroAporteScreen({this.aporteViewModel}) {
-    if (aporteViewModel != null && quantidadeCtrl.text != null) {
-      precoMedioCtrl.text = Parser.toStringCurrency(aporteViewModel.precoMedio);
-      quantidadeCtrl.text = Parser.toStringCurrency(aporteViewModel.quantidade);
-      dataAporteCtrl.text = dateFormatter.format(aporteViewModel.dataPrimeiroAporte);
+  CadastroAtivoEmCarteiraScreen({this.ativoEmCarteiraViewModel}) {
+    if (ativoEmCarteiraViewModel != null && quantidadeCtrl.text != null) {
+      precoMedioCtrl.text =
+          Parser.toStringCurrency(ativoEmCarteiraViewModel.precoMedio);
+      quantidadeCtrl.text =
+          Parser.toStringCurrency(ativoEmCarteiraViewModel.quantidade);
+      dataAtivoEmCarteiraCtrl.text =
+          dateFormatter.format(ativoEmCarteiraViewModel.dataPrimeiroAporte);
       ativoCtrl.text =
-          "${aporteViewModel.ativoTicker} - ${aporteViewModel.ativoDescricao}";
-      aporte.id = aporteViewModel.id;
+          "${ativoEmCarteiraViewModel.ativoTicker} - ${ativoEmCarteiraViewModel.ativoDescricao}";
+      ativoEmCarteira.id = ativoEmCarteiraViewModel.id;
       precoTotalCtrl.text = Parser.toStringCurrency(calcularValorTotal(
-          aporteViewModel.precoMedio, aporteViewModel.quantidade));
+          ativoEmCarteiraViewModel.precoMedio,
+          ativoEmCarteiraViewModel.quantidade));
     }
   }
 
   @override
-  _CadastroAporteScreenState createState() => _CadastroAporteScreenState();
+  _CadastroAtivoEmCarteiraScreenState createState() =>
+      _CadastroAtivoEmCarteiraScreenState();
 }
 
-class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
+class _CadastroAtivoEmCarteiraScreenState
+    extends State<CadastroAtivoEmCarteiraScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -55,7 +62,7 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Cadastro de Aportes"),
+        title: Text("Cadastro de ativos em carteira"),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -72,7 +79,8 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                 picon: MdiIcons.basket,
                 phint: "PETR4, TSLA, KNRI11 etc...",
                 pOnSaved: (val) {
-                  widget.aporte.ativoId = ativoService.obterPorTicker(val);
+                  widget.ativoEmCarteira.ativoId =
+                      ativoService.obterPorTicker(val);
                 },
                 pValidador: (value) {
                   String ativoId = ativoService.obterPorTicker(value);
@@ -92,7 +100,7 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                       initialDate: currentValue ?? DateTime.now(),
                       lastDate: DateTime(2100));
                 },
-                controller: widget.dataAporteCtrl,
+                controller: widget.dataAtivoEmCarteiraCtrl,
                 format: DateFormat("dd/MM/yyyy"),
                 style: TextStyle(
                   fontSize: 20,
@@ -100,10 +108,10 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                 decoration: InputDecoration(
                   icon: Icon(MdiIcons.calendar),
                   hintText: "dd/mm/aaaa",
-                  labelText: "Data Aporte",
+                  labelText: "Data AtivoEmCarteira",
                 ),
                 onSaved: (dt) {
-                  widget.aporte.dataAporte = dt;
+                  widget.ativoEmCarteira.dataPrimeiroAporte = dt;
                 },
               ),
               InputField(
@@ -123,7 +131,8 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                   return null;
                 },
                 pOnSaved: (val) {
-                  widget.aporte.precoMedio = Parser.toDoubleCurrency(val);
+                  widget.ativoEmCarteira.precoMedio =
+                      Parser.toDoubleCurrency(val);
                 },
                 pOnChange: (value) {
                   widget.precoTotalCtrl.text = Parser.toStringCurrency(
@@ -154,7 +163,8 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
                     return null;
                   },
                   pOnSaved: (val) {
-                    widget.aporte.quantidade = Parser.toDoubleCurrency(val);
+                    widget.ativoEmCarteira.quantidade =
+                        Parser.toDoubleCurrency(val);
                   },
                   pOnChange: (value) {
                     widget.precoTotalCtrl.text = Parser.toStringCurrency(
@@ -206,11 +216,11 @@ class _CadastroAporteScreenState extends State<CadastroAporteScreen> {
   }
 
   create(BuildContext context) async {
-    var bloc = Provider.of<AporteBloc>(context, listen: false);
+    var bloc = Provider.of<AtivoEmCarteiraBloc>(context, listen: false);
     setState(() {
       _sending = true;
     });
-    String response = await bloc.salvar(widget.aporte).whenComplete(
+    String response = await bloc.salvar(widget.ativoEmCarteira).whenComplete(
       () {
         setState(
           () {

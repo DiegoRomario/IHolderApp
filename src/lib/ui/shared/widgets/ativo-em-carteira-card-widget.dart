@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:iholder_app/models/aporte-view-model.dart';
-import 'package:iholder_app/ui/android/screens/cadastro-aporte.screen.dart';
+import 'package:iholder_app/models/ativo-em-carteira-view-model.dart';
+import 'package:iholder_app/ui/android/screens/cadastro-ativo-em-carteira.screen.dart';
 import 'package:iholder_app/validators/Formatters.dart';
 import 'package:intl/intl.dart';
 
-class AporteCard extends StatefulWidget {
-  final AporteViewModel aporte;
+class AtivoEmCarteiraCard extends StatefulWidget {
+  final AtivoEmCarteiraViewModel ativoEmCarteira;
   final formatter = new DateFormat('dd/MM/yyyy');
 
-  AporteCard(this.aporte);
+  AtivoEmCarteiraCard(this.ativoEmCarteira);
   @override
-  _AporteCardState createState() => _AporteCardState();
+  _AtivoEmCarteiraCardState createState() => _AtivoEmCarteiraCardState();
 }
 
-class _AporteCardState extends State<AporteCard> {
+class _AtivoEmCarteiraCardState extends State<AtivoEmCarteiraCard> {
   bool mostraDetalhes = false;
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class _AporteCardState extends State<AporteCard> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (ctx) =>
-                      CadastroAporteScreen(aporteViewModel: widget.aporte)),
+                  builder: (ctx) => CadastroAtivoEmCarteiraScreen(
+                      ativoEmCarteiraViewModel: widget.ativoEmCarteira)),
             );
           },
           child: Container(
@@ -41,12 +41,12 @@ class _AporteCardState extends State<AporteCard> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                            "${widget.aporte.ativoTicker} (${widget.aporte.produtoDescricao})"),
+                            "${widget.ativoEmCarteira.ativoTicker} (${widget.ativoEmCarteira.produtoDescricao})"),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                            "R\$ ${Parser.toStringCurrency(widget.aporte.precoMedio)} "),
+                            "R\$ ${Parser.toStringCurrency(widget.ativoEmCarteira.precoMedio)} "),
                       ),
                     ],
                   ),
@@ -69,7 +69,7 @@ class _AporteCardState extends State<AporteCard> {
                                 ),
                                 Text(
                                   Parser.toStringCurrency(
-                                      widget.aporte.precoMedio),
+                                      widget.ativoEmCarteira.precoMedio),
                                 ),
                               ],
                             ),
@@ -80,7 +80,7 @@ class _AporteCardState extends State<AporteCard> {
                                   style: TextStyle(fontSize: 11),
                                 ),
                                 Text(
-                                  widget.aporte.quantidade.toString(),
+                                  widget.ativoEmCarteira.quantidade.toString(),
                                 ),
                               ],
                             ),
@@ -92,7 +92,7 @@ class _AporteCardState extends State<AporteCard> {
                                 ),
                                 Text(
                                   Parser.toStringCurrency(
-                                      widget.aporte.valorAplicado),
+                                      widget.ativoEmCarteira.valorAplicado),
                                 ),
                               ],
                             ),
@@ -115,7 +115,7 @@ class _AporteCardState extends State<AporteCard> {
                                   style: TextStyle(fontSize: 11),
                                 ),
                                 Text(
-                                  widget.aporte.quantidade.toString(),
+                                  widget.ativoEmCarteira.quantidade.toString(),
                                 ),
                               ],
                             ),
@@ -126,10 +126,11 @@ class _AporteCardState extends State<AporteCard> {
                                   style: TextStyle(fontSize: 11),
                                 ),
                                 Text(
-                                  Parser.toStringCurrency(widget.aporte.saldo),
+                                  Parser.toStringCurrency(
+                                      widget.ativoEmCarteira.saldo),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      color: widget.aporte.saldo > 0
+                                      color: widget.ativoEmCarteira.saldo > 0
                                           ? Colors.green
                                           : Colors.red),
                                 ),

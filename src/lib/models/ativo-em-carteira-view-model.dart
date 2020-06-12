@@ -1,4 +1,4 @@
-class AporteViewModel {
+class AtivoEmCarteiraViewModel {
   String id;
   String ativoId;
   String ativoTicker;
@@ -11,7 +11,7 @@ class AporteViewModel {
   double saldo;
   DateTime dataPrimeiroAporte;
 
-  AporteViewModel(
+  AtivoEmCarteiraViewModel(
       {this.id,
       this.ativoId,
       this.ativoTicker,
@@ -24,7 +24,7 @@ class AporteViewModel {
       this.saldo,
       this.dataPrimeiroAporte});
 
-  AporteViewModel.fromJson(Map<String, dynamic> json) {
+  AtivoEmCarteiraViewModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     ativoId = json['ativoId'];
     ativoTicker = json['ativoTicker'];

@@ -88,7 +88,7 @@ class _AtivoCardState extends State<AtivoCard> {
                         Column(
                           children: <Widget>[
                             Text(
-                              "Ultimo aporte",
+                              "Ultimo ativoEmCarteira",
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(
