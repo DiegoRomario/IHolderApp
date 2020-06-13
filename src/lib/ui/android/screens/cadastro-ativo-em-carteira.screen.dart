@@ -108,7 +108,7 @@ class _CadastroAtivoEmCarteiraScreenState
                 decoration: InputDecoration(
                   icon: Icon(MdiIcons.calendar),
                   hintText: "dd/mm/aaaa",
-                  labelText: "Data AtivoEmCarteira",
+                  labelText: "Data Primeiro Aporte",
                 ),
                 onSaved: (dt) {
                   widget.ativoEmCarteira.dataPrimeiroAporte = dt;

@@ -2,6 +2,7 @@ class AtivoViewModel {
   String id;
   String produtoId;
   String produtoDescricao;
+  String tipoDescricao;
   String descricao;
   String caracteristicas;
   String ticker;
@@ -13,6 +14,7 @@ class AtivoViewModel {
       {this.id,
       this.produtoId,
       this.produtoDescricao,
+      this.tipoDescricao,
       this.descricao,
       this.caracteristicas,
       this.ticker,
@@ -24,6 +26,7 @@ class AtivoViewModel {
     id = json['id'];
     produtoId = json['produtoId'];
     produtoDescricao = json['produtoDescricao'];
+    tipoDescricao = json['tipoDescricao'];
     descricao = json['descricao'];
     caracteristicas = json['caracteristicas'];
     ticker = json['ticker'];
@@ -37,6 +40,7 @@ class AtivoViewModel {
     data['id'] = this.id;
     data['produtoId'] = this.produtoId;
     data['produtoDescricao'] = this.produtoDescricao;
+    data['tipoDescricao'] = this.tipoDescricao;
     data['descricao'] = this.descricao;
     data['caracteristicas'] = this.caracteristicas;
     data['ticker'] = this.ticker;
@@ -45,5 +49,4 @@ class AtivoViewModel {
     data['usuarioId'] = this.usuarioId;
     return data;
   }
-
 }

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
+import 'package:iholder_app/ui/android/screens/ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
-import 'package:iholder_app/validators/Formatters.dart';
+import 'package:iholder_app/ui/android/screens/cadastro-distribuicao.screen.dart';
+import 'package:iholder_app/validators/widget-selector.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import 'descricao-e-valor.widget.dart';
+import 'descricao-e-widget.widget.dart';
 
 class AtivoCard extends StatefulWidget {
   final AtivoViewModel ativo;
@@ -30,33 +35,59 @@ class _AtivoCardState extends State<AtivoCard> {
                             )));
               },
               child: ListTile(
-                leading: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(widget.ativo.ticker),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                          'R\$ ${Parser.toStringCurrency(widget.ativo.cotacao)}'),
-                    ),
-                  ],
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(widget.ativo.ticker),
+                      Text(" - "),
+                      Text(
+                        widget.ativo.descricao,
+                        style: TextStyle(
+                            fontSize: 11, fontWeight: FontWeight.w100),
+                      ),
+                    ],
+                  ),
                 ),
-                title: Text(widget.ativo.produtoDescricao),
-                subtitle: Text(
-                    "${widget.ativo.descricao} - ${widget.ativo.caracteristicas}"),
-                trailing: IconButton(
-                  icon: Icon(mostraDetalhes
-                      ? MdiIcons.chevronUp
-                      : MdiIcons.chevronDown),
-                  onPressed: () {
-                    setState(() {
-                      mostraDetalhes = !mostraDetalhes;
-                    });
-                  },
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          DescricaoEWidget(
+                            "Tipo",
+                            Text(widget.ativo.tipoDescricao),
+                          ),
+                          DescricaoEWidget(
+                            "Produto",
+                            Text(widget.ativo.produtoDescricao),
+                          ),
+                          DescricaoEWidget(
+                            "Situação",
+                            Text(widget.ativo.situacao),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                isThreeLine: true,
+                trailing: Container(
+                  width: 55,
+                  child: FlatButton(
+                    child: Icon(mostraDetalhes
+                        ? MdiIcons.chevronUp
+                        : MdiIcons.chevronDown),
+                    onPressed: () {
+                      setState(() {
+                        mostraDetalhes = !mostraDetalhes;
+                      });
+                    },
+                  ),
+                ),
+                isThreeLine: false,
               ),
             ),
             Visibility(
@@ -65,47 +96,63 @@ class _AtivoCardState extends State<AtivoCard> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+                    child: Text(widget.ativo.caracteristicas),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(left: 8, right: 8),
                     child: Divider(color: Colors.black),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: Column(
                       children: <Widget>[
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            Text(
-                              "R\$ Médio",
-                              style: TextStyle(fontSize: 11),
+                            IconButton(
+                              icon: Icon(MdiIcons.walletPlus),
+                              tooltip: 'Abrir ativos em carteira',
+                              onPressed: () {
+                                {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          AtivosEmCarteiraScreen(),
+                                    ),
+                                  );
+                                }
+                              },
                             ),
-                            Text(
-                              "30,22",
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                            IconButton(
+                              icon: Icon(MdiIcons.divisionBox),
+                              tooltip: 'Abrir ativos em carteira',
+                              onPressed: () {
+                                {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          CadastroDistribuicaoScreen(
+                                              "Cadastro de distribuições"),
+                                    ),
+                                  );
+                                }
+                              },
                             ),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              "Ultimo ativoEmCarteira",
-                              style: TextStyle(fontSize: 11),
-                            ),
-                            Text(
-                              "01/02/2020",
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              "Situação",
-                              style: TextStyle(fontSize: 11),
-                            ),
-                            Text(
-                              widget.ativo.situacao,
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                            IconButton(
+                              icon: Icon(MdiIcons.cogOutline),
+                              tooltip: 'Abrir ativos em carteira',
+                              onPressed: () {
+                                {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          AtivosEmCarteiraScreen(),
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                           ],
                         ),
