@@ -1,10 +1,10 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:iholder_app/models/ativo-em-carteira-view-model.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/descricao-e-valor.widget.dart';
+import 'package:iholder_app/ui/shared/widgets/variacao-badge.widget.dart';
 import 'package:iholder_app/validators/Formatters.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:iholder_app/validators/widget-selector.dart';
 
 class AtivoEmCarteiraCard extends StatefulWidget {
   final AtivoEmCarteiraViewModel ativoEmCarteira;
@@ -94,20 +94,19 @@ class _AtivoEmCarteiraCardState extends State<AtivoEmCarteiraCard> {
                             DescricaoEValor(
                               "Variação",
                               widget.ativoEmCarteira.percentual,
-                              prefixo: "% ",
+                              prefixo: "",
+                              sufixo: " %",
                               style: TextStyle(
-                                  color: widget.ativoEmCarteira.saldo > 0
-                                      ? Colors.green
-                                      : Colors.red),
+                                  color: Selector.corPorValor(
+                                      widget.ativoEmCarteira.saldo)),
                             ),
                             DescricaoEValor(
                               "Saldo",
                               widget.ativoEmCarteira.saldo,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: widget.ativoEmCarteira.saldo > 0
-                                      ? Colors.green
-                                      : Colors.red),
+                                  color: Selector.corPorValor(
+                                      widget.ativoEmCarteira.saldo)),
                             ),
                           ],
                         ),
@@ -119,35 +118,6 @@ class _AtivoEmCarteiraCardState extends State<AtivoEmCarteiraCard> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class VariacaoBadge extends StatelessWidget {
-  final double percentual;
-
-  const VariacaoBadge({this.percentual});
-
-  @override
-  Widget build(BuildContext context) {
-    return Badge(
-      badgeColor: Theme.of(context).backgroundColor,
-      shape: BadgeShape.square,
-      borderRadius: 20,
-      toAnimate: true,
-      badgeContent: Row(
-        children: <Widget>[
-          Text(
-            Parser.toStringCurrency(percentual) + " %",
-            style: TextStyle(
-                color: percentual > 0 ? Colors.green : Colors.red,
-                fontSize: 12,
-                fontWeight: FontWeight.w600),
-          ),
-          Icon(MdiIcons.arrowUp,
-              size: 12, color: percentual > 0 ? Colors.green : Colors.red)
-        ],
       ),
     );
   }
