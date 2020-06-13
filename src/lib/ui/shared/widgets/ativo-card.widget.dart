@@ -3,10 +3,7 @@ import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/ui/android/screens/ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-distribuicao.screen.dart';
-import 'package:iholder_app/validators/widget-selector.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import 'descricao-e-valor.widget.dart';
 import 'descricao-e-widget.widget.dart';
 
 class AtivoCard extends StatefulWidget {
@@ -127,7 +124,7 @@ class _AtivoCardState extends State<AtivoCard> {
                             ),
                             IconButton(
                               icon: Icon(MdiIcons.divisionBox),
-                              tooltip: 'Abrir ativos em carteira',
+                              tooltip: 'Abrir divisão por ativos',
                               onPressed: () {
                                 {
                                   Navigator.of(context).push(
@@ -142,16 +139,9 @@ class _AtivoCardState extends State<AtivoCard> {
                             ),
                             IconButton(
                               icon: Icon(MdiIcons.cogOutline),
-                              tooltip: 'Abrir ativos em carteira',
+                              tooltip: 'Configurar situação do',
                               onPressed: () {
-                                {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (ctx) =>
-                                          AtivosEmCarteiraScreen(),
-                                    ),
-                                  );
-                                }
+                                situacaoShowDialog(context);
                               },
                             ),
                           ],
@@ -167,4 +157,61 @@ class _AtivoCardState extends State<AtivoCard> {
       ),
     );
   }
+}
+
+situacaoShowDialog(BuildContext context) {
+  Widget normalButton = Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Icon(MdiIcons.checkboxMarked),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Text('Regular'),
+        )
+      ],
+    ),
+  );
+  Widget oportunidadeButton = Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Icon(MdiIcons.lightbulbOn),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Text('Oportunidade'),
+        )
+      ],
+    ),
+  );
+  Widget quarentenaButton = Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Icon(MdiIcons.virus),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Text('Quarentena'),
+        )
+      ],
+    ),
+  );
+  // configura o  AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Para qual situação deseja alterar o ativo?"),
+    actions: [
+      normalButton,
+      oportunidadeButton,
+      quarentenaButton,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

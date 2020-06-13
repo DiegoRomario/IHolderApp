@@ -88,7 +88,7 @@ class OpcoesLancamentos extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Icon(MdiIcons.walletPlus),
+                                  Icon(MdiIcons.wallet),
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text('Carteira'),
