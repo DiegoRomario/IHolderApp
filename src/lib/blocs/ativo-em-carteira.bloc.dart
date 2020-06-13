@@ -10,11 +10,9 @@ class AtivoEmCarteiraBloc extends ChangeNotifier {
   List<AtivoEmCarteiraViewModel> ativosEmCarteira;
   var repository = new AtivoEmCarteiraRepository();
 
-  obterAtivosEmCarteira() {
-    repository.obterTodos().then((data) {
-      ativosEmCarteira = data;
-      notifyListeners();
-    });
+  obterAtivosEmCarteira() async {
+    ativosEmCarteira = await repository.obterTodos();
+    notifyListeners();
   }
 
   Future<String> salvar(AtivoEmCarteira ativoEmCarteira) async {
