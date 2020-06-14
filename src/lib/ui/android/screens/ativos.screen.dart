@@ -9,8 +9,10 @@ import 'package:provider/provider.dart';
 class AtivosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
     var bloc = Provider.of<AtivoBloc>(context, listen: true);
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Ativos"),
         centerTitle: true,
@@ -20,6 +22,7 @@ class AtivosScreen extends StatelessWidget {
         callback: () {
           return AtivosListagem(
             ativos: bloc.ativos,
+            scaffoldKey: _scaffoldKey,
           );
         },
       ),
@@ -36,7 +39,8 @@ class AtivosScreen extends StatelessWidget {
 
 class AtivosListagem extends StatelessWidget {
   final List<AtivoViewModel> ativos;
-  AtivosListagem({this.ativos});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  AtivosListagem({this.ativos, this.scaffoldKey});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,9 +54,7 @@ class AtivosListagem extends StatelessWidget {
               return Container(
                 child: Column(
                   children: <Widget>[
-                    AtivoCard(
-                      ativos[index],
-                    ),
+                    AtivoCard(ativos[index], scaffoldKey),
                   ],
                 ),
               );

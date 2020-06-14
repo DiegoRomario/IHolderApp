@@ -14,7 +14,7 @@ class DescricaoEWidget extends StatelessWidget {
       children: <Widget>[
         Text(
           descricao,
-          style: TextStyle(fontSize: 11, color: Colors.white),
+          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4.0),

@@ -26,5 +26,14 @@ class AtivoBloc extends ChangeNotifier {
       throw ex;
     }
   }
-  
+
+  Future<String> alterarSituacao(AtivoViewModel ativo) async {
+    try {
+      var response = await repository.alterarSituacao(ativo);
+      //obterAtivos();
+      return response;
+    } catch (ex) {
+      throw ex;
+    }
+  }
 }

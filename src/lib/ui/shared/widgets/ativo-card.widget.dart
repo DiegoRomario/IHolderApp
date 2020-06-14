@@ -1,21 +1,27 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:iholder_app/blocs/ativo.bloc.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/ui/android/screens/ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-distribuicao.screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'descricao-e-widget.widget.dart';
+import 'loader.widget.dart';
 
 class AtivoCard extends StatefulWidget {
   final AtivoViewModel ativo;
-
-  const AtivoCard(this.ativo);
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  AtivoCard(this.ativo, this.scaffoldKey);
   @override
   _AtivoCardState createState() => _AtivoCardState();
 }
 
 class _AtivoCardState extends State<AtivoCard> {
   bool mostraDetalhes = false;
+  var _sending = false;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -140,8 +146,8 @@ class _AtivoCardState extends State<AtivoCard> {
                             IconButton(
                               icon: Icon(MdiIcons.cogOutline),
                               tooltip: 'Configurar situação do',
-                              onPressed: () {
-                                situacaoShowDialog(context);
+                              onPressed: () async {
+                                await situacaoShowDialog(context);
                               },
                             ),
                           ],
@@ -157,61 +163,118 @@ class _AtivoCardState extends State<AtivoCard> {
       ),
     );
   }
-}
 
-situacaoShowDialog(BuildContext context) {
-  Widget normalButton = Container(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(MdiIcons.checkboxMarked),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Text('Regular'),
-        )
-      ],
-    ),
-  );
-  Widget oportunidadeButton = Container(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(MdiIcons.lightbulbOn),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Text('Oportunidade'),
-        )
-      ],
-    ),
-  );
-  Widget quarentenaButton = Container(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(MdiIcons.virus),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Text('Quarentena'),
-        )
-      ],
-    ),
-  );
-  // configura o  AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Para qual situação deseja alterar o ativo?"),
-    actions: [
-      normalButton,
-      oportunidadeButton,
-      quarentenaButton,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+  alterarSituacao(String situacao) async {
+    widget.ativo.situacao = situacao;
+    var bloc = Provider.of<AtivoBloc>(context, listen: false);
+    String response = await bloc.alterarSituacao(widget.ativo).catchError(
+      (onError) {
+        final snackBar = SnackBar(content: Text(onError.message));
+        widget.scaffoldKey.currentState.showSnackBar(snackBar);
+      },
+    );
+
+    if (response != null) {
+      final snackBar = SnackBar(
+        content: Text(response),
+      );
+      Timer(
+        Duration(milliseconds: 500),
+        () {
+          Navigator.pop(context);
+          setState(() {
+            mostraDetalhes = false;
+          });
+        },
+      );
+      widget.scaffoldKey.currentState.showSnackBar(snackBar);
+    }
+  }
+
+  situacaoShowDialog(BuildContext context) async {
+    // configura o  AlertDialog
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Container(
+                child: Column(
+                  children: <Widget>[
+                    Text("Para qual situação você deseja alterar o ativo?"),
+                    Visibility(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 48),
+                        child: Loader(),
+                      ),
+                      visible: _sending,
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                Column(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(MdiIcons.checkboxMarked),
+                      tooltip: 'Define ativo para situação Regular (normal)',
+                      onPressed: _sending
+                          ? null
+                          : () async {
+                              await alterarSituacaoEAtualizaTela(
+                                  setState, "Regular");
+                            },
+                    ),
+                    Text('Regular'),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(MdiIcons.lightbulbOn),
+                      tooltip: 'Define ativo para situação Oportunidade',
+                      onPressed: _sending
+                          ? null
+                          : () async {
+                              await alterarSituacaoEAtualizaTela(
+                                  setState, "Oportunidade");
+                            },
+                    ),
+                    Text('Oportunidade'),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(MdiIcons.virus),
+                      tooltip: 'Define ativo para situação Quarentena',
+                      onPressed: _sending
+                          ? null
+                          : () async {
+                              await alterarSituacaoEAtualizaTela(
+                                  setState, "Quarentena");
+                            },
+                    ),
+                    Text('Quarentena'),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future alterarSituacaoEAtualizaTela(
+      StateSetter setState, String situacao) async {
+    setState(() {
+      _sending = true;
+    });
+    await alterarSituacao(situacao);
+    setState(() {
+      _sending = false;
+    });
+  }
 }

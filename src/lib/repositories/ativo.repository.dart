@@ -37,4 +37,15 @@ class AtivoRepository {
     var responseJson = jsonDecode(response.body);
     return CotacaoViewModel.fromJson(responseJson["data"]);
   }
+
+  Future<String> alterarSituacao(AtivoViewModel ativo) async {
+    String json = jsonEncode(ativo.toJson());
+    Response response;
+
+    response = await webClient.put(
+        "${Settings.apiUrl}Ativo/alterar-situacao/${ativo.id}",
+        body: json);
+
+    return jsonDecode(response.body)["data"];
+  }
 }
