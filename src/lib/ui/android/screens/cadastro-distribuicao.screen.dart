@@ -61,6 +61,7 @@ class _CadastroDistribuicaoScreenState
             descricaoTela = "tipos";
             break;
         }
+        bloc.obterDistribuicao();
         var _formKey = GlobalKey<FormState>();
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
