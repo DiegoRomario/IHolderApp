@@ -6,6 +6,7 @@ class Ativo {
   String ticker;
   double cotacao;
   String usuarioId;
+  DateTime dataReferenciaSituacao;
 
   Ativo(
       {this.produtoId,
@@ -13,7 +14,8 @@ class Ativo {
       this.caracteristicas,
       this.ticker,
       this.cotacao,
-      this.usuarioId});
+      this.usuarioId,
+      this.dataReferenciaSituacao});
 
   Ativo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,6 +25,7 @@ class Ativo {
     ticker = json['ticker'];
     cotacao = json['cotacao'];
     usuarioId = json['usuarioId'];
+    dataReferenciaSituacao = json['dataReferenciaSituacao'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,6 +37,7 @@ class Ativo {
     data['ticker'] = this.ticker;
     data['cotacao'] = this.cotacao;
     data['usuarioId'] = this.usuarioId;
+    data['dataReferenciaSituacao'] = this.dataReferenciaSituacao.toString();
     return data;
   }
 }

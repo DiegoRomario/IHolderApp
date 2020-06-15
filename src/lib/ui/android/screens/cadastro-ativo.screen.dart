@@ -31,6 +31,7 @@ class CadastroAtivoScreen extends StatefulWidget {
       cotacaoCtrl.text = Parser.toStringCurrency(ativoViewModel.cotacao);
       produtoCtrl.text = ativoViewModel.produtoDescricao;
       ativo.id = ativoViewModel.id;
+      ativo.dataReferenciaSituacao = ativoViewModel.dataReferenciaSituacao;
     }
   }
   @override
