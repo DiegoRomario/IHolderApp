@@ -81,38 +81,45 @@ class _DistribuicaoScreenState extends State<DistribuicaoScreen> {
             ),
           ],
         ),
-        floatingActionButton: _sending
-            ? CircularProgressIndicator()
-            : FloatingActionButton(
-                onPressed: _sending
-                    ? null
-                    : () {
-                        recalcular();
-                      },
-                child: Icon(MdiIcons.ballotRecount),
-              ),
+        floatingActionButton: Visibility(
+          child: _sending
+              ? CircularProgressIndicator()
+              : FloatingActionButton(
+                  onPressed: _sending
+                      ? null
+                      : () {
+                          recalcular();
+                        },
+                  child: Icon(MdiIcons.ballotRecount),
+                ),
+        ),
       ),
     );
   }
 
   recalcular() async {
-    setState(() {
-      _sending = true;
-    });
-    String response = await bloc.recalcular().whenComplete(
-      () {
-        setState(
-          () {
-            _sending = false;
-          },
-        );
-      },
-    ).catchError(
-      (onError) {
-        final snackBar = SnackBar(content: Text(onError.message));
-        widget._scaffoldKey.currentState.showSnackBar(snackBar);
-      },
-    );
+    String response;
+    if (bloc.distribuicoes.length == 0) {
+      response = "Nenhum registro encontrado";
+    } else {
+      setState(() {
+        _sending = true;
+      });
+      response = await bloc.recalcular().whenComplete(
+        () {
+          setState(
+            () {
+              _sending = false;
+            },
+          );
+        },
+      ).catchError(
+        (onError) {
+          final snackBar = SnackBar(content: Text(onError.message));
+          widget._scaffoldKey.currentState.showSnackBar(snackBar);
+        },
+      );
+    }
     if (response != null) {
       final snackBar = SnackBar(
         content: Text(response),
