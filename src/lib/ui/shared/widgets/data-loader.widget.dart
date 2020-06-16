@@ -11,12 +11,18 @@ class DataLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     if (object == null) {
       return Center(
-        child: CircularProgressIndicator(),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: CircularProgressIndicator(),
+        ),
       );
     }
     if (object.length == 0) {
       return Center(
-        child: Text("Nenhum item encontrado"),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Text("Nenhum item encontrado"),
+        ),
       );
     }
     return callback();

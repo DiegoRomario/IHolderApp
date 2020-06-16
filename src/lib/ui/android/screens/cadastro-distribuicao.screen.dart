@@ -74,13 +74,10 @@ class _CadastroDistribuicaoScreenState
             child: DataLoader(
               object: bloc.distribuicoes,
               callback: () {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: CadastroDistribuicaoTable(
-                    bloc: bloc,
-                    formKey: _formKey,
-                    scaffoldKey: widget._scaffoldKey,
-                  ),
+                return CadastroDistribuicaoTable(
+                  bloc: bloc,
+                  formKey: _formKey,
+                  scaffoldKey: widget._scaffoldKey,
                 );
               },
             ),
