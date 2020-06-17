@@ -106,9 +106,8 @@ class OpcoesLancamentos extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (ctx) => CadastroDistribuicaoScreen(
-                                    "Cadastro de distribuições",
-                                  ),
+                                  builder: (ctx) =>
+                                      CadastroDistribuicaoScreen(),
                                 ),
                               );
                             },
@@ -120,7 +119,7 @@ class OpcoesLancamentos extends StatelessWidget {
                                   Icon(MdiIcons.divisionBox),
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
-                                    child: Text('Distribuições'),
+                                    child: Text('Ativos'),
                                   )
                                 ],
                               ),

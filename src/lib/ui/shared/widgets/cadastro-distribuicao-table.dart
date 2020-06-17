@@ -6,8 +6,8 @@ import 'package:iholder_app/models/distribuicao-view-model.dart';
 import 'package:iholder_app/models/distribuicao.dart';
 import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import 'card-button.widget.dart';
+import 'loader.widget.dart';
 
 class CadastroDistribuicaoTable extends StatefulWidget {
   final IDistribuicaoBloc bloc;
@@ -18,20 +18,17 @@ class CadastroDistribuicaoTable extends StatefulWidget {
       {@required this.bloc,
       @required this.formKey,
       @required this.scaffoldKey});
+
   @override
   _CadastroDistribuicaoTableState createState() =>
       _CadastroDistribuicaoTableState();
 }
 
 class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
-  List<DistribuicaoViewModel> distribuicoesSelecionadas;
   List<DistribuicaoViewModel> distribuicoes;
-  bool sort;
 
   @override
   void initState() {
-    sort = false;
-    distribuicoesSelecionadas = [];
     super.initState();
     distribuicoes = widget.bloc.distribuicoes;
   }
@@ -47,7 +44,6 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-              sortAscending: sort,
               sortColumnIndex: 0,
               columns: [
                 DataColumn(
@@ -74,7 +70,6 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
               rows: distribuicoes
                   .map(
                     (item) => DataRow(
-                      selected: distribuicoesSelecionadas.contains(item),
                       cells: [
                         DataCell(
                           item.estaNaCarteira
@@ -165,19 +160,30 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                 CardButton(
                   descricao: "Entre ativos em carteira",
                   icon: MdiIcons.divisionBox,
-                  onClick: () {
-                    dividir(context, true);
-                  },
+                  onClick: _sending
+                      ? null
+                      : () {
+                          dividir(context, true);
+                        },
                 ),
                 CardButton(
                   descricao: "Entre ativos cadastrados",
                   icon: MdiIcons.divisionBox,
-                  onClick: () {
-                    dividir(context, false);
-                  },
+                  onClick: _sending
+                      ? null
+                      : () {
+                          dividir(context, false);
+                        },
                 ),
               ],
             ),
+          ),
+          Visibility(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: Loader(),
+            ),
+            visible: _sending,
           ),
         ],
       ),

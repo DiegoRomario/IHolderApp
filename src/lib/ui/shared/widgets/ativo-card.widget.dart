@@ -136,8 +136,7 @@ class _AtivoCardState extends State<AtivoCard> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (ctx) =>
-                                          CadastroDistribuicaoScreen(
-                                              "Cadastro de distribuições"),
+                                          CadastroDistribuicaoScreen(),
                                     ),
                                   );
                                 }
