@@ -4,10 +4,12 @@ import 'package:iholder_app/models/ativo.dart';
 import 'package:iholder_app/repositories/ativo.repository.dart';
 
 class AtivoBloc extends ChangeNotifier {
+  List<AtivoViewModel> ativos;
   AtivoBloc() {
+    ativos = new List();
     obterAtivos();
   }
-  List<AtivoViewModel> ativos = new List();
+
   var repository = new AtivoRepository();
 
   obterAtivos() {

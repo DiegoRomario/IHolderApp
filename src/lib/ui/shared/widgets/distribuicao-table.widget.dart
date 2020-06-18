@@ -36,90 +36,92 @@ class _DistribuicaoTableState extends State<DistribuicaoTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            sortAscending: sort,
-            sortColumnIndex: 0,
-            columns: [
-              DataColumn(
-                label: Icon(MdiIcons.signDirection),
-                onSort: (columnIndex, ascending) {
-                  setState(() {
-                    sort = !sort;
-                  });
-                  onSortColum(columnIndex, ascending);
-                },
-              ),
-              DataColumn(
-                label: TableHeader("Descrição"),
-              ),
-              DataColumn(
-                label: TableHeader("% Obj."),
-              ),
-              DataColumn(
-                label: TableHeader('% Atual'),
-              ),
-              DataColumn(
-                label: TableHeader('% Dif.'),
-              ),
-              DataColumn(
-                label: TableHeader(
-                  'R\$ Atual',
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              sortAscending: sort,
+              sortColumnIndex: 0,
+              columns: [
+                DataColumn(
+                  label: Icon(MdiIcons.signDirection),
+                  onSort: (columnIndex, ascending) {
+                    setState(() {
+                      sort = !sort;
+                    });
+                    onSortColum(columnIndex, ascending);
+                  },
                 ),
-              ),
-              DataColumn(
-                label: TableHeader(
-                  'R\$ Dif.',
+                DataColumn(
+                  label: TableHeader("Descrição"),
                 ),
-              ),
-            ],
-            rows: widget.distribuicoes
-                .map(
-                  (item) => DataRow(
-                    selected: distribuicoesSelecionadas.contains(item),
-                    cells: [
-                      DataCell(
-                        Text(
-                          item.orientacao,
-                          style: TextStyle(
-                              color: corPorOrientacao(item.orientacao),
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      DataCell(
-                        Text(item.descricao),
-                      ),
-                      DataCell(
-                        Text(Parser.toStringPercent(item.percentualObjetivo)),
-                      ),
-                      DataCell(
-                        Text(Parser.toStringPercent(item.percentualAtual)),
-                      ),
-                      DataCell(
-                        Text(
-                          Parser.toStringPercent(item.percentualDiferenca),
-                        ),
-                      ),
-                      DataCell(
-                        Text(
-                          Parser.toStringCurrency(item.valorAtual),
-                        ),
-                      ),
-                      DataCell(
-                        Text(
-                          Parser.toStringCurrency(item.valorDiferenca),
-                        ),
-                      )
-                    ],
+                DataColumn(
+                  label: TableHeader("% Obj."),
+                ),
+                DataColumn(
+                  label: TableHeader('% Atual'),
+                ),
+                DataColumn(
+                  label: TableHeader('% Dif.'),
+                ),
+                DataColumn(
+                  label: TableHeader(
+                    'R\$ Atual',
                   ),
-                )
-                .toList(),
+                ),
+                DataColumn(
+                  label: TableHeader(
+                    'R\$ Dif.',
+                  ),
+                ),
+              ],
+              rows: widget.distribuicoes
+                  .map(
+                    (item) => DataRow(
+                      selected: distribuicoesSelecionadas.contains(item),
+                      cells: [
+                        DataCell(
+                          Text(
+                            item.orientacao,
+                            style: TextStyle(
+                                color: corPorOrientacao(item.orientacao),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataCell(
+                          Text(item.descricao),
+                        ),
+                        DataCell(
+                          Text(Parser.toStringPercent(item.percentualObjetivo)),
+                        ),
+                        DataCell(
+                          Text(Parser.toStringPercent(item.percentualAtual)),
+                        ),
+                        DataCell(
+                          Text(
+                            Parser.toStringPercent(item.percentualDiferenca),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            Parser.toStringCurrency(item.valorAtual),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            Parser.toStringCurrency(item.valorDiferenca),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -11,6 +11,7 @@ class AtivosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     var bloc = Provider.of<AtivoBloc>(context, listen: true);
+    bloc.obterAtivos();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

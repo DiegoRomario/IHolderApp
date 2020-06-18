@@ -30,14 +30,14 @@ class IoC extends StatelessWidget {
         ChangeNotifierProvider<DistribuicaoPorProdutoBloc>.value(
           value: DistribuicaoPorProdutoBloc(),
         ),
-        ChangeNotifierProvider<AtivoBloc>.value(
-          value: AtivoBloc(),
-        ),
         ChangeNotifierProvider<AtivoEmCarteiraBloc>.value(
           value: AtivoEmCarteiraBloc(),
         ),
         ChangeNotifierProvider<TemaBloc>.value(
           value: TemaBloc(),
+        ),
+        ChangeNotifierProvider<AtivoBloc>.value(
+          value: AtivoBloc(),
         )
       ],
       child: Main(),
