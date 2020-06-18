@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/settings.dart';
 import 'package:iholder_app/ui/android/screens/ativos.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/usuario-nao-autorizado.widget.dart';
@@ -106,8 +107,8 @@ class OpcoesLancamentos extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (ctx) =>
-                                      CadastroDistribuicaoScreen(),
+                                  builder: (ctx) => CadastroDistribuicaoScreen(
+                                      ETipoDistribuicao.ativo),
                                 ),
                               );
                             },
@@ -119,7 +120,63 @@ class OpcoesLancamentos extends StatelessWidget {
                                   Icon(MdiIcons.divisionBox),
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
-                                    child: Text('Ativos'),
+                                    child: Text('Por ativos'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => CadastroDistribuicaoScreen(
+                                      ETipoDistribuicao.produto),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(MdiIcons.divisionBox),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text('Por produtos'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => CadastroDistribuicaoScreen(
+                                      ETipoDistribuicao.tipo),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(MdiIcons.divisionBox),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text('Por tipos'),
                                   )
                                 ],
                               ),

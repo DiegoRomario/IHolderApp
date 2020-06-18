@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/ativo.bloc.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
+import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/ui/android/screens/ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-distribuicao.screen.dart';
@@ -136,7 +137,7 @@ class _AtivoCardState extends State<AtivoCard> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (ctx) =>
-                                          CadastroDistribuicaoScreen(),
+                                          CadastroDistribuicaoScreen(ETipoDistribuicao.ativo),
                                     ),
                                   );
                                 }
