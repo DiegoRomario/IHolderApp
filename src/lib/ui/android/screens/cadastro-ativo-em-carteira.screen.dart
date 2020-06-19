@@ -11,10 +11,10 @@ import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
 import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class CadastroAtivoEmCarteiraScreen extends StatefulWidget {
+  final AtivoEmCarteiraBloc bloc;
   final DateFormat dateFormatter = new DateFormat('dd/MM/yyyy');
   final AtivoEmCarteiraViewModel ativoEmCarteiraViewModel;
   final TextEditingController precoMedioCtrl = new TextEditingController();
@@ -28,7 +28,7 @@ class CadastroAtivoEmCarteiraScreen extends StatefulWidget {
   double calcularValorTotal(double precoMedio, double quantidade) =>
       precoMedio * quantidade;
 
-  CadastroAtivoEmCarteiraScreen({this.ativoEmCarteiraViewModel}) {
+  CadastroAtivoEmCarteiraScreen(this.bloc, {this.ativoEmCarteiraViewModel}) {
     if (ativoEmCarteiraViewModel != null && quantidadeCtrl.text != null) {
       precoMedioCtrl.text =
           Parser.toStringCurrency(ativoEmCarteiraViewModel.precoMedio);
@@ -216,11 +216,10 @@ class _CadastroAtivoEmCarteiraScreenState
   }
 
   create(BuildContext context) async {
-    var bloc = Provider.of<AtivoEmCarteiraBloc>(context, listen: false);
     setState(() {
       _sending = true;
     });
-    String response = await bloc.salvar(widget.ativoEmCarteira).whenComplete(
+    String response = await widget.bloc.salvar(widget.ativoEmCarteira).whenComplete(
       () {
         setState(
           () {

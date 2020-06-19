@@ -20,6 +20,7 @@ class AtivosEmCarteiraScreen extends StatelessWidget {
         object: bloc.ativosEmCarteira,
         callback: () {
           return AtivosEmCarteiraListagem(
+            bloc,
             ativos: bloc.ativosEmCarteira,
           );
         },
@@ -29,7 +30,7 @@ class AtivosEmCarteiraScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CadastroAtivoEmCarteiraScreen(),
+              builder: (context) => CadastroAtivoEmCarteiraScreen(bloc),
             ),
           );
         },
@@ -40,8 +41,9 @@ class AtivosEmCarteiraScreen extends StatelessWidget {
 }
 
 class AtivosEmCarteiraListagem extends StatelessWidget {
+  final AtivoEmCarteiraBloc bloc;
   final List<AtivoEmCarteiraViewModel> ativos;
-  AtivosEmCarteiraListagem({this.ativos});
+  AtivosEmCarteiraListagem(this.bloc, {this.ativos});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -56,6 +58,7 @@ class AtivosEmCarteiraListagem extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     AtivoEmCarteiraCard(
+                      bloc,
                       ativos[index],
                     ),
                   ],

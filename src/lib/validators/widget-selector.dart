@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class Selector {
+class WidgetSelector {
   static ColorSwatch<int> corPorValor(double valor) {
     if (valor > 0)
       return Colors.green;
     else if (valor < 0)
       return Colors.redAccent;
     else
-      return Colors.yellow;
+      return Colors.orange;
   }
 
   static IconData iconPorValor(double valor) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iholder_app/blocs/ativo-em-carteira.bloc.dart';
 import 'package:iholder_app/models/ativo-em-carteira-view-model.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/descricao-e-valor.widget.dart';
@@ -7,8 +8,9 @@ import 'package:iholder_app/validators/Formatters.dart';
 import 'package:iholder_app/validators/widget-selector.dart';
 
 class AtivoEmCarteiraCard extends StatefulWidget {
+  final AtivoEmCarteiraBloc bloc;
   final AtivoEmCarteiraViewModel ativoEmCarteira;
-  AtivoEmCarteiraCard(this.ativoEmCarteira);
+  AtivoEmCarteiraCard(this.bloc, this.ativoEmCarteira);
   @override
   _AtivoEmCarteiraCardState createState() => _AtivoEmCarteiraCardState();
 }
@@ -25,7 +27,7 @@ class _AtivoEmCarteiraCardState extends State<AtivoEmCarteiraCard> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (ctx) => CadastroAtivoEmCarteiraScreen(
+                builder: (ctx) => CadastroAtivoEmCarteiraScreen(widget.bloc,
                     ativoEmCarteiraViewModel: widget.ativoEmCarteira),
               ),
             );
@@ -97,7 +99,7 @@ class _AtivoEmCarteiraCardState extends State<AtivoEmCarteiraCard> {
                               prefixo: "",
                               sufixo: " %",
                               style: TextStyle(
-                                  color: Selector.corPorValor(
+                                  color: WidgetSelector.corPorValor(
                                       widget.ativoEmCarteira.saldo)),
                             ),
                             DescricaoEValor(
@@ -105,7 +107,7 @@ class _AtivoEmCarteiraCardState extends State<AtivoEmCarteiraCard> {
                               widget.ativoEmCarteira.saldo,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: Selector.corPorValor(
+                                  color: WidgetSelector.corPorValor(
                                       widget.ativoEmCarteira.saldo)),
                             ),
                           ],

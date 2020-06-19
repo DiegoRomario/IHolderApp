@@ -4,18 +4,11 @@ import 'package:iholder_app/models/ativo-em-carteira.dart';
 import 'package:iholder_app/repositories/ativo-em-carteira.repository.dart';
 
 class AtivoEmCarteiraBloc extends ChangeNotifier {
-  Future _doneFuture;
   AtivoEmCarteiraBloc() {
-    _doneFuture = _init();
+    obterAtivosEmCarteira();
   }
   List<AtivoEmCarteiraViewModel> ativosEmCarteira;
   var repository = new AtivoEmCarteiraRepository();
-
-  Future _init() async {
-    await obterAtivosEmCarteira();
-  }
-
-  Future get initializationDone => _doneFuture;
 
   obterAtivosEmCarteira() async {
     ativosEmCarteira = await repository.obterTodos();

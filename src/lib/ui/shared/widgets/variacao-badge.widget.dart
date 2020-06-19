@@ -20,14 +20,14 @@ class VariacaoBadge extends StatelessWidget {
           Text(
             Parser.toStringCurrency(percentual) + " %",
             style: TextStyle(
-                color: Selector.corPorValor(percentual),
+                color: WidgetSelector.corPorValor(percentual),
                 fontSize: 12,
                 fontWeight: FontWeight.w600),
           ),
           Icon(
-            Selector.iconPorValor(percentual),
+            WidgetSelector.iconPorValor(percentual),
             size: 12,
-            color: Selector.corPorValor(percentual),
+            color: WidgetSelector.corPorValor(percentual),
           )
         ],
       ),
