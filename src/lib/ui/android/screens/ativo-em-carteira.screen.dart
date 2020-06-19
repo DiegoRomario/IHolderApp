@@ -10,6 +10,7 @@ class AtivosEmCarteiraScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = Provider.of<AtivoEmCarteiraBloc>(context, listen: true);
+    //await bloc.initializationDone();
     return Scaffold(
       appBar: AppBar(
         title: Text("Ativos em carteira"),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
-import 'package:iholder_app/ui/android/screens/tab.screen.dart';
+import 'package:iholder_app/ui/android/screens/splash.screen.dart';
 import 'package:provider/provider.dart';
 import 'blocs/ativo-em-carteira.bloc.dart';
 import 'blocs/ativo.bloc.dart';
@@ -52,7 +52,7 @@ class Main extends StatelessWidget {
     return MaterialApp(
       theme: bloc.tema,
       debugShowCheckedModeBanner: false,
-      home: TabsScreen(),
+      home: SplashPage(),
     );
   }
 }

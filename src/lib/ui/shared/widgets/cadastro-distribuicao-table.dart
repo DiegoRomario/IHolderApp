@@ -160,6 +160,13 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
               ),
             ),
           ),
+          Visibility(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: Loader(),
+            ),
+            visible: _sending,
+          ),
           Container(
             color: Theme.of(context).cardColor,
             child: Padding(
@@ -188,13 +195,6 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
                 ],
               ),
             ),
-          ),
-          Visibility(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 24),
-              child: Loader(),
-            ),
-            visible: _sending,
           ),
         ],
       ),
