@@ -162,7 +162,7 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
           ),
           Visibility(
             child: Padding(
-              padding: const EdgeInsets.only(top: 24),
+              padding: const EdgeInsets.only(top: 12, bottom: 12),
               child: Loader(),
             ),
             visible: _sending,
