@@ -8,14 +8,14 @@ import 'package:iholder_app/ui/android/screens/ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-distribuicao.screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 import 'descricao-e-widget.widget.dart';
 import 'loader.widget.dart';
 
 class AtivoCard extends StatefulWidget {
   final AtivoViewModel ativo;
   final GlobalKey<ScaffoldState> scaffoldKey;
-  AtivoCard(this.ativo, this.scaffoldKey);
+  final AtivoBloc bloc;
+  AtivoCard(this.bloc, this.ativo, this.scaffoldKey);
   @override
   _AtivoCardState createState() => _AtivoCardState();
 }
@@ -35,6 +35,7 @@ class _AtivoCardState extends State<AtivoCard> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => CadastroAtivoScreen(
+                              widget.bloc,
                               ativoViewModel: widget.ativo,
                             )));
               },
@@ -137,7 +138,8 @@ class _AtivoCardState extends State<AtivoCard> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (ctx) =>
-                                          CadastroDistribuicaoScreen(ETipoDistribuicao.ativo),
+                                          CadastroDistribuicaoScreen(
+                                              ETipoDistribuicao.ativo),
                                     ),
                                   );
                                 }
@@ -166,8 +168,8 @@ class _AtivoCardState extends State<AtivoCard> {
 
   alterarSituacao(String situacao) async {
     widget.ativo.situacao = situacao;
-    var bloc = Provider.of<AtivoBloc>(context, listen: false);
-    String response = await bloc.alterarSituacao(widget.ativo).catchError(
+    String response =
+        await widget.bloc.alterarSituacao(widget.ativo).catchError(
       (onError) {
         final snackBar = SnackBar(content: Text(onError.message));
         widget.scaffoldKey.currentState.showSnackBar(snackBar);

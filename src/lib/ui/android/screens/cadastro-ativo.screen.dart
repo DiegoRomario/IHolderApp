@@ -11,11 +11,10 @@ import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
 import 'package:iholder_app/validators/Formatters.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 class CadastroAtivoScreen extends StatefulWidget {
   final AtivoViewModel ativoViewModel;
-
+  final AtivoBloc bloc;
   final ativoService = AtivoService();
   final TextEditingController descricaoCtrl = new TextEditingController();
   final TextEditingController tickerCtrl = new TextEditingController();
@@ -23,7 +22,7 @@ class CadastroAtivoScreen extends StatefulWidget {
   final TextEditingController cotacaoCtrl = new TextEditingController();
   final TextEditingController produtoCtrl = new TextEditingController();
   final Ativo ativo = new Ativo();
-  CadastroAtivoScreen({this.ativoViewModel}) {
+  CadastroAtivoScreen(this.bloc, {this.ativoViewModel}) {
     if (ativoViewModel != null && descricaoCtrl.text != null) {
       descricaoCtrl.text = ativoViewModel.descricao;
       caracteristicasCtrl.text = ativoViewModel.caracteristicas;
@@ -173,11 +172,10 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
   }
 
   create(BuildContext context) async {
-    var bloc = Provider.of<AtivoBloc>(context, listen: false);
     setState(() {
       _sending = true;
     });
-    String response = await bloc.salvar(widget.ativo).whenComplete(
+    String response = await widget.bloc.salvar(widget.ativo).whenComplete(
       () {
         setState(
           () {

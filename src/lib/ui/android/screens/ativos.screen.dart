@@ -11,6 +11,9 @@ class AtivosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     var bloc = Provider.of<AtivoBloc>(context, listen: true);
+    if (bloc.ativos.length == 0) {
+      bloc.obterAtivos();
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -21,6 +24,7 @@ class AtivosScreen extends StatelessWidget {
         object: bloc.ativos,
         callback: () {
           return AtivosListagem(
+            bloc,
             ativos: bloc.ativos,
             scaffoldKey: _scaffoldKey,
           );
@@ -28,8 +32,10 @@ class AtivosScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CadastroAtivoScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CadastroAtivoScreen(bloc)));
         },
         child: Icon(Icons.add),
       ),
@@ -38,9 +44,10 @@ class AtivosScreen extends StatelessWidget {
 }
 
 class AtivosListagem extends StatelessWidget {
+  final AtivoBloc bloc;
   final List<AtivoViewModel> ativos;
   final GlobalKey<ScaffoldState> scaffoldKey;
-  AtivosListagem({this.ativos, this.scaffoldKey});
+  AtivosListagem(this.bloc, {this.ativos, this.scaffoldKey});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,7 +61,7 @@ class AtivosListagem extends StatelessWidget {
               return Container(
                 child: Column(
                   children: <Widget>[
-                    AtivoCard(ativos[index], scaffoldKey),
+                    AtivoCard(bloc, ativos[index], scaffoldKey),
                   ],
                 ),
               );

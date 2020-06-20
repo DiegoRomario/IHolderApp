@@ -12,11 +12,10 @@ class AtivoBloc extends ChangeNotifier {
 
   var repository = new AtivoRepository();
 
-  obterAtivos() {
-    repository.obterTodos().then((data) {
-      ativos = data;
-      notifyListeners();
-    });
+  obterAtivos() async {
+    await Future.delayed(Duration(seconds: 2));
+    ativos = await repository.obterTodos();
+    notifyListeners();
   }
 
   Future<String> salvar(Ativo ativo) async {

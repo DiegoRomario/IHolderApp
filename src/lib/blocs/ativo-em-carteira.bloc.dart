@@ -11,6 +11,7 @@ class AtivoEmCarteiraBloc extends ChangeNotifier {
   var repository = new AtivoEmCarteiraRepository();
 
   obterAtivosEmCarteira() async {
+    await Future.delayed(Duration(seconds: 2));
     ativosEmCarteira = await repository.obterTodos();
     notifyListeners();
   }
