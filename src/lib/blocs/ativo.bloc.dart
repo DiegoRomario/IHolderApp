@@ -4,18 +4,24 @@ import 'package:iholder_app/models/ativo.dart';
 import 'package:iholder_app/repositories/ativo.repository.dart';
 
 class AtivoBloc extends ChangeNotifier {
-  List<AtivoViewModel> ativos;
-  AtivoBloc() {
-    ativos = new List();
-    obterAtivos();
-  }
-
   var repository = new AtivoRepository();
+  List<AtivoViewModel> ativos;
+  AtivoBloc();
 
-  obterAtivos() async {
-    await Future.delayed(Duration(seconds: 2));
-    ativos = await repository.obterTodos();
-    notifyListeners();
+  // obterAtivos() async {
+  //   this.ativos = await repository.obterTodos();
+  //   debugPrint("pronto" + this.ativos.length.toString());
+  //   notifyListeners();
+  // }
+
+  Future<List<AtivoViewModel>> obterAtivos() async {
+    try {
+      List<AtivoViewModel> result = await repository.obterTodos();
+      //notifyListeners();
+      return result;
+    } catch (ex) {
+      throw ex;
+    }
   }
 
   Future<String> salvar(Ativo ativo) async {
@@ -31,7 +37,8 @@ class AtivoBloc extends ChangeNotifier {
   Future<String> alterarSituacao(AtivoViewModel ativo) async {
     try {
       var response = await repository.alterarSituacao(ativo);
-      //obterAtivos();
+      obterAtivos();
+      notifyListeners();
       return response;
     } catch (ex) {
       throw ex;

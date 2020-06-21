@@ -24,8 +24,7 @@ class AtivoRepository {
 
   Future<List<AtivoViewModel>> obterTodos() async {
     Response response = await webClient.get("${Settings.apiUrl}Ativo");
-    var responseJson = jsonDecode(response.body);
-    return (responseJson["data"] as List)
+    return (jsonDecode(response.body)["data"] as List)
         .map((data) => AtivoViewModel.fromJson(data))
         .toList();
   }
