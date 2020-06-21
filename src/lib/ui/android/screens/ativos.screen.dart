@@ -45,7 +45,11 @@ class _AtivosScreenState extends State<AtivosScreen> {
                   return Container(
                     child: Column(
                       children: <Widget>[
-                        AtivoCard(bloc, ativo, _scaffoldKey),
+                        AtivoCard(bloc, ativo, _scaffoldKey, () {
+                          setState(() {
+                            print("teste");
+                          });
+                        }),
                       ],
                     ),
                   );
@@ -65,36 +69,6 @@ class _AtivosScreenState extends State<AtivosScreen> {
         },
         child: Icon(Icons.add),
       ),
-    );
-  }
-}
-
-class AtivosListagem extends StatelessWidget {
-  final AtivoBloc bloc;
-  final List<AtivoViewModel> ativos;
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  AtivosListagem(this.bloc, {this.ativos, this.scaffoldKey});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(8),
-            itemCount: ativos.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: Column(
-                  children: <Widget>[
-                    AtivoCard(bloc, ativos[index], scaffoldKey),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
     );
   }
 }

@@ -15,7 +15,8 @@ class AtivoCard extends StatefulWidget {
   final AtivoViewModel ativo;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final AtivoBloc bloc;
-  AtivoCard(this.bloc, this.ativo, this.scaffoldKey);
+  final Function callback;
+  AtivoCard(this.bloc, this.ativo, this.scaffoldKey, this.callback);
   @override
   _AtivoCardState createState() => _AtivoCardState();
 }
@@ -32,12 +33,14 @@ class _AtivoCardState extends State<AtivoCard> {
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CadastroAtivoScreen(
-                              widget.bloc,
-                              ativoViewModel: widget.ativo,
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CadastroAtivoScreen(
+                      widget.bloc,
+                      ativoViewModel: widget.ativo,
+                    ),
+                  ),
+                ).then((value) => widget.callback());
               },
               child: ListTile(
                 title: Padding(

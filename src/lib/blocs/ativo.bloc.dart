@@ -17,7 +17,7 @@ class AtivoBloc extends ChangeNotifier {
   Future<List<AtivoViewModel>> obterAtivos() async {
     try {
       List<AtivoViewModel> result = await repository.obterTodos();
-      //notifyListeners();
+      print("demo");
       return result;
     } catch (ex) {
       throw ex;
@@ -27,7 +27,6 @@ class AtivoBloc extends ChangeNotifier {
   Future<String> salvar(Ativo ativo) async {
     try {
       var response = await repository.salvar(ativo);
-      obterAtivos();
       return response;
     } catch (ex) {
       throw ex;
@@ -37,8 +36,6 @@ class AtivoBloc extends ChangeNotifier {
   Future<String> alterarSituacao(AtivoViewModel ativo) async {
     try {
       var response = await repository.alterarSituacao(ativo);
-      obterAtivos();
-      notifyListeners();
       return response;
     } catch (ex) {
       throw ex;
