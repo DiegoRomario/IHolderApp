@@ -35,8 +35,9 @@ class AtivoViewModel {
     cotacao = json['cotacao'];
     situacao = json['situacao'];
     usuarioId = json['usuarioId'];
-    dataReferenciaSituacao = DateTime.parse(json['dataReferenciaSituacao'].toString()); 
-  } 
+    dataReferenciaSituacao =
+        DateTime.parse(json['dataReferenciaSituacao'].toString());
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -50,7 +51,7 @@ class AtivoViewModel {
     data['cotacao'] = this.cotacao;
     data['situacao'] = this.situacao;
     data['usuarioId'] = this.usuarioId;
-    data['dataReferenciaSituacao'] = this.dataReferenciaSituacao;
+    data['dataReferenciaSituacao'] = this.dataReferenciaSituacao.toString();
     return data;
   }
 }
