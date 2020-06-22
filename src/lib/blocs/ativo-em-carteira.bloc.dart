@@ -21,6 +21,7 @@ class AtivoEmCarteiraBloc extends ChangeNotifier {
       if (ativosEmCarteira.length == 0 || forcaAtualizacao) {
         ativosEmCarteira = await repository.obterTodos();
       }
+      forcaAtualizacao = false;
       return ativosEmCarteira;
     } catch (ex) {
       throw ex;
