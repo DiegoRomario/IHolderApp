@@ -31,6 +31,7 @@ class CadastroAtivoScreen extends StatefulWidget {
       produtoCtrl.text = ativoViewModel.produtoDescricao;
       ativo.id = ativoViewModel.id;
       ativo.dataReferenciaSituacao = ativoViewModel.dataReferenciaSituacao;
+      ativo.situacao = ativoViewModel.situacao;
     }
   }
   @override

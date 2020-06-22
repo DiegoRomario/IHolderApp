@@ -6,7 +6,7 @@ class SplashPage extends StatelessWidget {
   Future delay(context) async {
     await new Future.delayed(
         new Duration(
-          milliseconds: 3500,
+          milliseconds: 2700,
         ), () {
       Navigator.push(
         context,
@@ -14,7 +14,7 @@ class SplashPage extends StatelessWidget {
           pageBuilder: (c, a1, a2) => TabsScreen(),
           transitionsBuilder: (c, anim, a2, child) =>
               FadeTransition(opacity: anim, child: child),
-          transitionDuration: Duration(milliseconds: 1000),
+          transitionDuration: Duration(milliseconds: 500),
         ),
       );
     });
@@ -36,7 +36,7 @@ class SplashPage extends StatelessWidget {
               width: double.infinity,
               height: 300,
               child: FlareActor(
-                "assets/animations/demo.flr",
+                "assets/animations/iholder.flr",
                 alignment: Alignment.center,
                 fit: BoxFit.contain,
                 isPaused: false,

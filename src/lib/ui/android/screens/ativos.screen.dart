@@ -63,9 +63,12 @@ class _AtivosScreenState extends State<AtivosScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CadastroAtivoScreen(bloc)));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CadastroAtivoScreen(bloc)))
+              .then((value) {
+            setState(() {});
+          });
         },
         child: Icon(Icons.add),
       ),
