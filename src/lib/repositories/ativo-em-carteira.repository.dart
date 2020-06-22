@@ -25,8 +25,7 @@ class AtivoEmCarteiraRepository {
   Future<List<AtivoEmCarteiraViewModel>> obterTodos() async {
     Response response =
         await webClient.get("${Settings.apiUrl}AtivoEmCarteira");
-    var responseJson = jsonDecode(response.body);
-    return (responseJson["data"] as List)
+    return (jsonDecode(response.body)["data"] as List)
         .map((data) => AtivoEmCarteiraViewModel.fromJson(data))
         .toList();
   }

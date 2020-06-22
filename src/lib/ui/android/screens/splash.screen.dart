@@ -6,7 +6,7 @@ class SplashPage extends StatelessWidget {
   Future delay(context) async {
     await new Future.delayed(
         new Duration(
-          milliseconds: 2700,
+          milliseconds: 3000,
         ), () {
       Navigator.push(
         context,
@@ -14,7 +14,7 @@ class SplashPage extends StatelessWidget {
           pageBuilder: (c, a1, a2) => TabsScreen(),
           transitionsBuilder: (c, anim, a2, child) =>
               FadeTransition(opacity: anim, child: child),
-          transitionDuration: Duration(milliseconds: 500),
+          transitionDuration: Duration(milliseconds: 750),
         ),
       );
     });
@@ -24,26 +24,19 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     delay(context);
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 60,
+      body: Center(
+        child: Container(
+          child: Container(
+            width: double.infinity,
+            height: 300,
+            child: FlareActor(
+              "assets/animations/iholder.flr",
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              isPaused: false,
+              animation: 'start',
             ),
-            Container(
-              color: Colors.white,
-              width: double.infinity,
-              height: 300,
-              child: FlareActor(
-                "assets/animations/iholder.flr",
-                alignment: Alignment.center,
-                fit: BoxFit.contain,
-                isPaused: false,
-                animation: 'start',
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

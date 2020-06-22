@@ -10,7 +10,8 @@ import 'package:iholder_app/validators/widget-selector.dart';
 class AtivoEmCarteiraCard extends StatefulWidget {
   final AtivoEmCarteiraBloc bloc;
   final AtivoEmCarteiraViewModel ativoEmCarteira;
-  AtivoEmCarteiraCard(this.bloc, this.ativoEmCarteira);
+  final Function callback;
+  AtivoEmCarteiraCard(this.bloc, this.ativoEmCarteira, this.callback);
   @override
   _AtivoEmCarteiraCardState createState() => _AtivoEmCarteiraCardState();
 }
@@ -25,12 +26,14 @@ class _AtivoEmCarteiraCardState extends State<AtivoEmCarteiraCard> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => CadastroAtivoEmCarteiraScreen(widget.bloc,
-                    ativoEmCarteiraViewModel: widget.ativoEmCarteira),
-              ),
-            );
+            Navigator.of(context)
+                .push(
+                  MaterialPageRoute(
+                    builder: (ctx) => CadastroAtivoEmCarteiraScreen(widget.bloc,
+                        ativoEmCarteiraViewModel: widget.ativoEmCarteira),
+                  ),
+                )
+                .then((value) => widget.callback());
           },
           child: Container(
             child: Padding(

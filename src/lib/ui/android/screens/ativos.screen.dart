@@ -36,25 +36,26 @@ class _AtivosScreenState extends State<AtivosScreen> {
               break;
             case ConnectionState.done:
               final List<AtivoViewModel> ativos = snapshot.data;
-              return ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(8),
-                itemCount: ativos.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final AtivoViewModel ativo = ativos[index];
-                  return Container(
-                    child: Column(
-                      children: <Widget>[
-                        AtivoCard(bloc, ativo, _scaffoldKey, () {
-                          setState(() {
-                            print("teste");
-                          });
-                        }),
-                      ],
-                    ),
-                  );
-                },
-              );
+              return ativos.length > 0
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(8),
+                      itemCount: ativos.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final AtivoViewModel ativo = ativos[index];
+                        return Container(
+                          child: Column(
+                            children: <Widget>[
+                              AtivoCard(bloc, ativo, _scaffoldKey, () {
+                                setState(() {
+                                });
+                              }),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  : Center(child: Text("Nenhum item encontrado"));
               break;
           }
           return Text("Erro desconhecido");

@@ -17,7 +17,6 @@ class AtivoBloc extends ChangeNotifier {
   Future<List<AtivoViewModel>> obterAtivos() async {
     try {
       List<AtivoViewModel> result = await repository.obterTodos();
-      print("demo");
       return result;
     } catch (ex) {
       throw ex;
