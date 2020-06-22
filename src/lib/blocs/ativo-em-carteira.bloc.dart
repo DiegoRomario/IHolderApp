@@ -5,8 +5,11 @@ import 'package:iholder_app/repositories/ativo-em-carteira.repository.dart';
 
 class AtivoEmCarteiraBloc extends ChangeNotifier {
   var repository = new AtivoEmCarteiraRepository();
+  bool forcaAtualizacao = false;
   List<AtivoEmCarteiraViewModel> ativosEmCarteira;
-  AtivoEmCarteiraBloc();
+  AtivoEmCarteiraBloc() {
+    ativosEmCarteira = new List<AtivoEmCarteiraViewModel>();
+  }
 
   // obterAtivosEmCarteira() async {
   //   ativosEmCarteira = await repository.obterTodos();
@@ -15,8 +18,10 @@ class AtivoEmCarteiraBloc extends ChangeNotifier {
 
   Future<List<AtivoEmCarteiraViewModel>> obterAtivosEmCarteira() async {
     try {
-      List<AtivoEmCarteiraViewModel> result = await repository.obterTodos();
-      return result;
+      if (ativosEmCarteira.length == 0 || forcaAtualizacao) {
+        ativosEmCarteira = await repository.obterTodos();
+      }
+      return ativosEmCarteira;
     } catch (ex) {
       throw ex;
     }
@@ -25,7 +30,7 @@ class AtivoEmCarteiraBloc extends ChangeNotifier {
   Future<String> salvar(AtivoEmCarteira ativoEmCarteira) async {
     try {
       var response = await repository.salvar(ativoEmCarteira);
-      // obterAtivosEmCarteira();
+      forcaAtualizacao = true;
       return response;
     } catch (ex) {
       throw ex;
