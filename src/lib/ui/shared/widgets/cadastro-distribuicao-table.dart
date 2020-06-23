@@ -34,10 +34,10 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
   }
 
   var _sending = false;
-  double percentualObjetivo = 0;
 
   @override
   Widget build(BuildContext context) {
+    double percentualObjetivo = -1;
     return SingleChildScrollView(
       child: Form(
         key: widget.formKey,
@@ -209,23 +209,28 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
   }
 
   salvar(BuildContext context, Distribuicao distribuicao) async {
-    setState(() {
-      _sending = true;
-    });
-    String response = await widget.bloc.salvar(distribuicao).whenComplete(
-      () {
-        setState(
-          () {
-            _sending = false;
-          },
-        );
-      },
-    ).catchError(
-      (onError) {
-        final snackBar = SnackBar(content: Text(onError.message));
-        widget.scaffoldKey.currentState.showSnackBar(snackBar);
-      },
-    );
+    String response;
+    if (distribuicao.percentualObjetivo < 0) {
+      response = "Percentual objetivo negativo ou não alterado";
+    } else {
+      setState(() {
+        _sending = true;
+      });
+      response = await widget.bloc.salvar(distribuicao).whenComplete(
+        () {
+          setState(
+            () {
+              _sending = false;
+            },
+          );
+        },
+      ).catchError(
+        (onError) {
+          final snackBar = SnackBar(content: Text(onError.message));
+          widget.scaffoldKey.currentState.showSnackBar(snackBar);
+        },
+      );
+    }
     if (response != null) {
       final snackBar = SnackBar(
         content: Text(response),
