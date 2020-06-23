@@ -18,8 +18,7 @@ class UsuarioAutenticadoCard extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                 image: new DecorationImage(
-                  image: new NetworkImage(
-                      "https://cdn.clipart.email/fcc8ead276ddb30d657f23845cd2e028_avatar-icon-of-flat-style-available-in-svg-png-eps-ai-icon-_512-512.png"),
+                  image: new AssetImage("assets/images/avatar.png"),
                   fit: BoxFit.fill,
                 ),
                 color: Theme.of(context).primaryColor,
