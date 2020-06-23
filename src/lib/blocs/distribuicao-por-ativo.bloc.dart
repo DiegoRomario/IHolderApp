@@ -6,7 +6,7 @@ import 'package:iholder_app/repositories/distribuicao.repository.dart';
 import 'Idistribuicao.bloc.dart';
 
 class DistribuicaoPorAtivoBloc extends ChangeNotifier
-  implements IDistribuicaoBloc {
+    implements IDistribuicaoBloc {
   var mostraTabela = true;
   final distribuicoesRepository =
       new DistribuicaoRepository("DistribuicaoPorAtivo");
@@ -14,8 +14,7 @@ class DistribuicaoPorAtivoBloc extends ChangeNotifier
   List<DistribuicaoViewModel> distribuicoes;
 
   DistribuicaoPorAtivoBloc() {
-    obterDistribuicao();
-    notifyListeners();
+    distribuicoes = new List<DistribuicaoViewModel>();
   }
 
   alteraFormatoVisualizacao() {
@@ -23,11 +22,11 @@ class DistribuicaoPorAtivoBloc extends ChangeNotifier
     notifyListeners();
   }
 
-  obterDistribuicao() async {
+  Future<List<DistribuicaoViewModel>> obterDistribuicao() async {
     await distribuicoesRepository.obterTodos().then((data) {
       this.distribuicoes = data;
-      notifyListeners();
     });
+    return distribuicoes;
   }
 
   Future<String> salvar(Distribuicao ativo) async {

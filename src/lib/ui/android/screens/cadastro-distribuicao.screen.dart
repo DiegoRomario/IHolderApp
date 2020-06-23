@@ -5,7 +5,7 @@ import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/ui/shared/widgets/cadastro-distribuicao-table.dart';
-import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
+import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:provider/provider.dart';
 
 class CadastroDistribuicaoScreen extends StatefulWidget {
@@ -45,22 +45,27 @@ class _CadastroDistribuicaoScreenState
       appBar: AppBar(
         title: Text("Cadastro de distribuição por $descricaoTela"),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Form(
-            key: _formKey,
-            child: DataLoader(
-              object: bloc.distribuicoes,
-              callback: () {
-                return CadastroDistribuicaoTable(
-                  bloc: bloc,
-                  formKey: _formKey,
-                  scaffoldKey: widget._scaffoldKey,
-                );
-              },
-            ),
-          ),
-        ),
+      body: FutureBuilder(
+        initialData: List(),
+        future: bloc.obterDistribuicao(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Loader();
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              return CadastroDistribuicaoTable(
+                bloc: bloc,
+                formKey: _formKey,
+                scaffoldKey: widget._scaffoldKey,
+              );
+          }
+          return Text("Erro desconhecido");
+        },
       ),
     );
   }

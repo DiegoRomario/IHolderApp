@@ -14,8 +14,7 @@ class DistribuicaoPorProdutoBloc extends ChangeNotifier
   List<DistribuicaoViewModel> distribuicoes;
 
   DistribuicaoPorProdutoBloc() {
-    obterDistribuicao();
-    notifyListeners();
+    distribuicoes = new List<DistribuicaoViewModel>();
   }
 
   alteraFormatoVisualizacao() {
@@ -23,11 +22,11 @@ class DistribuicaoPorProdutoBloc extends ChangeNotifier
     notifyListeners();
   }
 
-  obterDistribuicao() async {
+  Future<List<DistribuicaoViewModel>> obterDistribuicao() async {
     await distribuicoesRepository.obterTodos().then((data) {
       this.distribuicoes = data;
-      notifyListeners();
     });
+    return distribuicoes;
   }
 
   Future<String> salvar(Distribuicao produto) async {

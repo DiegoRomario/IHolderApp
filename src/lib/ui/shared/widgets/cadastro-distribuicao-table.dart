@@ -38,165 +38,172 @@ class _CadastroDistribuicaoTableState extends State<CadastroDistribuicaoTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.77,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
+    return SingleChildScrollView(
+      child: Form(
+        key: widget.formKey,
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.77,
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: DataTable(
-                  sortColumnIndex: 0,
-                  columns: [
-                    DataColumn(
-                      label: Icon(MdiIcons.wallet),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'Ticker',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900, fontSize: 12.00),
+                scrollDirection: Axis.vertical,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    sortColumnIndex: 0,
+                    columns: [
+                      DataColumn(
+                        label: Icon(MdiIcons.wallet),
                       ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        '% Objetivo',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900, fontSize: 12.00),
+                      DataColumn(
+                        label: Text(
+                          'Ticker',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900, fontSize: 12.00),
+                        ),
                       ),
-                    ),
-                    DataColumn(
-                      label: Text(''),
-                    ),
-                  ],
-                  rows: distribuicoes
-                      .map(
-                        (item) => DataRow(
-                          cells: [
-                            DataCell(
-                              item.estaNaCarteira
-                                  ? Icon(MdiIcons.check, color: Colors.green)
-                                  : Icon(MdiIcons.close,
-                                      color: Colors.redAccent),
-                            ),
-                            DataCell(
-                              Text(item.descricao),
-                            ),
-                            DataCell(
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 8.0, top: 8.0),
-                                child: Container(
-                                  width: 65,
-                                  child: TextFormField(
-                                    textAlignVertical: TextAlignVertical.center,
-                                    inputFormatters: [
-                                      WhitelistingTextInputFormatter.digitsOnly,
-                                      PercentInputFormatter(maxDigits: 5)
-                                    ],
-                                    style: TextStyle(
-                                      fontSize: 13,
+                      DataColumn(
+                        label: Text(
+                          '% Objetivo',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900, fontSize: 12.00),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(''),
+                      ),
+                    ],
+                    rows: distribuicoes
+                        .map(
+                          (item) => DataRow(
+                            cells: [
+                              DataCell(
+                                item.estaNaCarteira
+                                    ? Icon(MdiIcons.check, color: Colors.green)
+                                    : Icon(MdiIcons.close,
+                                        color: Colors.redAccent),
+                              ),
+                              DataCell(
+                                Text(item.descricao),
+                              ),
+                              DataCell(
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0, top: 8.0),
+                                  child: Container(
+                                    width: 65,
+                                    child: TextFormField(
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      inputFormatters: [
+                                        WhitelistingTextInputFormatter
+                                            .digitsOnly,
+                                        PercentInputFormatter(maxDigits: 5)
+                                      ],
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.all(13),
+                                          border: new OutlineInputBorder(),
+                                          filled: true,
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          labelStyle: TextStyle(
+                                              fontSize: 13,
+                                              color: Theme.of(context)
+                                                  .primaryColorLight),
+                                          labelText:
+                                              (item.percentualObjetivo > 10
+                                                      ? " "
+                                                      : "  ") +
+                                                  Parser.toStringCurrency(
+                                                      item.percentualObjetivo)),
+                                      textAlign: TextAlign.center,
+                                      validator: (value) {
+                                        if (Parser.toDoubleCurrency(value) >
+                                            100) {
+                                          return '% Inválido';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (value) {
+                                        percentualObjetivo =
+                                            Parser.toDoubleCurrency(value);
+                                      },
                                     ),
-                                    decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.all(13),
-                                        border: new OutlineInputBorder(),
-                                        filled: true,
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        labelStyle: TextStyle(
-                                            fontSize: 13,
-                                            color: Theme.of(context)
-                                                .primaryColorLight),
-                                        labelText: (item.percentualObjetivo > 10
-                                                ? " "
-                                                : "  ") +
-                                            Parser.toStringCurrency(
-                                                item.percentualObjetivo)),
-                                    textAlign: TextAlign.center,
-                                    validator: (value) {
-                                      if (Parser.toDoubleCurrency(value) >
-                                          100) {
-                                        return '% Inválido';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) {
-                                      percentualObjetivo =
-                                          Parser.toDoubleCurrency(value);
-                                    },
                                   ),
                                 ),
                               ),
-                            ),
-                            DataCell(
-                              IconButton(
-                                icon: Icon(Icons.save,
-                                    color: Theme.of(context).primaryColorLight),
-                                onPressed: _sending
-                                    ? null
-                                    : () {
-                                        if (widget.formKey.currentState
-                                            .validate()) {
-                                          widget.formKey.currentState.save();
-                                          salvar(
-                                              context,
-                                              new Distribuicao(
-                                                  id: item.id,
-                                                  tipoDistribuicaoId:
-                                                      item.tipoDistribuicaoId,
-                                                  percentualObjetivo:
-                                                      percentualObjetivo));
-                                        }
-                                      },
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                      .toList(),
+                              DataCell(
+                                IconButton(
+                                  icon: Icon(Icons.save,
+                                      color:
+                                          Theme.of(context).primaryColorLight),
+                                  onPressed: _sending
+                                      ? null
+                                      : () {
+                                          if (widget.formKey.currentState
+                                              .validate()) {
+                                            widget.formKey.currentState.save();
+                                            salvar(
+                                                context,
+                                                new Distribuicao(
+                                                    id: item.id,
+                                                    tipoDistribuicaoId:
+                                                        item.tipoDistribuicaoId,
+                                                    percentualObjetivo:
+                                                        percentualObjetivo));
+                                          }
+                                        },
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-          Visibility(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 12),
-              child: Loader(),
+            Visibility(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 12),
+                child: Loader(),
+              ),
+              visible: _sending,
             ),
-            visible: _sending,
-          ),
-          Container(
-            color: Theme.of(context).cardColor,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  CardButton(
-                    descricao: "Entre ativos em carteira",
-                    icon: MdiIcons.divisionBox,
-                    onClick: _sending
-                        ? null
-                        : () {
-                            dividir(context, true);
-                          },
-                  ),
-                  CardButton(
-                    descricao: "Entre ativos cadastrados",
-                    icon: MdiIcons.divisionBox,
-                    onClick: _sending
-                        ? null
-                        : () {
-                            dividir(context, false);
-                          },
-                  ),
-                ],
+            Container(
+              color: Theme.of(context).cardColor,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    CardButton(
+                      descricao: "Entre ativos em carteira",
+                      icon: MdiIcons.divisionBox,
+                      onClick: _sending
+                          ? null
+                          : () {
+                              dividir(context, true);
+                            },
+                    ),
+                    CardButton(
+                      descricao: "Entre ativos cadastrados",
+                      icon: MdiIcons.divisionBox,
+                      onClick: _sending
+                          ? null
+                          : () {
+                              dividir(context, false);
+                            },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
