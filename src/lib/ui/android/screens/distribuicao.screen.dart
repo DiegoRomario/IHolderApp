@@ -7,6 +7,7 @@ import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/distribuicao-grid.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/distribuicao-table.widget.dart';
+import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -61,25 +62,44 @@ class _DistribuicaoScreenState extends State<DistribuicaoScreen> {
           ),
           title: Text("Distribuição por $descricaoTela"),
         ),
-        body: TabBarView(
-          children: [
-            DataLoader(
-              object: bloc.distribuicoes,
-              callback: () {
-                return DistribuicaoTable(
-                  distribuicoes: bloc.distribuicoes,
-                );
-              },
-            ),
-            DataLoader(
-              object: bloc.distribuicoes,
-              callback: () {
-                return DistribuicaoGrid(
-                  distribuicoes: bloc.distribuicoes,
-                );
-              },
-            ),
-          ],
+        body: FutureBuilder(
+          initialData: List(),
+          future: bloc.obterDistribuicao(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                break;
+              case ConnectionState.waiting:
+                return Loader();
+                break;
+              case ConnectionState.active:
+                break;
+              case ConnectionState.done:
+                return bloc.distribuicoes.length > 0
+                    ? TabBarView(
+                        children: [
+                          DataLoader(
+                            object: bloc.distribuicoes,
+                            callback: () {
+                              return DistribuicaoTable(
+                                distribuicoes: bloc.distribuicoes,
+                              );
+                            },
+                          ),
+                          DataLoader(
+                            object: bloc.distribuicoes,
+                            callback: () {
+                              return DistribuicaoGrid(
+                                distribuicoes: bloc.distribuicoes,
+                              );
+                            },
+                          ),
+                        ],
+                      )
+                    : Center(child: Text("Nenhum item encontrado"));
+            }
+            return Text("Erro desconhecido");
+          },
         ),
         floatingActionButton: Visibility(
           child: _sending

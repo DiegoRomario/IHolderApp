@@ -58,11 +58,13 @@ class _CadastroDistribuicaoScreenState
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-              return CadastroDistribuicaoTable(
-                bloc: bloc,
-                formKey: _formKey,
-                scaffoldKey: widget._scaffoldKey,
-              );
+              return bloc.distribuicoes.length > 0
+                  ? CadastroDistribuicaoTable(
+                      bloc: bloc,
+                      formKey: _formKey,
+                      scaffoldKey: widget._scaffoldKey,
+                    )
+                  : Center(child: Text("Nenhum item encontrado"));
           }
           return Text("Erro desconhecido");
         },
