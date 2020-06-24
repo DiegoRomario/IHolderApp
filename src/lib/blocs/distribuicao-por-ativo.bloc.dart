@@ -22,7 +22,11 @@ class DistribuicaoPorAtivoBloc extends ChangeNotifier
     notifyListeners();
   }
 
-  Future<List<DistribuicaoViewModel>> obterDistribuicao() async {
+  Future<List<DistribuicaoViewModel>> obterDistribuicao(
+      {bool recalcular = false}) async {
+    if (recalcular == true) {
+      await distribuicoesRepository.recalcular();
+    }
     await distribuicoesRepository.obterTodos().then((data) {
       this.distribuicoes = data;
     });

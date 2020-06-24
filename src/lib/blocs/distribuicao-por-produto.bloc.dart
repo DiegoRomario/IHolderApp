@@ -22,7 +22,8 @@ class DistribuicaoPorProdutoBloc extends ChangeNotifier
     notifyListeners();
   }
 
-  Future<List<DistribuicaoViewModel>> obterDistribuicao() async {
+  Future<List<DistribuicaoViewModel>> obterDistribuicao(
+      {bool recalcular = false}) async {
     await distribuicoesRepository.obterTodos().then((data) {
       this.distribuicoes = data;
     });

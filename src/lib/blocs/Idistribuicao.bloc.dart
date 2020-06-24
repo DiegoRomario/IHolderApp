@@ -7,7 +7,8 @@ abstract class IDistribuicaoBloc {
   List<DistribuicaoViewModel> distribuicoes;
   IDistribuicaoBloc();
   alteraFormatoVisualizacao();
-  Future<List<DistribuicaoViewModel>> obterDistribuicao();
+  Future<List<DistribuicaoViewModel>> obterDistribuicao(
+      {bool recalcular = false});
   Future<String> salvar(Distribuicao ativo);
   Future<String> dividir(DistribuicaoDivisao divisao);
   Future<String> recalcular();

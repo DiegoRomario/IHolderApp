@@ -4,7 +4,6 @@ import 'package:iholder_app/blocs/distribuicao-por-ativo.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-produto.bloc.dart';
 import 'package:iholder_app/blocs/distribuicao-por-tipo.bloc.dart';
 import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
-import 'package:iholder_app/ui/shared/widgets/data-loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/distribuicao-grid.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/distribuicao-table.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
@@ -22,7 +21,7 @@ class DistribuicaoScreen extends StatefulWidget {
 }
 
 class _DistribuicaoScreenState extends State<DistribuicaoScreen> {
-  var _sending = false;
+  bool _sending = false;
   IDistribuicaoBloc bloc;
   @override
   Widget build(BuildContext context) {
@@ -64,36 +63,31 @@ class _DistribuicaoScreenState extends State<DistribuicaoScreen> {
         ),
         body: FutureBuilder(
           initialData: List(),
-          future: bloc.obterDistribuicao(),
+          future: bloc.obterDistribuicao(recalcular: _sending),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
                 break;
               case ConnectionState.waiting:
-                return Loader();
+                return Loader(
+                    message: _sending ? "Recalculando" : "Carregando");
                 break;
               case ConnectionState.active:
                 break;
               case ConnectionState.done:
+                if (_sending) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    final snackBar = SnackBar(
+                      content: Text("Recalculo efetuado com sucesso"),
+                    );
+                    widget._scaffoldKey.currentState.showSnackBar(snackBar);
+                  });
+                }
                 return bloc.distribuicoes.length > 0
                     ? TabBarView(
                         children: [
-                          DataLoader(
-                            object: bloc.distribuicoes,
-                            callback: () {
-                              return DistribuicaoTable(
-                                distribuicoes: bloc.distribuicoes,
-                              );
-                            },
-                          ),
-                          DataLoader(
-                            object: bloc.distribuicoes,
-                            callback: () {
-                              return DistribuicaoGrid(
-                                distribuicoes: bloc.distribuicoes,
-                              );
-                            },
-                          ),
+                          DistribuicaoTable(distribuicoes: bloc.distribuicoes),
+                          DistribuicaoGrid(distribuicoes: bloc.distribuicoes)
                         ],
                       )
                     : Center(child: Text("Nenhum item encontrado"));
@@ -101,50 +95,20 @@ class _DistribuicaoScreenState extends State<DistribuicaoScreen> {
             return Text("Erro desconhecido");
           },
         ),
-        floatingActionButton: Visibility(
-          child: _sending
-              ? CircularProgressIndicator()
-              : FloatingActionButton(
-                  onPressed: _sending
-                      ? null
-                      : () {
-                          recalcular();
-                        },
-                  child: Icon(MdiIcons.ballotRecount),
-                ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: _sending
+              ? Theme.of(context).disabledColor
+              : Theme.of(context).accentColor,
+          onPressed: _sending ? null : recalcular,
+          child: Icon(MdiIcons.ballotRecount),
         ),
       ),
     );
   }
 
   recalcular() async {
-    String response;
-    if (bloc.distribuicoes.length == 0) {
-      response = "Nenhum registro encontrado";
-    } else {
-      setState(() {
-        _sending = true;
-      });
-      response = await bloc.recalcular().whenComplete(
-        () {
-          setState(
-            () {
-              _sending = false;
-            },
-          );
-        },
-      ).catchError(
-        (onError) {
-          final snackBar = SnackBar(content: Text(onError.message));
-          widget._scaffoldKey.currentState.showSnackBar(snackBar);
-        },
-      );
-    }
-    if (response != null) {
-      final snackBar = SnackBar(
-        content: Text(response),
-      );
-      widget._scaffoldKey.currentState.showSnackBar(snackBar);
-    }
+    setState(() {
+      _sending = true;
+    });
   }
 }
