@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/ativo-em-carteira.bloc.dart';
+import 'package:iholder_app/blocs/ativo.bloc.dart';
 import 'package:iholder_app/models/ativo-em-carteira-view-model.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo-em-carteira.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/ativo-em-carteira-card-widget.dart';
@@ -16,6 +17,7 @@ class _AtivosEmCarteiraScreenState extends State<AtivosEmCarteiraScreen> {
   Widget build(BuildContext context) {
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     var bloc = Provider.of<AtivoEmCarteiraBloc>(context);
+    var ativoBloc = Provider.of<AtivoBloc>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -48,7 +50,7 @@ class _AtivosEmCarteiraScreenState extends State<AtivosEmCarteiraScreen> {
                             children: <Widget>[
                               AtivoEmCarteiraCard(bloc, ativo, () {
                                 setState(() {});
-                              }),
+                              }, ativoBloc),
                             ],
                           ),
                         );
@@ -63,10 +65,11 @@ class _AtivosEmCarteiraScreenState extends State<AtivosEmCarteiraScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      CadastroAtivoEmCarteiraScreen(bloc))).then((value) {
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          CadastroAtivoEmCarteiraScreen(bloc, ativoBloc)))
+              .then((value) {
             setState(() {});
           });
         },

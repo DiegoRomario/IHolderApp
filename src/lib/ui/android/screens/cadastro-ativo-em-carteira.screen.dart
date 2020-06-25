@@ -3,9 +3,9 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iholder_app/blocs/ativo-em-carteira.bloc.dart';
+import 'package:iholder_app/blocs/ativo.bloc.dart';
 import 'package:iholder_app/models/ativo-em-carteira-view-model.dart';
 import 'package:iholder_app/models/ativo-em-carteira.dart';
-import 'package:iholder_app/services/ativo.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 
 class CadastroAtivoEmCarteiraScreen extends StatefulWidget {
   final AtivoEmCarteiraBloc bloc;
+  final AtivoBloc ativoBloc;
   final DateFormat dateFormatter = new DateFormat('dd/MM/yyyy');
   final AtivoEmCarteiraViewModel ativoEmCarteiraViewModel;
   final TextEditingController precoMedioCtrl = new TextEditingController();
@@ -28,7 +29,8 @@ class CadastroAtivoEmCarteiraScreen extends StatefulWidget {
   double calcularValorTotal(double precoMedio, double quantidade) =>
       precoMedio * quantidade;
 
-  CadastroAtivoEmCarteiraScreen(this.bloc, {this.ativoEmCarteiraViewModel}) {
+  CadastroAtivoEmCarteiraScreen(this.bloc, this.ativoBloc,
+      {this.ativoEmCarteiraViewModel}) {
     if (ativoEmCarteiraViewModel != null && quantidadeCtrl.text != null) {
       precoMedioCtrl.text =
           Parser.toStringCurrency(ativoEmCarteiraViewModel.precoMedio);
@@ -54,8 +56,6 @@ class _CadastroAtivoEmCarteiraScreenState
     extends State<CadastroAtivoEmCarteiraScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  var ativoService = AtivoService();
   var _sending = false;
   @override
   Widget build(BuildContext context) {
@@ -72,18 +72,18 @@ class _CadastroAtivoEmCarteiraScreenState
             children: <Widget>[
               TypeAheadField(
                 pcontroller: widget.ativoCtrl,
-                pGetSuggestions: (val) {
-                  return ativoService.obterSugestao(val);
+                pGetSuggestions: (val) async {
+                  return await widget.ativoBloc.obterSugestao(val);
                 },
                 plabel: "Ativo",
                 picon: MdiIcons.basket,
                 phint: "PETR4, TSLA, KNRI11 etc...",
                 pOnSaved: (val) {
                   widget.ativoEmCarteira.ativoId =
-                      ativoService.obterPorTicker(val);
+                      widget.ativoBloc.obterPorTicker(val);
                 },
                 pValidador: (value) {
-                  String ativoId = ativoService.obterPorTicker(value);
+                  String ativoId = widget.ativoBloc.obterPorTicker(value);
                   if (ativoId == null) {
                     return 'Ativo inválido';
                   }
@@ -219,7 +219,8 @@ class _CadastroAtivoEmCarteiraScreenState
     setState(() {
       _sending = true;
     });
-    String response = await widget.bloc.salvar(widget.ativoEmCarteira).whenComplete(
+    String response =
+        await widget.bloc.salvar(widget.ativoEmCarteira).whenComplete(
       () {
         setState(
           () {

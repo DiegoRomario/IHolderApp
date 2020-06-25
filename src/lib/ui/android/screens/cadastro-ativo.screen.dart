@@ -5,7 +5,6 @@ import 'package:iholder_app/blocs/ativo.bloc.dart';
 import 'package:iholder_app/blocs/produto.bloc.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/models/ativo.dart';
-import 'package:iholder_app/services/ativo.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
@@ -16,7 +15,6 @@ class CadastroAtivoScreen extends StatefulWidget {
   final AtivoViewModel ativoViewModel;
   final AtivoBloc bloc;
   final ProdutoBloc produtoBloc;
-  final ativoService = AtivoService();
   final TextEditingController descricaoCtrl = new TextEditingController();
   final TextEditingController tickerCtrl = new TextEditingController();
   final TextEditingController caracteristicasCtrl = new TextEditingController();
@@ -214,7 +212,7 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
       setState(() {
         _sending = true;
       });
-      await widget.ativoService
+      await widget.bloc
           .consutarCotacao(ticker, produtoDescricao)
           .then((value) =>
               widget.cotacaoCtrl.text = Parser.toStringCurrency(value.preco))
