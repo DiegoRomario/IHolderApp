@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/ativo.bloc.dart';
+import 'package:iholder_app/blocs/produto.bloc.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/models/tipo-distribuicao.enum.dart';
 import 'package:iholder_app/ui/android/screens/ativo-em-carteira.screen.dart';
@@ -15,8 +16,10 @@ class AtivoCard extends StatefulWidget {
   final AtivoViewModel ativo;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final AtivoBloc bloc;
+  final ProdutoBloc produtoBloc;
   final Function callback;
-  AtivoCard(this.bloc, this.ativo, this.scaffoldKey, this.callback);
+  AtivoCard(
+      this.bloc, this.ativo, this.scaffoldKey, this.callback, this.produtoBloc);
   @override
   _AtivoCardState createState() => _AtivoCardState();
 }
@@ -37,6 +40,7 @@ class _AtivoCardState extends State<AtivoCard> {
                   MaterialPageRoute(
                     builder: (context) => CadastroAtivoScreen(
                       widget.bloc,
+                      widget.produtoBloc,
                       ativoViewModel: widget.ativo,
                     ),
                   ),

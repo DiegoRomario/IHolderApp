@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iholder_app/blocs/ativo.bloc.dart';
+import 'package:iholder_app/blocs/produto.bloc.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/models/ativo.dart';
 import 'package:iholder_app/services/ativo.service.dart';
-import 'package:iholder_app/services/produto.service.dart';
 import 'package:iholder_app/ui/shared/widgets/input-field.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/loader.widget.dart';
 import 'package:iholder_app/ui/shared/widgets/type-ahead-field.widget.dart';
@@ -15,6 +15,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class CadastroAtivoScreen extends StatefulWidget {
   final AtivoViewModel ativoViewModel;
   final AtivoBloc bloc;
+  final ProdutoBloc produtoBloc;
   final ativoService = AtivoService();
   final TextEditingController descricaoCtrl = new TextEditingController();
   final TextEditingController tickerCtrl = new TextEditingController();
@@ -22,7 +23,7 @@ class CadastroAtivoScreen extends StatefulWidget {
   final TextEditingController cotacaoCtrl = new TextEditingController();
   final TextEditingController produtoCtrl = new TextEditingController();
   final Ativo ativo = new Ativo();
-  CadastroAtivoScreen(this.bloc, {this.ativoViewModel}) {
+  CadastroAtivoScreen(this.bloc, this.produtoBloc, {this.ativoViewModel}) {
     if (ativoViewModel != null && descricaoCtrl.text != null) {
       descricaoCtrl.text = ativoViewModel.descricao;
       caracteristicasCtrl.text = ativoViewModel.caracteristicas;
@@ -41,8 +42,6 @@ class CadastroAtivoScreen extends StatefulWidget {
 class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  var produtoService = ProdutoService();
   var _sending = false;
   @override
   Widget build(BuildContext context) {
@@ -59,19 +58,19 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
             children: <Widget>[
               TypeAheadField(
                 pcontroller: widget.produtoCtrl,
-                pGetSuggestions: (val) {
-                  return produtoService.obterSugestao(val);
+                pGetSuggestions: (val) async {
+                  return await widget.produtoBloc.obterSugestao(val);
                 },
                 plabel: "Produto",
                 picon: MdiIcons.bulletinBoard,
                 phint: "Ação, CDB, FII etc",
                 pOnSaved: (val) {
                   widget.ativo.produtoId =
-                      produtoService.obterPorDescricao(val);
+                      widget.produtoBloc.obterPorDescricao(val);
                 },
                 pValidador: (value) {
                   widget.ativo.produtoId =
-                      produtoService.obterPorDescricao(value);
+                      widget.produtoBloc.obterPorDescricao(value);
                   if (widget.ativo.produtoId == null) {
                     return 'Produto inválido';
                   }

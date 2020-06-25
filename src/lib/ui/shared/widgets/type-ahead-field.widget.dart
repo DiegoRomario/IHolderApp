@@ -43,6 +43,15 @@ class TypeAheadField extends StatelessWidget {
             title: Text(suggestion),
           );
         },
+        loadingBuilder: (BuildContext context) {
+          return Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: CircularProgressIndicator(),
+            ),
+          );
+        },
         transitionBuilder: (context, suggestionsBox, controller) {
           return suggestionsBox;
         },

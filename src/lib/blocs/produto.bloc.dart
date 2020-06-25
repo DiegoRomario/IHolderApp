@@ -1,11 +1,12 @@
+import 'package:flutter/widgets.dart';
 import 'package:iholder_app/models/produto-view-model.dart';
 import 'package:iholder_app/repositories/produto.repository.dart';
 
-class ProdutoService {
+class ProdutoBloc extends ChangeNotifier {
   var produtoRepository = new ProdutoRepository();
   List<ProdutoViewModel> produtos;
 
-  ProdutoService() {
+  ProdutoBloc() {
     produtos = new List<ProdutoViewModel>();
   }
 
@@ -19,11 +20,13 @@ class ProdutoService {
   Future<List<String>> obterSugestao(String query) async {
     List<ProdutoViewModel> matches = List();
 
-    await produtoRepository.obterTodos().then(
-      (data) {
-        this.produtos = data;
-      },
-    );
+    if (this.produtos.length == 0) {
+      await produtoRepository.obterTodos().then(
+        (data) {
+          this.produtos = data;
+        },
+      );
+    }
 
     matches.addAll(produtos);
 

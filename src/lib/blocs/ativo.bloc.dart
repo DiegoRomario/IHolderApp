@@ -10,13 +10,7 @@ class AtivoBloc extends ChangeNotifier {
   AtivoBloc() {
     ativos = new List<AtivoViewModel>();
   }
-
-  // obterAtivos() async {
-  //   this.ativos = await repository.obterTodos();
-  //   debugPrint("pronto" + this.ativos.length.toString());
-  //   notifyListeners();
-  // }
-
+  
   Future<List<AtivoViewModel>> obterAtivos() async {
     try {
       if (ativos.length == 0 || forcaAtualizacao) {

@@ -6,6 +6,7 @@ import 'blocs/ativo-em-carteira.bloc.dart';
 import 'blocs/ativo.bloc.dart';
 import 'blocs/distribuicao-por-ativo.bloc.dart';
 import 'blocs/distribuicao-por-produto.bloc.dart';
+import 'blocs/produto.bloc.dart';
 import 'blocs/tema.bloc.dart';
 import 'blocs/usuario.bloc.dart';
 
@@ -38,6 +39,9 @@ class IoC extends StatelessWidget {
         ),
         ChangeNotifierProvider<AtivoBloc>.value(
           value: AtivoBloc(),
+        ),
+        ChangeNotifierProvider<ProdutoBloc>.value(
+          value: ProdutoBloc(),
         )
       ],
       child: Main(),

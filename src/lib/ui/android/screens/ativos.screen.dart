@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iholder_app/blocs/ativo.bloc.dart';
+import 'package:iholder_app/blocs/produto.bloc.dart';
 import 'package:iholder_app/models/ativo-view-model.dart';
 import 'package:iholder_app/ui/android/screens/cadastro-ativo.screen.dart';
 import 'package:iholder_app/ui/shared/widgets/ativo-card.widget.dart';
@@ -16,6 +17,7 @@ class _AtivosScreenState extends State<AtivosScreen> {
   Widget build(BuildContext context) {
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     var bloc = Provider.of<AtivoBloc>(context);
+    var produtoBloc = Provider.of<ProdutoBloc>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -47,9 +49,8 @@ class _AtivosScreenState extends State<AtivosScreen> {
                           child: Column(
                             children: <Widget>[
                               AtivoCard(bloc, ativo, _scaffoldKey, () {
-                                setState(() {
-                                });
-                              }),
+                                setState(() {});
+                              }, produtoBloc),
                             ],
                           ),
                         );
@@ -64,10 +65,10 @@ class _AtivosScreenState extends State<AtivosScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CadastroAtivoScreen(bloc)))
-              .then((value) {
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      CadastroAtivoScreen(bloc, produtoBloc))).then((value) {
             setState(() {});
           });
         },
