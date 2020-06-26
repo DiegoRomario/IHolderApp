@@ -8,18 +8,17 @@ class ProdutoBloc extends ChangeNotifier {
 
   ProdutoBloc() {
     produtos = new List<ProdutoViewModel>();
+    obterProdutos();
   }
 
-  String obterPorDescricao(String description) {
+  Future<String> obterPorDescricao(String description) async {
     ProdutoViewModel produto = produtos
         .firstWhere((e) => e.descricao == description, orElse: () => null);
 
     return produto?.id;
   }
 
-  Future<List<String>> obterSugestao(String query) async {
-    List<ProdutoViewModel> matches = List();
-
+  Future obterProdutos() async {
     if (this.produtos.length == 0) {
       await produtoRepository.obterTodos().then(
         (data) {
@@ -27,6 +26,12 @@ class ProdutoBloc extends ChangeNotifier {
         },
       );
     }
+  }
+
+  Future<List<String>> obterSugestao(String query) async {
+    List<ProdutoViewModel> matches = List();
+
+    await obterProdutos();
 
     matches.addAll(produtos);
 

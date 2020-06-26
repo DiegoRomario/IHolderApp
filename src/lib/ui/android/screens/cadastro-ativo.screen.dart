@@ -28,6 +28,7 @@ class CadastroAtivoScreen extends StatefulWidget {
       tickerCtrl.text = ativoViewModel.ticker;
       cotacaoCtrl.text = Parser.toStringCurrency(ativoViewModel.cotacao);
       produtoCtrl.text = ativoViewModel.produtoDescricao;
+      ativo.produtoId = ativoViewModel.produtoId;
       ativo.id = ativoViewModel.id;
       ativo.dataReferenciaSituacao = ativoViewModel.dataReferenciaSituacao;
       ativo.situacao = ativoViewModel.situacao;
@@ -63,12 +64,14 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 picon: MdiIcons.bulletinBoard,
                 phint: "Ação, CDB, FII etc",
                 pOnSaved: (val) {
-                  widget.ativo.produtoId =
-                      widget.produtoBloc.obterPorDescricao(val);
+                  widget.produtoBloc
+                      .obterPorDescricao(val)
+                      .then((value) => widget.ativo.produtoId = value);
                 },
                 pValidador: (value) {
-                  widget.ativo.produtoId =
-                      widget.produtoBloc.obterPorDescricao(value);
+                  widget.produtoBloc
+                      .obterPorDescricao(value)
+                      .then((value) => widget.ativo.produtoId = value);
                   if (widget.ativo.produtoId == null) {
                     return 'Produto inválido';
                   }

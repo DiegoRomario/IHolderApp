@@ -13,11 +13,14 @@ class AtivosScreen extends StatefulWidget {
 }
 
 class _AtivosScreenState extends State<AtivosScreen> {
+  ProdutoBloc produtoBloc;
   @override
   Widget build(BuildContext context) {
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     var bloc = Provider.of<AtivoBloc>(context);
-    var produtoBloc = Provider.of<ProdutoBloc>(context);
+    if (produtoBloc == null) {
+      produtoBloc = Provider.of<ProdutoBloc>(context);
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
