@@ -63,19 +63,15 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                 plabel: "Produto",
                 picon: MdiIcons.bulletinBoard,
                 phint: "Ação, CDB, FII etc",
-                pOnSaved: (val) {
-                  widget.produtoBloc
-                      .obterPorDescricao(val)
-                      .then((value) => widget.ativo.produtoId = value);
+                pOnSaved: (value) {
+                  widget.ativo.produtoId = obterProdutoId(value);
                 },
                 pValidador: (value) {
-                  widget.produtoBloc.obterPorDescricao(value).then((id) {
-                    widget.ativo.produtoId = id;
-                    if (widget.ativo.produtoId == null) {
-                      return 'Produto inválido';
-                    }
-                    return null;
-                  });
+                  widget.ativo.produtoId = obterProdutoId(value);
+                  if (widget.ativo.produtoId == null) {
+                    return 'Produto inválido';
+                  }
+                  return null;
                 },
               ),
               InputField(
@@ -170,6 +166,13 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
         ),
       ),
     );
+  }
+
+  String obterProdutoId(String value) {
+    String produtoId = widget.ativoViewModel?.produtoId;
+    return produtoId != null
+        ? produtoId
+        : widget.produtoBloc.obterPorDescricao(value);
   }
 
   create(BuildContext context) async {

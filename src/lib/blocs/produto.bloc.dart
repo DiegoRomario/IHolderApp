@@ -11,7 +11,7 @@ class ProdutoBloc extends ChangeNotifier {
     obterProdutos();
   }
 
-  Future<String> obterPorDescricao(String description) async {
+  String obterPorDescricao(String description) {
     ProdutoViewModel produto = produtos
         .firstWhere((e) => e.descricao == description, orElse: () => null);
 
