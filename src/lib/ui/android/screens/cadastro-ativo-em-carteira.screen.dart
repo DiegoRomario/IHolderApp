@@ -80,10 +80,10 @@ class _CadastroAtivoEmCarteiraScreenState
                 picon: MdiIcons.basket,
                 phint: "PETR4, TSLA, KNRI11 etc...",
                 pOnSaved: (value) {
-                  obterAtivoId(value);
+                  widget.ativoEmCarteira.ativoId = obterAtivoId(value);
                 },
                 pValidador: (value) {
-                  obterAtivoId(value);
+                  widget.ativoEmCarteira.ativoId = obterAtivoId(value);
                   if (widget.ativoEmCarteira.ativoId == null) {
                     return 'Ativo inválido';
                   }
@@ -215,10 +215,9 @@ class _CadastroAtivoEmCarteiraScreenState
     );
   }
 
-  void obterAtivoId(String value) {
-    String ativoId = widget.ativoEmCarteiraViewModel.ativoId;
-    widget.ativoEmCarteira.ativoId =
-        ativoId != "" ? ativoId : widget.ativoBloc.obterPorTicker(value);
+  String obterAtivoId(String value) {
+    String ativoId = widget.ativoEmCarteiraViewModel?.ativoId;
+    return ativoId != null ? ativoId : widget.ativoBloc.obterPorTicker(value);
   }
 
   create(BuildContext context) async {
