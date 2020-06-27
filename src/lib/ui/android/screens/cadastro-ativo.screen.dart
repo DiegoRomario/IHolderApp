@@ -69,13 +69,13 @@ class _CadastroAtivoScreenState extends State<CadastroAtivoScreen> {
                       .then((value) => widget.ativo.produtoId = value);
                 },
                 pValidador: (value) {
-                  widget.produtoBloc
-                      .obterPorDescricao(value)
-                      .then((value) => widget.ativo.produtoId = value);
-                  if (widget.ativo.produtoId == null) {
-                    return 'Produto inválido';
-                  }
-                  return null;
+                  widget.produtoBloc.obterPorDescricao(value).then((id) {
+                    widget.ativo.produtoId = id;
+                    if (widget.ativo.produtoId == null) {
+                      return 'Produto inválido';
+                    }
+                    return null;
+                  });
                 },
               ),
               InputField(
