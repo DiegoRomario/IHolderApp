@@ -41,6 +41,7 @@ class CadastroAtivoEmCarteiraScreen extends StatefulWidget {
       ativoCtrl.text =
           "${ativoEmCarteiraViewModel.ativoTicker} - ${ativoEmCarteiraViewModel.ativoDescricao}";
       ativoEmCarteira.id = ativoEmCarteiraViewModel.id;
+      ativoEmCarteira.ativoId = ativoEmCarteiraViewModel.ativoId;
       precoTotalCtrl.text = Parser.toStringCurrency(calcularValorTotal(
           ativoEmCarteiraViewModel.precoMedio,
           ativoEmCarteiraViewModel.quantidade));
@@ -78,13 +79,12 @@ class _CadastroAtivoEmCarteiraScreenState
                 plabel: "Ativo",
                 picon: MdiIcons.basket,
                 phint: "PETR4, TSLA, KNRI11 etc...",
-                pOnSaved: (val) {
-                  widget.ativoEmCarteira.ativoId =
-                      widget.ativoBloc.obterPorTicker(val);
+                pOnSaved: (value) {
+                  obterAtivoId(value);
                 },
                 pValidador: (value) {
-                  String ativoId = widget.ativoBloc.obterPorTicker(value);
-                  if (ativoId == null) {
+                  obterAtivoId(value);
+                  if (widget.ativoEmCarteira.ativoId == null) {
                     return 'Ativo inválido';
                   }
                   return null;
@@ -213,6 +213,12 @@ class _CadastroAtivoEmCarteiraScreenState
         ),
       ),
     );
+  }
+
+  void obterAtivoId(String value) {
+    String ativoId = widget.ativoEmCarteiraViewModel.ativoId;
+    widget.ativoEmCarteira.ativoId =
+        ativoId != "" ? ativoId : widget.ativoBloc.obterPorTicker(value);
   }
 
   create(BuildContext context) async {
